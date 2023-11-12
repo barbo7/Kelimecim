@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kelimecim.MainPage"
+             BackgroundColor="WhiteSmoke">
+    <StackLayout Margin="50">
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Spacing="20" >
+            <RadioButton
+                    x:Name="EngTr"
+                    GroupName="Ceviri"
+                    Content="ENG -> TR"
+                    IsChecked="True" />
+            <RadioButton
+                    x:Name="TrEng"
+                    GroupName="Ceviri"
+                    Content="TR -> ENG" />
+        </StackLayout>
+        <Label
+            Text="Aranacak kelime/word giriniz:"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            FontSize="16"
+            TextColor="Orange" 
+            Margin="0,0,0,10"
+            />
+
+        <StackLayout Orientation="Vertical">
+            <Entry
+                Placeholder="Metin girin"
+                x:Name="kelimeWordEntry"
+                VerticalOptions="Center"
+                TextColor="black" 
+                Margin="0,0,0,10"
+                HeightRequest="50"
+                WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
+                HorizontalOptions="FillAndExpand"
+                />
+
+            <Entry
+                x:Name="kelimeWordShowPlace"
+                Placeholder="Çeviri"
+                IsEnabled="False"
+                VerticalOptions="Center"
+                TextColor="CornflowerBlue" 
+                Margin="0,0,0,10"
+                HeightRequest="50"
+                WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
+                HorizontalOptions="FillAndExpand"
+                /> 
+        </StackLayout>
+        <Button
+            Margin="10"
+            Text="Arama Yap"
+            SemanticProperties.Hint="Kelime aramak için kullanılacak."
+            Clicked="OnCounterClicked"
+            HorizontalOptions="Center" />
+        <Image
+            Source="dotnet_bot.png"
+            SemanticProperties.Description="Sevimli dot net bot size selam veriyor!"
+            HeightRequest="100"
+            HorizontalOptions="Center" />
+    </StackLayout>
+</ContentPage>
