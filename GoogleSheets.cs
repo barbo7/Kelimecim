@@ -16,6 +16,7 @@ using System.Globalization;
 using static Kelimecim.GoogleSheets;
 using Application = Microsoft.Maui.Controls.Application;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using System.Diagnostics;
 
 namespace Kelimecim
 {
@@ -52,31 +53,57 @@ namespace Kelimecim
         string cumlelerCumle = "Cumleler!A:A";
         string cumlelerWord = "Cumleler!B:B";
         string cumlelerKelime = "Cumleler!C:C";
-
-        string dosyaYolu = @"C:\Users\as\source\repos\Kelimecim\Platforms\Android\Resources\Assets\ClientSecret.json";
-        string dosyaAdi = "ClientSecret";
-
         string range = "Sayfa1!A:B"; //verieklemeSatırı
+
+        string dosyaYolu = "C:\\Users\\as\\source\\repos\\Kelimecim\\Resources\\Raw\\ClientSecret.json"; 
 
         SpreadsheetsResource.ValuesResource.AppendRequest verireq;
         ValueRange body;
 
         //static string myMemoryApiKey = "1fb0d0fab1c449d5df11";
 
+
         public GoogleSheets()//Class çağırıldığında çalışmasını istediğim constructor(Bazı verileri çekip ön belleğe almak için.)
         {
-#if !WINDOWS
-           
+            string localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            // Dosyanın tam yolu
+            string localPath = Path.Combine(localFolder, "ClientSecret.json");
 
+#if __ANDROID__
+            //            string klasorAdi = "Kelimeci";
+            //            string klasorYolu = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, klasorAdi);
+
+            //            // Hedef klasörü kontrol et ve oluştur
+            //            if (!Directory.Exists(klasorYolu))
+            //            {
+            //                Directory.CreateDirectory(klasorYolu);
+            //            }
+
+            //            // Hedef dosyanın yolunu oluştur
+            //            string hedefDosyaYolu = Path.Combine(klasorYolu, "ClientSecret.json");
+
+            //            // Kaynak dosyanın yolunu belirtin (bu örnekte, uygulamanın ana dizininde varsayılan bir dosya olduğunu varsayalım)
+            //            string kaynakDosyaYolu = @"C:\Users\as\source\repos\Kelimecim\obj\Debug\net7.0-android33.0\assets\ClientSecret.json";
+
+            //            // Dosyayı kopyala
+            //            File.Copy(kaynakDosyaYolu, hedefDosyaYolu, true);
+            //            dosyaYolu = hedefDosyaYolu;
+
+            //            var jsonFileName = "ClientSecret.json";
+            //            var assetsPath = Path.Combine(Assets, jsonFileName);
+            localFolder = Path.Combine(Application.);
+            localPath = Path.Combine(localFolder, "ClientSecret.json");
 #endif
+
+
             using (var stream = new FileStream(dosyaYolu, FileMode.Open, FileAccess.Read))
             {
                 var authorizationTask = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                     GoogleClientSecrets.FromStream(stream).Secrets,
-                     new[] { SheetsService.Scope.Spreadsheets },
-                     "user",
-                     CancellationToken.None
-                 );
+                        GoogleClientSecrets.FromStream(stream).Secrets,
+                        new[] { SheetsService.Scope.Spreadsheets },
+                        "user",
+                        CancellationToken.None
+                    );
 
                 authorizationTask.Wait(); // Task tamamlandığında bekleyin
 
