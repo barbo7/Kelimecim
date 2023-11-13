@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+﻿using Google.Apis.Auth.OAuth2;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Kelimecim
 {
     public partial class MainPage : ContentPage
     {
-        GoogleSheets gs;
+        GoogleSheets gs = new GoogleSheets();
         public MainPage()
         {
             InitializeComponent();
@@ -12,29 +14,15 @@ namespace Kelimecim
 
         private async void OnCounterClicked(object sender, EventArgs e)
         {
-            try
-            {
-                gs = new GoogleSheets();
-                // GoogleSheets sınıfını kullanmaya devam et
-            }
-            catch (TargetInvocationException ex)
-            {
-                // İstisna detaylarını görüntüle
-                Exception innerEx = ex.InnerException;
-                while (innerEx != null)
-                {
-                    Console.WriteLine(innerEx.Message);
-                    innerEx = innerEx.InnerException;
-                }
-            }
+            bool translateMi = EngTr.IsChecked;
+            kelimeWordShowPlace.Text = translateMi
+                ? gs.KelimeAra(kelimeWordEntry.Text).Item2[0]
+                : gs.KelimeAra(kelimeWordEntry.Text, true);
 
-            bool translateMi = EngTr.IsChecked;//Eğer bu true gelirse ing->tr false elirse tr->ing
-            if (kelimeWordEntry.Text != "")
-            {
-                kelimeWordShowPlace.Text = translateMi ? gs.KelimeAra(kelimeWordEntry.Text).Item2[0] : gs.KelimeAra(kelimeWordEntry.Text, true);//BUNLAR HATALI.
-                string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;
-                await TextToSpeech.SpeakAsync(okunacakKelime);
-            }
+                   
+             string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;
+             await TextToSpeech.SpeakAsync(okunacakKelime);
         }
+
     }
 }

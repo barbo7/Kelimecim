@@ -12,6 +12,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using System.Globalization;
+using static Kelimecim.GoogleSheets;
+using Application = Microsoft.Maui.Controls.Application;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace Kelimecim
 {
@@ -49,6 +53,9 @@ namespace Kelimecim
         string cumlelerWord = "Cumleler!B:B";
         string cumlelerKelime = "Cumleler!C:C";
 
+        string dosyaYolu = @"C:\Users\as\source\repos\Kelimecim\Platforms\Android\Resources\Assets\ClientSecret.json";
+        string dosyaAdi = "ClientSecret";
+
         string range = "Sayfa1!A:B"; //verieklemeSatırı
 
         SpreadsheetsResource.ValuesResource.AppendRequest verireq;
@@ -56,29 +63,32 @@ namespace Kelimecim
 
         //static string myMemoryApiKey = "1fb0d0fab1c449d5df11";
 
-        public  GoogleSheets()//Class çağırıldığında çalışmasını istediğim constructor(Bazı verileri çekip ön belleğe almak için.)
+        public GoogleSheets()//Class çağırıldığında çalışmasını istediğim constructor(Bazı verileri çekip ön belleğe almak için.)
         {
-            string projeKlasoru = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string dosyaYolu = Path.Combine(projeKlasoru, "ClientSecret.json");
+#if !WINDOWS
+           
 
-
-            // Dosya mevcut, işlemlere devam et
+#endif
             using (var stream = new FileStream(dosyaYolu, FileMode.Open, FileAccess.Read))
-                {
-                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        GoogleClientSecrets.FromStream(stream).Secrets,
-                        new[] { SheetsService.Scope.Spreadsheets },
-                        "user",
-                        CancellationToken.None
-                    ).Result;
-                }
-       
+            {
+                var authorizationTask = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                     GoogleClientSecrets.FromStream(stream).Secrets,
+                     new[] { SheetsService.Scope.Spreadsheets },
+                     "user",
+                     CancellationToken.None
+                 );
+
+                authorizationTask.Wait(); // Task tamamlandığında bekleyin
+
+                credential = authorizationTask.Result; // Task'in sonucunu kullanın
+            }
 
             service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = appName,//Uygulamanın ismi
+                ApplicationName = appName,
             });
+
 
             //Api'ye istek atıyorum
             SpreadsheetsResource.ValuesResource.GetRequest request1 =

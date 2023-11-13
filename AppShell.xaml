@@ -12,7 +12,7 @@
     ContentTemplate="{DataTemplate local:MainPage}"
     Route="MainPage" />
 
-    <!--<ShellContent
+    <ShellContent
     Title="Kelime Çalışma Sayfası"
     ContentTemplate="{DataTemplate local:KelimeCalismasi}"
     Route="KelimeCalismasi" />
@@ -25,7 +25,7 @@
     <ShellContent
     Title="Çoktan Seçmeli Sorular"
     ContentTemplate="{DataTemplate local:CoktanSecmeli}"
-    Route="CoktanSecmeli" />-->
+    Route="CoktanSecmeli" />
     <!--<ShellContent
      Title="Harf Alayım Sayfası"
      ContentTemplate="{DataTemplate local:HarfAlayim}"

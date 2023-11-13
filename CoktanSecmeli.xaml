@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kelimecim.CoktanSecmeli"
+             Title="CoktanSecmeli">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image Source="hocam.png" HorizontalOptions="Start" VerticalOptions="End" HeightRequest="500" WidthRequest="300" Margin="20,0,0,50"/>
+        <Image Source="coktansecmeli1.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="400" WidthRequest="250" Margin="0,20,30,-70"/>
+
+
+
+        <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
+
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="ImageButton_Clicked"/>
+                <Label 
+              Text="Word"
+              x:Name="word"
+              VerticalOptions="Center" 
+              FontSize="Large"
+              TextColor="DarkBlue"
+              HorizontalOptions="Center" />
+            </StackLayout>
+            <Label
+         Text="Yukarıdaki kelimenin karşılığı nedir?"
+         x:Name="kelime"
+         VerticalOptions="Center"
+         FontSize="Small"
+         TextColor="HotPink"
+         HorizontalOptions="Center"
+         />
+            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" >
+                <RadioButton Content="Seçenek 1" GroupName="RadioButtonGroup" x:Name="radioButton1"/>
+                <RadioButton Content="Seçenek 2" GroupName="RadioButtonGroup" x:Name="radioButton2"/>
+                <RadioButton Content="Seçenek 3" GroupName="RadioButtonGroup" x:Name="radioButton3"/>
+                <RadioButton Content="Seçenek 4" GroupName="RadioButtonGroup" x:Name="radioButton4"/>
+                <RadioButton Content="Seçenek 5" GroupName="RadioButtonGroup" x:Name="radioButton5"/>
+            </StackLayout>
+            <StackLayout Spacing="20" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label
+                 Text="a"
+                 TextColor="LawnGreen"
+                 FontSize="18"
+                 HorizontalTextAlignment="Start"
+                 x:Name="dogruSayisi">
+                </Label>
+                <Label
+                 Text="b"
+                 TextColor="DarkRed"
+                 FontSize="18"
+                 HorizontalTextAlignment="End"
+                 x:Name="yanlisSayisi">
+                </Label>
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

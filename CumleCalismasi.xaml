@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kelimecim.CumleCalismasi"
+             Title="CumleCalismasi">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Image Source="cumle1.png"  HorizontalOptions="Start" VerticalOptions="End" HeightRequest="425" WidthRequest="200"/>
+        <Image Source="cumle2.png"  HorizontalOptions="End" VerticalOptions="End" HeightRequest="350" WidthRequest="225"/>
+
+        <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="CenterAndExpand">
+                <ImageButton Source="sound.png"
+                           WidthRequest="20"
+                           HeightRequest="20"
+                           Clicked="SentencesSoundButton_Clicked"
+                           VerticalOptions="Center"/>
+                <Editor  Placeholder="Sentence"
+                 x:Name="sentences"
+                 IsEnabled="false"
+                 TextColor="Blue"
+                 HorizontalOptions="Start"
+                 HorizontalTextAlignment="Center"
+                 VerticalTextAlignment="Center"
+                 FontSize="20"
+                 WidthRequest="900"
+                 HeightRequest="100"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center">
+                <ImageButton Source="sound.png"
+                           WidthRequest="20"
+                           HeightRequest="20"
+                           Clicked="WordTextSoundButton_Clicked"
+                           VerticalOptions="Center"/>
+                <Entry Placeholder="Word"
+                 x:Name="wordText"
+                 HorizontalTextAlignment="Center"
+                 TextColor="LightGreen"
+                 HorizontalOptions="Center"
+                 FontSize="24"
+                 IsEnabled="false"
+                 HeightRequest="50"
+                 WidthRequest="600"/>
+            </StackLayout>
+
+            <Entry Placeholder="Kelime"
+                 x:Name="kelimeText"
+                 IsEnabled="false"
+                 TextColor="PaleVioletRed"
+                 HorizontalOptions="CenterAndExpand"
+                 HorizontalTextAlignment="Center"
+                 FontSize="24"
+                 HeightRequest="50"
+                 WidthRequest="600"/>
+            <HorizontalStackLayout Margin="20" Spacing="20" HorizontalOptions="Center">
+                <Button Text="Yeni cümle"
+                  HorizontalOptions="End"
+                  Clicked="SagButton_Clicked"
+                  WidthRequest="250"
+                  HeightRequest="60"
+                  />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
