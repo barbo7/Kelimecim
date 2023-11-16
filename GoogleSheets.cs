@@ -2,21 +2,10 @@
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using static System.Net.Mime.MediaTypeNames;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Google.Apis.Util.Store;
 using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Globalization;
-using static Kelimecim.GoogleSheets;
-using Application = Microsoft.Maui.Controls.Application;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using System.Diagnostics;
+using Google.Apis.Auth.OAuth2.Responses;
+using Google.Apis.Auth.OAuth2.Flows;
 
 namespace Kelimecim
 {
@@ -24,9 +13,10 @@ namespace Kelimecim
     {
         private Random rn = new Random(); // Bir methodda bunu tanımlayıp methodu üst üste çağırdığım zaman aynı değer geliyordu. daha geniş bir kapsamda tanımlayınca her türlü farklı cevap vermesi sağlanabiliyormuş.
         private static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
-        private static UserCredential credential;
+        //private static UserCredential credential;
+        private static ServiceAccountCredential credential;
+
         private SheetsService service;
-        string appName = "Desktop client 1";
 
         ValueRange responseSutunA;
         ValueRange responseSutunB;
@@ -55,67 +45,74 @@ namespace Kelimecim
         string cumlelerKelime = "Cumleler!C:C";
         string range = "Sayfa1!A:B"; //verieklemeSatırı
 
-        string dosyaYolu = "C:\\Users\\as\\source\\repos\\Kelimecim\\Resources\\Raw\\ClientSecret.json"; 
-
         SpreadsheetsResource.ValuesResource.AppendRequest verireq;
         ValueRange body;
 
         //static string myMemoryApiKey = "1fb0d0fab1c449d5df11";
+        string appName = "Desktop client 1";
+        public static string ClientId = "950495088287-jtk9og97179u21v31u586r6k108j4n7d.apps.googleusercontent.com";
+        public static string ClientSecret = "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";
 
+        //private async Task VerileriCekAsync()
+        //{
+        //    string json = @"{
+        //                ""installed"":{
+        //                ""client_id"": ""950495088287-jtk9og97179u21v31u586r6k108j4n7d.apps.googleusercontent.com"",
+        //                ""project_id"": ""kelime-defteri-402314"",
+        //                ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
+        //                ""token_uri"": ""https://oauth2.googleapis.com/token"",
+        //                ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
+        //                ""client_secret"": ""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""
+        //                }}";
 
-        public GoogleSheets()//Class çağırıldığında çalışmasını istediğim constructor(Bazı verileri çekip ön belleğe almak için.)
+        //    using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
+        //    {
+        //        var authorizationTask = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+        //            GoogleClientSecrets.FromStream(stream).Secrets,
+        //            new[] { SheetsService.Scope.Spreadsheets },
+        //            "user",
+        //            CancellationToken.None
+        //        ).ConfigureAwait(false);
+
+        //        credential = authorizationTask;
+        //    }
+        //}
+
+        private void VerileriCek()
         {
-            string localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            // Dosyanın tam yolu
-            string localPath = Path.Combine(localFolder, "ClientSecret.json");
+            string json = @"{
+                              ""type"": ""service_account"",
+                              ""project_id"": ""kelime-defteri-402314"",
+                              ""private_key_id"": ""bfed60d6397041b3728e52ef05fbc46abf34d4e0"",
+                              ""private_key"": ""-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC92fEwitxPzT2Z\nFJVTsqUdGbswQ9f4rrQwiwdcWlg9FHmiRuHpUFd7Hv75BPVKy+VeBwj6Oz0xSJcy\nbEzkuiUmTPnCqCbxyPBNcq7At8X+xu+GN+XEGf/IslHv9QQrGOc9hA97hLhlfRgc\nhIG/wWwN68AOzDbo5FGNAPGs8e9flnafcuFJ0aQD1SCkT38pr5fKrH8GzRhUxs3K\nvOt+DQJgub+Zwdi0D6PxtAEtCnKS1YZ3jeuRcavc7hadAObmTuvAovFnU39dO/x7\n4UNr2SPOGN/YuWUWzpKHWkMsmDaG50C7XO1iyeVibgijeMMpkABLHnU8vLDk4NLW\nvVYYXLGNAgMBAAECggEAAYKOf8mW836JJyLKBkKlPAxEmB9uBBEVp04vxo0EZyX2\nyrLgIJwuOfE263Gd5tSk1CDfsifO9omihDjmyqntWjbiBKmUN7eWq7MGD0vW5A4e\ngRWIOw1O4sCCVNOAzzvxOOTIP74APnRmgPGP25/U9W5i1mtK44LPYDz57xt0gTDc\nZkGb9X5ES9RJ2YHh88/lHN2xUyqG+eiYlnySSN0MNjAVMJknNMwA3kZfrotWE62l\nq27mblFkm20hEhn+WLpmHq1qSQGNfVFWtkGQY468UfoDPmmcsqNm3gq84FV87Gk1\ngWIr4/P5JesuNURyAcItCACQNPBvs2kIpPaBLEB56QKBgQDysnkkK6xebh31TmxL\noG/8fZEh8vCMxaxAWsUKiVitoRZ9OoPUji9uKYHBpJZIMWF+Wj5tgRrOQeZzb5CN\nOQg70sw7u5GjkYSdzzpw4jo3IFriUMZZHrXNqn9aQzAy6X2uerPK/OKnjINJeoiZ\nH/9K8JPKf6iFPsPOi/Z8XWnHZQKBgQDIQe+wDXWNPgH6ciLScWGIBOJMkkbN5IY7\n3qOj16//LUKRO1gkV2BvmSy+h5Xe/Es4VAlzZcJWJKzHxqOTZfEu2RJG9d/RypKk\nvHpN36Ex0sgSr62+XvBe+0Db3JSz+qlWC0laU06yaJpDLQmRcTnh1gOBHUT4CHgY\nD8SyUGyDCQKBgQDyGdd+nZJ1IKQB8RlW19TequP8WbxcsVQDXojw2dH8YpVsltKr\nVqs52W33HZhMq/X1dVCRLBjxaAvbW493UU1FYCMb8yB1atRAGFjUAtjP5RbEbI9w\nl5IEd/BSunN6VjFpvD1eYKY5PZI52mIpXiHtP9AuUOprARGTGUvpA8ZhgQKBgG5m\ne19RbDb7sleByNS/kQdNufyAv+wOSjqDWS+gXvSM3R/32XXffdjIVzSKxwLxj/5z\nxeoKdYLMITzZs6A1GSu8nCjmsAeWaBXNmpeH6/PtwkMa+uvypw2V8oHDL2+xht1a\nx4u2VbJhnHngQGAgTcrFE5WAr18WPC73snajg88RAoGBAIq/lQlJNi+BmtwPpRyo\nL+0LPVjX2wfXV/TnGwwbAcfki/K1ePn4qYeZHJRmuMXc5XJH1vs0X2jmjTBWMS04\nYq4ubdX9HWZmXbta0rggHAQrlQ3slGqqcb1ngpzETQRZyMHcDVgRh66sLQD1jPMS\nTG3SizdbbLeuqnoK2GTZBr9n\n-----END PRIVATE KEY-----\n"",
+                              ""client_email"": ""kelimecimmm@kelime-defteri-402314.iam.gserviceaccount.com"",
+                              ""client_id"": ""104340561337007285969"",
+                              ""auth_uri"": ""https://accounts.google.com/o/oauth2/auth"",
+                              ""token_uri"": ""https://oauth2.googleapis.com/token"",
+                              ""auth_provider_x509_cert_url"": ""https://www.googleapis.com/oauth2/v1/certs"",
+                              ""client_x509_cert_url"": ""https://www.googleapis.com/robot/v1/metadata/x509/kelimecimmm%40kelime-defteri-402314.iam.gserviceaccount.com"",
+                              ""universe_domain"": ""googleapis.com""
+                            }";
 
-#if __ANDROID__
-            //            string klasorAdi = "Kelimeci";
-            //            string klasorYolu = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, klasorAdi);
-
-            //            // Hedef klasörü kontrol et ve oluştur
-            //            if (!Directory.Exists(klasorYolu))
-            //            {
-            //                Directory.CreateDirectory(klasorYolu);
-            //            }
-
-            //            // Hedef dosyanın yolunu oluştur
-            //            string hedefDosyaYolu = Path.Combine(klasorYolu, "ClientSecret.json");
-
-            //            // Kaynak dosyanın yolunu belirtin (bu örnekte, uygulamanın ana dizininde varsayılan bir dosya olduğunu varsayalım)
-            //            string kaynakDosyaYolu = @"C:\Users\as\source\repos\Kelimecim\obj\Debug\net7.0-android33.0\assets\ClientSecret.json";
-
-            //            // Dosyayı kopyala
-            //            File.Copy(kaynakDosyaYolu, hedefDosyaYolu, true);
-            //            dosyaYolu = hedefDosyaYolu;
-
-            //            var jsonFileName = "ClientSecret.json";
-            //            var assetsPath = Path.Combine(Assets, jsonFileName);
-            localFolder = Path.Combine(Application.);
-            localPath = Path.Combine(localFolder, "ClientSecret.json");
-#endif
-
-
-            using (var stream = new FileStream(dosyaYolu, FileMode.Open, FileAccess.Read))
+            using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
             {
-                var authorizationTask = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        GoogleClientSecrets.FromStream(stream).Secrets,
-                        new[] { SheetsService.Scope.Spreadsheets },
-                        "user",
-                        CancellationToken.None
-                    );
-
-                authorizationTask.Wait(); // Task tamamlandığında bekleyin
-
-                credential = authorizationTask.Result; // Task'in sonucunu kullanın
+                credential = ServiceAccountCredential.FromServiceAccountData(stream);
             }
 
-            service = new SheetsService(new BaseClientService.Initializer()
+            var initializer = new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = appName,
-            });
+            };
+         
+                service = new SheetsService(initializer);
+        }
 
+
+        public GoogleSheets()
+        {
+            VerileriCek();
+            //VerileriCekAsync().Wait();
 
             //Api'ye istek atıyorum
             SpreadsheetsResource.ValuesResource.GetRequest request1 =
@@ -135,7 +132,7 @@ namespace Kelimecim
             SpreadsheetsResource.ValuesResource.GetRequest reqCumleK =
              service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime);
 
-
+           
             responseSutunA = request1.Execute();
             responseSutunB = request2.Execute();
 
@@ -147,7 +144,16 @@ namespace Kelimecim
             responseCumleKelime = reqCumleK.Execute();
 
             //değerleri listelere çekiyorum.
+            try
+            {
             sutunAVeri = responseSutunA.Values;
+            }
+            catch (Google.GoogleApiException apiEx)
+            {
+                string errorMessage = apiEx.Message;
+                // API tarafından dönen hata ayrıntılarını inceleyin
+                Console.WriteLine($"Google API Exception: {errorMessage}");
+            }
             sutunBVeri = responseSutunB.Values;
 
             columnWordData = responseSearchWord.Values;
@@ -205,7 +211,7 @@ namespace Kelimecim
         /// <param name="kelime"></param>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string KelimeAra(string kelime, bool tr)
+        public string KelimeAra2(string kelime, bool tr)
         {
             string result = Ceviri(kelime, true).ToString();
 
@@ -351,4 +357,5 @@ namespace Kelimecim
             return sonuc;
         }
     }
+
 }
