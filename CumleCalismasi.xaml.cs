@@ -34,6 +34,7 @@ public partial class CumleCalismasi : ContentPage
         sentences.Text = vericik.Item1;
         wordText.Text = vericik.Item2;
         kelimeText.Text = vericik.Item3;
+        MetindenSese(wordText.Text);
     }
 
     private void SentencesSoundButton_Clicked(object sender, EventArgs e)

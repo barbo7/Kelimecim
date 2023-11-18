@@ -16,7 +16,7 @@
     <Image Source="cumle2.png" Grid.Row="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="End" HeightRequest="265"/>
         
         <StackLayout Grid.Column="0" Grid.Row="0" Margin="0,50,0,0" Spacing="5">
-            <ImageButton Source="sound.png" Margin="0,10,0,0" WidthRequest="20" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" VerticalOptions="Center"/>
+            <ImageButton Source="sound.png" Margin="0,10,0,0" WidthRequest="20"  HorizontalOptions="Start" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
             <Editor  Placeholder="Sentence"
                      x:Name="sentences"
                      IsEnabled="false"
@@ -30,8 +30,8 @@
         </StackLayout>
         
         <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-            
-            <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked" VerticalOptions="Center"/>
+
+            <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked" Margin="-350,0,0,0"  HorizontalOptions="Start"/>
                 <Entry Placeholder="Word"
                  x:Name="wordText"
                  HorizontalTextAlignment="Center"

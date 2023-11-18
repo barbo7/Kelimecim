@@ -21,7 +21,7 @@
         <VerticalStackLayout HorizontalOptions="StartAndExpand" Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
 
             <StackLayout Orientation="Horizontal" Spacing="10">
-                <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="ImageButton_Clicked"/>
+                <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20"  HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
                 <Label 
               Text="Word"
               x:Name="word"

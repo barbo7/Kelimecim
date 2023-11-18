@@ -20,7 +20,7 @@
 
         <StackLayout Grid.Row="1" Margin="0,60,0,0">
             
-        <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="ImageButton_Clicked"/>
+        <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Margin="-40,0,0,0" HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
 
             <Entry Placeholder="Word"
             x:Name="wordText"
