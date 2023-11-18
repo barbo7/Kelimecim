@@ -15,8 +15,6 @@ public partial class KelimeCalismasi : ContentPage
 
         wordText.Text = veri.Item2;
         kelimeText.Text = veri.Item1;
-
-        MetindenSese(wordText.Text);
     }
     /// <summary>
     /// Bu method sayesinde metin okuma fonksiyonu çalýþtýrýldýðý zaman eðer zaten okunan bir metin var ise duraksatýp yeni metni okutabiliyorum.
@@ -40,11 +38,7 @@ public partial class KelimeCalismasi : ContentPage
 
     private void ImageButton_Clicked(object sender, EventArgs e)
     {
-
         if (wordText.Text is not null)
             MetindenSese(wordText.Text);
-
-
-
     }
 }

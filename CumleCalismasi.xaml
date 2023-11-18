@@ -6,49 +6,41 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Source="cumle1.png"  HorizontalOptions="Start" VerticalOptions="End" HeightRequest="425" WidthRequest="200"/>
-        <Image Source="cumle2.png"  HorizontalOptions="End" VerticalOptions="End" HeightRequest="350" WidthRequest="225"/>
-
-        <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="CenterAndExpand">
-                <ImageButton Source="sound.png"
-                           WidthRequest="20"
-                           HeightRequest="20"
-                           Clicked="SentencesSoundButton_Clicked"
-                           VerticalOptions="Center"/>
-                <Editor  Placeholder="Sentence"
-                 x:Name="sentences"
-                 IsEnabled="false"
-                 TextColor="Blue"
-                 HorizontalOptions="Start"
-                 HorizontalTextAlignment="Center"
-                 VerticalTextAlignment="Center"
-                 FontSize="20"
-                 WidthRequest="900"
-                 HeightRequest="100"/>
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center">
-                <ImageButton Source="sound.png"
-                           WidthRequest="20"
-                           HeightRequest="20"
-                           Clicked="WordTextSoundButton_Clicked"
-                           VerticalOptions="Center"/>
+    <Image Source="cumle2.png" Grid.Row="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="End" HeightRequest="265"/>
+        
+        <StackLayout Grid.Column="0" Grid.Row="0" Margin="0,50,0,0" Spacing="5">
+            <ImageButton Source="sound.png" Margin="0,10,0,0" WidthRequest="20" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" VerticalOptions="Center"/>
+            <Editor  Placeholder="Sentence"
+                     x:Name="sentences"
+                     IsEnabled="false"
+                     TextColor="Blue"
+                     HorizontalOptions="Start"
+                     HorizontalTextAlignment="Center"
+                     VerticalTextAlignment="Center"
+                     FontSize="Medium"
+                     HeightRequest="150"
+                     WidthRequest="375"></Editor>
+        </StackLayout>
+        
+        <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            
+            <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked" VerticalOptions="Center"/>
                 <Entry Placeholder="Word"
                  x:Name="wordText"
                  HorizontalTextAlignment="Center"
                  TextColor="LightGreen"
                  HorizontalOptions="Center"
-                 FontSize="24"
+                 FontSize="Medium"
                  IsEnabled="false"
                  HeightRequest="50"
-                 WidthRequest="600"/>
-            </StackLayout>
+                 />
 
             <Entry Placeholder="Kelime"
                  x:Name="kelimeText"
@@ -56,9 +48,9 @@
                  TextColor="PaleVioletRed"
                  HorizontalOptions="CenterAndExpand"
                  HorizontalTextAlignment="Center"
-                 FontSize="24"
                  HeightRequest="50"
-                 WidthRequest="600"/>
+                FontSize="Medium"
+                 />
             <HorizontalStackLayout Margin="20" Spacing="20" HorizontalOptions="Center">
                 <Button Text="Yeni cümle"
                   HorizontalOptions="End"

@@ -92,8 +92,17 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="50"/>
+        <Setter Property="MinimumWidthRequest" Value="50"/>
+        <!--<Setter Property="WidthRequest">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="Android">400</On>
+                    <On Platform="iOS">550</On>
+                    <On Platform="WinUI">900</On>
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -112,10 +121,20 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="50"/>
+        <Setter Property="MinimumWidthRequest" Value="50"/>
+        <Setter Property="WidthRequest">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <On Platform="Android">350</On>
+                    <On Platform="iOS">400</On>
+                    <On Platform="WinUI">600</On>
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

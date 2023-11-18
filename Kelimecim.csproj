@@ -37,6 +37,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
 	  <TrimMode>link</TrimMode>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -61,11 +62,11 @@
 	  <None Remove="Resources\Images\coktansecmeli1.png" />
 	  <None Remove="Resources\Images\cumle1.png" />
 	  <None Remove="Resources\Images\cumle2.png" />
+	  <None Remove="Resources\Images\dictionary.png" />
 	  <None Remove="Resources\Images\hocam.png" />
 	  <None Remove="Resources\Images\menu.png" />
 	  <None Remove="Resources\Images\sound.svg" />
 	  <None Remove="Resources\Images\vocabulary.png" />
-	  <None Remove="Resources\Raw\kelime-defteri-402314-23705b6ba59b.json" />
 	</ItemGroup>
 
 	<ItemGroup>

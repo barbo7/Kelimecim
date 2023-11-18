@@ -6,36 +6,38 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Source="hocam.png" HorizontalOptions="Start" VerticalOptions="End" HeightRequest="500" WidthRequest="300" Margin="20,0,0,50"/>
-        <Image Source="coktansecmeli1.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="400" WidthRequest="250" Margin="0,20,30,-70"/>
+        <Image Source="hocam.png" Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="Center" VerticalOptions="StartAndExpand" />
+        <Image Source="coktansecmeli1.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" />
 
 
 
-        <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
+        <VerticalStackLayout HorizontalOptions="StartAndExpand" Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
 
             <StackLayout Orientation="Horizontal" Spacing="10">
                 <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="ImageButton_Clicked"/>
                 <Label 
               Text="Word"
               x:Name="word"
-              VerticalOptions="Center" 
+              VerticalOptions="StartAndExpand" 
               FontSize="Large"
-              TextColor="DarkBlue"
-              HorizontalOptions="Center" />
+              TextColor="DarkBlue"></Label>
             </StackLayout>
             <Label
-         Text="Yukarıdaki kelimenin karşılığı nedir?"
-         x:Name="kelime"
-         VerticalOptions="Center"
-         FontSize="Small"
-         TextColor="HotPink"
-         HorizontalOptions="Center"
+                 Text="Yukarıdaki kelimenin karşılığı nedir?"
+                 x:Name="kelime"
+                 VerticalOptions="Center"
+                 FontSize="Small"
+                 TextColor="HotPink"
+                 HorizontalOptions="Start"
          />
-            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" >
+            <StackLayout Orientation="Vertical"  >
                 <RadioButton Content="Seçenek 1" GroupName="RadioButtonGroup" x:Name="radioButton1"/>
                 <RadioButton Content="Seçenek 2" GroupName="RadioButtonGroup" x:Name="radioButton2"/>
                 <RadioButton Content="Seçenek 3" GroupName="RadioButtonGroup" x:Name="radioButton3"/>
