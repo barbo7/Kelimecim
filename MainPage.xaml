@@ -39,9 +39,15 @@
             />
 
             <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal">
+                    <Label x:Name="kelimeWordLabel" Text="English" TextColor="DarkSlateBlue" Margin="30,0,0,0" HorizontalOptions="StartAndExpand"></Label>
+                    <ImageButton Source="copytoclipboard.png" WidthRequest="30" HeightRequest="20"  Clicked="kelimeWordCopy_Clicked"/>
+                    <ImageButton Source="sound.png" WidthRequest="50" HeightRequest="20" Clicked="kelimeWord_Clicked"/>
+                </StackLayout>
                 <Entry
                 Placeholder="Metin girin"
                 x:Name="kelimeWordEntry"
+                Completed="OnKelimeEntryCompleted"
                 VerticalOptions="Center"
                 TextColor="black" 
                 Margin="0,0,0,10"
@@ -49,7 +55,11 @@
                 WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
                 HorizontalOptions="FillAndExpand"
                 />
-
+                <StackLayout Orientation="Horizontal">
+                    <Label x:Name="kelimeWordShowPlaceLabel" Text="Türkçe" TextColor="DarkSlateBlue" Margin="30,0,0,0" HorizontalOptions="StartAndExpand"></Label>
+                    <ImageButton Source="copytoclipboard.png" WidthRequest="30" HeightRequest="20"  Clicked="kelimeWordShowPlaceCopy_Clicked"/>
+                    <ImageButton Source="sound.png" WidthRequest="50" HeightRequest="20"  Clicked="kelimeWordShowPlace_Clicked"/>
+                </StackLayout>
                 <Entry
                 x:Name="kelimeWordShowPlace"
                 Placeholder="Çeviri"

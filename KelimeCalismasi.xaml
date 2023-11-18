@@ -18,8 +18,8 @@
         <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="150" Margin="{OnPlatform WinUI='0,-60,0,0'}"></Image>
 
 
-        <StackLayout Grid.Row="1" Margin="{OnPlatform Android='0,60,0,0'}">            
-        <ImageButton Source="sound.png" WidthRequest="25" HeightRequest="25" Margin="-40,0,0,0" HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
+        <StackLayout Grid.Row="1" Margin="{OnPlatform Android='0,60,0,0'}">
+            <ImageButton Source="sound.png" WidthRequest="25" HeightRequest="25"  HorizontalOptions="StartAndExpand" Clicked="ImageButton_Clicked"/>
 
             <Entry Placeholder="Word"
             x:Name="wordText"

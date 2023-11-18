@@ -3,6 +3,7 @@ namespace Kelimecim;
 public partial class KelimeCalismasi : ContentPage
 {
     GoogleSheets gs = GoogleSheets.Instance;
+    CancellationTokenSource cancelTokenSource;
     Tuple<string, string> veri;
     public KelimeCalismasi()
 	{
@@ -14,12 +15,27 @@ public partial class KelimeCalismasi : ContentPage
 
         wordText.Text = veri.Item2;
         kelimeText.Text = veri.Item1;
+        MetindenSese(wordText.Text);
+    }
+    private async void MetindenSese(string textBoxText)
+    {
+        // Ýptal belirteci (CancellationToken) oluþtur
+        if (cancelTokenSource != null)
+        {
+            // Önceki okuma iþlemini iptal et
+            cancelTokenSource.Cancel();
+        }
+
+        // Yeni bir iptal belirteci oluþtur
+        cancelTokenSource = new CancellationTokenSource();
+
+        await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
     }
 
 
-    private async void ImageButton_Clicked(object sender, EventArgs e)
+    private void ImageButton_Clicked(object sender, EventArgs e)
     {
-        if (wordText.Text is not null)
-            await TextToSpeech.SpeakAsync(wordText.Text);
+        if (wordText != null && wordText.Text != null)
+            MetindenSese(wordText.Text);
     }
 }

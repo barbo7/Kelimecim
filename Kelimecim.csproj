@@ -60,6 +60,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\coktansecmeli1.png" />
+	  <None Remove="Resources\Images\CopyToClipBoard.png" />
 	  <None Remove="Resources\Images\cumle1.png" />
 	  <None Remove="Resources\Images\cumle2.png" />
 	  <None Remove="Resources\Images\dictionary.png" />
@@ -73,6 +74,7 @@
 		<PackageReference Include="Google.Apis" Version="1.63.0" />
 		<PackageReference Include="Google.Apis.Sheets.v4" Version="1.63.0.3148" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.8.0-preview2" />
 	</ItemGroup>
