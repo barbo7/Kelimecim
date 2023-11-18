@@ -1,15 +1,11 @@
-﻿using Google.Apis.Auth.OAuth2;
-using System.Diagnostics;
-using System.Reflection;
-
-
-namespace Kelimecim
+﻿namespace Kelimecim
 {
     public partial class MainPage : ContentPage
     {
-        GoogleSheets gs = new GoogleSheets();
+        GoogleSheets gs = GoogleSheets.Instance;
         public MainPage()
         {
+
             InitializeComponent();
         }
 

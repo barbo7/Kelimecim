@@ -13,20 +13,19 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-    <Image Source="cumle2.png" Grid.Row="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="End" HeightRequest="265"/>
         
-        <StackLayout Grid.Column="0" Grid.Row="0" Margin="0,50,0,0" Spacing="5">
-            <ImageButton Source="sound.png" Margin="0,10,0,0" WidthRequest="20"  HorizontalOptions="Start" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
+        <StackLayout Grid.Column="0" Grid.Row="0" Margin="{OnPlatform Android='0,50,0,0'}" Spacing="5">
+            <ImageButton Source="sound.png" Margin="{OnPlatform Android='0,10,0,0', WinUI='-550,0,0,0'}" WidthRequest="20"  HorizontalOptions="{OnPlatform Android='Start', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
             <Editor  Placeholder="Sentence"
                      x:Name="sentences"
                      IsEnabled="false"
                      TextColor="Blue"
-                     HorizontalOptions="Start"
+                     HorizontalOptions="{OnPlatform Android='Start', WinUI='Center'}"
                      HorizontalTextAlignment="Center"
                      VerticalTextAlignment="Center"
                      FontSize="Medium"
                      HeightRequest="150"
-                     WidthRequest="375"></Editor>
+                     WidthRequest="{OnPlatform Android='375', WinUI='900'}"></Editor>
         </StackLayout>
         
         <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
@@ -59,6 +58,7 @@
                   HeightRequest="60"
                   />
             </HorizontalStackLayout>
+            <Image Source="cumle2.png" Grid.Row="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="End" HeightRequest="{OnPlatform Android='256'}"/>
 
         </VerticalStackLayout>
     </Grid>

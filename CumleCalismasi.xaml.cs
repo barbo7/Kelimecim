@@ -2,7 +2,7 @@ namespace Kelimecim;
 
 public partial class CumleCalismasi : ContentPage
 {
-    GoogleSheets gs = new GoogleSheets();
+    GoogleSheets gs = GoogleSheets.Instance;
     CancellationTokenSource cancelTokenSource;
     public CumleCalismasi()
     {

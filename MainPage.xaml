@@ -14,9 +14,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Image Source="dictionary.png" Grid.Row="0" HeightRequest="250" Margin="50,50,0,0"></Image>
+        <Image Source="dictionary.png" Grid.Row="0"></Image>
 
-        <StackLayout Margin="50" Grid.Row="1">
+        <StackLayout 
+            Grid.Row="1">
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Spacing="20" >
                 <RadioButton
                     x:Name="EngTr"
@@ -69,11 +70,5 @@
             HorizontalOptions="Center" />
             
         </StackLayout>
-        <Image
-            Source="dotnet_bot.png"
-            SemanticProperties.Description="Sevimli dot net bot size selam veriyor!"
-            Grid.Row="2"
-            Margin="0,-100,0,0"
-            HorizontalOptions="Center" />
     </Grid>
     </ContentPage>

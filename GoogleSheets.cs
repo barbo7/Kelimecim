@@ -11,6 +11,8 @@ namespace Kelimecim
 {
     public class GoogleSheets
     {
+        private static GoogleSheets _instance;
+
         private Random rn = new Random(); // Bir methodda bunu tanımlayıp methodu üst üste çağırdığım zaman aynı değer geliyordu. daha geniş bir kapsamda tanımlayınca her türlü farklı cevap vermesi sağlanabiliyormuş.
         private static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
         //private static UserCredential credential;
@@ -53,6 +55,18 @@ namespace Kelimecim
         public static string ClientId = "950495088287-jtk9og97179u21v31u586r6k108j4n7d.apps.googleusercontent.com";
         public static string ClientSecret = "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";
 
+        public static GoogleSheets Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new GoogleSheets();
+            }
+            return _instance;
+        }
+    }
+
         //private async Task VerileriCekAsync()
         //{
         //    string json = @"{
@@ -78,7 +92,7 @@ namespace Kelimecim
         //    }
         //}
 
-        private void VerileriCek()
+        private async Task VerileriCek()
         {
             string json = @"{
                               ""type"": ""service_account"",
@@ -106,54 +120,37 @@ namespace Kelimecim
             };
          
                 service = new SheetsService(initializer);
-        }
-
-
-        public GoogleSheets()
-        {
-            VerileriCek();
-            //VerileriCekAsync().Wait();
 
             //Api'ye istek atıyorum
             SpreadsheetsResource.ValuesResource.GetRequest request1 =
-               service.Spreadsheets.Values.Get(spreadsheetId, sutun1);
+                service.Spreadsheets.Values.Get(spreadsheetId, sutun1);
             SpreadsheetsResource.ValuesResource.GetRequest request2 =
-               service.Spreadsheets.Values.Get(spreadsheetId, sutun2);
+                service.Spreadsheets.Values.Get(spreadsheetId, sutun2);
 
             SpreadsheetsResource.ValuesResource.GetRequest reqSearch =
-              service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiIng);
+                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiIng);
             SpreadsheetsResource.ValuesResource.GetRequest reqArama =
-              service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiTr);
+                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiTr);
 
             SpreadsheetsResource.ValuesResource.GetRequest reqCumleC =
-              service.Spreadsheets.Values.Get(spreadsheetId, cumlelerCumle);
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerCumle);
             SpreadsheetsResource.ValuesResource.GetRequest reqCumleW =
-             service.Spreadsheets.Values.Get(spreadsheetId, cumlelerWord);
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerWord);
             SpreadsheetsResource.ValuesResource.GetRequest reqCumleK =
-             service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime);
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime);
 
-           
-            responseSutunA = request1.Execute();
-            responseSutunB = request2.Execute();
+            responseSutunA = await request1.ExecuteAsync();
+            responseSutunB = await request2.ExecuteAsync();
 
-            responseSearchWord = reqSearch.Execute();
-            responseAramaKelime = reqArama.Execute();
+            responseSearchWord = await reqSearch.ExecuteAsync();
+            responseAramaKelime = await reqArama.ExecuteAsync();
 
-            responseCumle = reqCumleC.Execute();
-            responseCumleWord = reqCumleW.Execute();
-            responseCumleKelime = reqCumleK.Execute();
+            responseCumle = await reqCumleC.ExecuteAsync();
+            responseCumleWord = await reqCumleW.ExecuteAsync();
+            responseCumleKelime = await reqCumleK.ExecuteAsync();
 
             //değerleri listelere çekiyorum.
-            try
-            {
             sutunAVeri = responseSutunA.Values;
-            }
-            catch (Google.GoogleApiException apiEx)
-            {
-                string errorMessage = apiEx.Message;
-                // API tarafından dönen hata ayrıntılarını inceleyin
-                Console.WriteLine($"Google API Exception: {errorMessage}");
-            }
             sutunBVeri = responseSutunB.Values;
 
             columnWordData = responseSearchWord.Values;
@@ -162,6 +159,16 @@ namespace Kelimecim
             cumleliSayfaCumle = responseCumle.Values;
             cumleliSayfaWord = responseCumleWord.Values;
             cumleliSayfaKelime = responseCumleKelime.Values;
+        }
+        private async void InitializeAsync()
+        {
+            await VerileriCek();//Daha hızlı bir şekilde veri çekmek için işlemleri asenkron olarak gerçekleştirdim ve çalışmasını sağladım.
+        }
+
+        public GoogleSheets()
+        {
+            InitializeAsync();
+            //VerileriCekAsync().Wait();
         }
 
         public Tuple<List<string>, List<string>> KelimeAra(string AranacakWord)

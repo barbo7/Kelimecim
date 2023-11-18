@@ -2,7 +2,7 @@ namespace Kelimecim;
 
 public partial class CoktanSecmeli : ContentPage
 {
-    GoogleSheets gs = new GoogleSheets();
+    GoogleSheets gs = GoogleSheets.Instance;
     private Random random = new Random();
 
     private RadioButton[] radioButtons; // System.Windows.Forms.RadioButton türünü kullanýyoruz

@@ -8,25 +8,24 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="{OnPlatform Android='*', WinUI='2*'}"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="140"></Image>
+        <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="150" Margin="{OnPlatform WinUI='0,-60,0,0'}"></Image>
 
 
-        <StackLayout Grid.Row="1" Margin="0,60,0,0">
-            
-        <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Margin="-40,0,0,0" HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
+        <StackLayout Grid.Row="1" Margin="{OnPlatform Android='0,60,0,0'}">            
+        <ImageButton Source="sound.png" WidthRequest="25" HeightRequest="25" Margin="-40,0,0,0" HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
 
             <Entry Placeholder="Word"
             x:Name="wordText"
             HorizontalTextAlignment="Center"
             TextColor="LightGreen"
-             FontSize="24"
+             FontSize="Large"
             IsEnabled="false"
             HeightRequest="50"
             WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
@@ -37,7 +36,7 @@
             IsEnabled="false"
             TextColor="PaleVioletRed"
             HorizontalTextAlignment="Center"
-            FontSize="24"
+            FontSize="Medium"
             HeightRequest="50"
             WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
               />
@@ -50,7 +49,8 @@
                  HeightRequest="60"
                  />
     </StackLayout>
-        <Image Source="cumle1.png" Grid.Row="2" Margin="0,50,0,0" HeightRequest="200"></Image>
+        
+
 
     </VerticalStackLayout>
 </ContentPage>
