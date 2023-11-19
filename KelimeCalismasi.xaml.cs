@@ -9,6 +9,8 @@ public partial class KelimeCalismasi : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    //geriye gelme özelliði de eklenebilir.
     private void SagButton_Clicked(object sender, EventArgs e)
     {
         if(!gs.kelimeSayfasiHazirMi)

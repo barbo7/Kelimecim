@@ -13,44 +13,44 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <ImageButton Source="sound.png" Margin="{OnPlatform  Android='20,20,0,0',WinUI='-550,0,0,0'}" WidthRequest="20" VerticalOptions="StartAndExpand"  HorizontalOptions="{OnPlatform Android='StartAndExpand', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
         
-        <StackLayout Grid.Column="0" Grid.Row="0" Margin="{OnPlatform Android='0,50,0,0'}" Spacing="5">
-            <ImageButton Source="sound.png" Margin="{OnPlatform Android='0,10,0,0', WinUI='-550,0,0,0'}" WidthRequest="20"  HorizontalOptions="{OnPlatform Android='Start', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
             <Editor  Placeholder="Sentence"
                      x:Name="sentences"
                      IsEnabled="false"
-                     TextColor="Blue"
+                     TextColor="#D80032"
                      HorizontalOptions="{OnPlatform Android='Start', WinUI='Center'}"
                      HorizontalTextAlignment="Center"
                      VerticalTextAlignment="Center"
                      FontSize="Medium"
-                     HeightRequest="150"
+                     HeightRequest="180"
                      WidthRequest="{OnPlatform Android='375', WinUI='900'}"></Editor>
-        </StackLayout>
         
         <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
-            <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked" Margin="-350,0,0,0"  HorizontalOptions="Start"/>
-                <Entry Placeholder="Word"
+            <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked" Margin="{OnPlatform  WinUI='-350,0,0,0'}"  HorizontalOptions="StartAndExpand"/>
+                <Editor Placeholder="Word"
                  x:Name="wordText"
                  HorizontalTextAlignment="Center"
-                 TextColor="LightGreen"
+                 TextColor="#1640D6"
                  HorizontalOptions="Center"
                  FontSize="Medium"
                  IsEnabled="false"
-                 HeightRequest="50"
+                 VerticalTextAlignment="Center"
+                 HeightRequest="100"
                  />
 
-            <Entry Placeholder="Kelime"
+            <Editor Placeholder="Kelime"
                  x:Name="kelimeText"
                  IsEnabled="false"
-                 TextColor="PaleVioletRed"
+                 TextColor="#ED5AB3"
                  HorizontalOptions="CenterAndExpand"
                  HorizontalTextAlignment="Center"
-                 HeightRequest="50"
+                    VerticalTextAlignment="Center"
+                 HeightRequest="100"
                 FontSize="Medium"
                  />
-            <HorizontalStackLayout Margin="20" Spacing="20" HorizontalOptions="Center">
+            <HorizontalStackLayout HorizontalOptions="Center">
                 <Button Text="Yeni cümle"
                   HorizontalOptions="End"
                   Clicked="SagButton_Clicked"
@@ -58,7 +58,7 @@
                   HeightRequest="60"
                   />
             </HorizontalStackLayout>
-            <Image Source="cumle2.png" Grid.Row="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="End" HeightRequest="{OnPlatform Android='256'}"/>
+            <Image Source="cumle2.png" Grid.Row="2"  HorizontalOptions="CenterAndExpand"  HeightRequest="{OnPlatform Android='175'}"/>
 
         </VerticalStackLayout>
     </Grid>

@@ -77,6 +77,12 @@ namespace Kelimecim
         }
         private async void Arama()
         {
+            if (kelimeWordEntry is null || string.IsNullOrWhiteSpace(kelimeWordEntry.Text))
+            {
+                await DisplayAlert("Uyarı", "Lütfen metin girdikten sonra arama yapınız!", "Tamam");
+                return;
+            }
+
             bool translateMi = EngTr.IsChecked;
             kelimeWordShowPlace.Text = translateMi
                 ? gs.KelimeAra(kelimeWordEntry.Text).Item2[0]
@@ -85,7 +91,7 @@ namespace Kelimecim
 
             string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;
             await TextToSpeech.SpeakAsync(okunacakKelime);
-            if (kelimeWordEntry.Text == kelimeWordShowPlace.Text)
+            if (kelimeWordEntry.Text.Trim() == kelimeWordShowPlace.Text)
             {
                 kelimeWordShowPlace.Text += "(!!!)";
                 await DisplayAlert("Uyarı", "Aradığınız kelime/cümle hatalı olabilir!", "Tamam");
@@ -94,8 +100,17 @@ namespace Kelimecim
         private void RadioButton_CheckedChanged(object sender, EventArgs e)
         {
             kelimeWordLabel.Text = EngTr.IsChecked ? "English" : "Türkçe";
+            kelimeWordEntry.Placeholder = EngTr.IsChecked ? "Enter text" : "Metin girin";
+
             kelimeWordShowPlaceLabel.Text = EngTr.IsChecked ? "Türkçe" : "English";
-         
+            kelimeWordShowPlace.Placeholder = EngTr.IsChecked ? "Çeviri" : "Translation";
+        }
+        private void Entry_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(kelimeWordEntry.Text))
+            {
+                kelimeWordShowPlace.Text = string.Empty;
+            }
         }
     }
 }

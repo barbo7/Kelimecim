@@ -4,7 +4,7 @@
              x:Class="Kelimecim.KelimeCalismasi"
              Title="KelimeCalismasi">
 
-    <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="50" >
+    <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -21,24 +21,21 @@
         <StackLayout Grid.Row="1" Margin="{OnPlatform Android='0,60,0,0'}">
             <ImageButton Source="sound.png" WidthRequest="25" HeightRequest="25"  HorizontalOptions="StartAndExpand" Clicked="ImageButton_Clicked"/>
 
-            <Entry Placeholder="Word"
+            <Editor Placeholder="Word"
             x:Name="wordText"
             HorizontalTextAlignment="Center"
-            TextColor="LightGreen"
-             FontSize="Large"
+            VerticalTextAlignment="Center"
+            TextColor="#1640D6"
+            FontSize="Large"
             IsEnabled="false"
-            HeightRequest="50"
-            WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
-
            />
-        <Entry Placeholder="Kelime"
+        <Editor Placeholder="Kelime"
             x:Name="kelimeText"
             IsEnabled="false"
-            TextColor="PaleVioletRed"
+            TextColor="#ED5AB3"
             HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
             FontSize="Medium"
-            HeightRequest="50"
-            WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
               />
 
             <Button Text="Yeni kelime"

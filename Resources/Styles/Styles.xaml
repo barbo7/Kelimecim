@@ -92,17 +92,19 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="MinimumHeightRequest" Value="50"/>
-        <Setter Property="MinimumWidthRequest" Value="50"/>
-        <!--<Setter Property="WidthRequest">
+        <Setter Property="MinimumHeightRequest" Value="100"/>
+        <Setter Property="MinimumWidthRequest" Value="300"/>
+        <Setter Property="HeightRequest" Value="100"/>
+        <Setter Property="VerticalTextAlignment" Value="Center"></Setter>
+        <Setter Property="WidthRequest">
             <Setter.Value>
                 <OnPlatform x:TypeArguments="x:Double">
-                    <On Platform="Android">400</On>
-                    <On Platform="iOS">550</On>
-                    <On Platform="WinUI">900</On>
+                    <On Platform="Android">350</On>
+                    <On Platform="iOS">400</On>
+                    <On Platform="WinUI">600</On>
                 </OnPlatform>
             </Setter.Value>
-        </Setter>-->
+        </Setter>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Source="hocam.png" Grid.Row="2" Grid.ColumnSpan="2"  HorizontalOptions="Center" VerticalOptions="StartAndExpand" />
+        <Image Source="hocam.png" Grid.Row="2" Grid.ColumnSpan="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" />
 
 
 

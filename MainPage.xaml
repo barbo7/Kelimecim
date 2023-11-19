@@ -23,9 +23,11 @@
                     x:Name="EngTr"
                     GroupName="CeviriSecenegi"
                     Content="ENG -> TR"
+                    FontSize="Small"
                     IsChecked="True" />
                 <RadioButton
                     x:Name="TrEng"
+                    FontSize="Small"
                     GroupName="CeviriSecenegi"
                     Content="TR -> ENG" />
             </StackLayout>
@@ -34,7 +36,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"
             FontSize="16"
-            TextColor="Orange" 
+            TextColor="IndianRed" 
             Margin="0,0,0,10"
             />
 
@@ -46,13 +48,14 @@
                 </StackLayout>
                 <Entry
                 Placeholder="Metin girin"
+                TextChanged="Entry_TextChanged"
                 x:Name="kelimeWordEntry"
                 Completed="OnKelimeEntryCompleted"
+                VerticalTextAlignment="Center"
                 VerticalOptions="Center"
                 TextColor="black" 
                 Margin="0,0,0,10"
-                HeightRequest="50"
-                WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
+                FontSize="Medium"
                 HorizontalOptions="FillAndExpand"
                 />
                 <StackLayout Orientation="Horizontal">
@@ -64,16 +67,16 @@
                 x:Name="kelimeWordShowPlace"
                 Placeholder="Çeviri"
                 IsEnabled="False"
+                FontSize="Medium"
                 VerticalOptions="Center"
+                VerticalTextAlignment="Center"
                 TextColor="CornflowerBlue" 
                 Margin="0,0,0,10"
-                HeightRequest="50"
-                WidthRequest="{OnPlatform Android=350, iOS=400, WinUI=600}"
                 HorizontalOptions="FillAndExpand"
                 />
             </StackLayout>
             <Button
-            Margin="10"
+            Margin="0,-10,0,0"
             Text="Arama Yap"
             SemanticProperties.Hint="Kelime aramak için kullanılacak."
             Clicked="OnCounterClicked"
