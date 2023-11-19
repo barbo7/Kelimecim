@@ -6,6 +6,7 @@ using Google.Apis.Util.Store;
 using Newtonsoft.Json.Linq;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Auth.OAuth2.Flows;
+using System.Collections;
 
 namespace Kelimecim
 {
@@ -218,7 +219,7 @@ namespace Kelimecim
         /// <param name="kelime"></param>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string KelimeAra2(string kelime, bool tr)
+        public string KelimeAra2(string kelime, bool tr) //Buna gerek yok??
         {
             string result = Ceviri(kelime, true).ToString();
 
@@ -257,6 +258,25 @@ namespace Kelimecim
             string word = VeritabaniMi ? columnWordData[hangiSatirVT][0].ToString() : sutunBVeri[hangiSatirMyList][0].ToString();//aynı mantıkla kelimenin anlamını çekiyorum.
 
             return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
+        }
+        public string[] Rastgele4KelimeGetir(string dogruKelime)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
+        {
+            int sonsatirVT = columnKelimeVeri.Count();
+            int eklenenIndex = 0;
+            string[] kelimeler = new string[4];
+
+            while (eklenenIndex < 4)
+            {
+                int hangiSatirVTT = rn.Next(0, sonsatirVT);
+                string gelenVeri = columnKelimeVeri[hangiSatirVTT][0].ToString();
+                if (!kelimeler.Contains(gelenVeri) && gelenVeri != dogruKelime)
+                {
+                    kelimeler[eklenenIndex] = gelenVeri;
+                    eklenenIndex++;
+                }
+            }
+
+            return kelimeler;
         }
 
         public void VeriEkle(string word, string kelime)
