@@ -15,7 +15,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="150" Margin="{OnPlatform WinUI='0,-60,0,0'}"></Image>
+        <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="150" ></Image>
 
 
         <StackLayout Grid.Row="1" Margin="{OnPlatform Android='0,60,0,0'}">
