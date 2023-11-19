@@ -10,6 +10,8 @@ namespace Kelimecim
         {
 
             InitializeComponent();
+            TrEng.CheckedChanged += RadioButton_CheckedChanged;
+            EngTr.CheckedChanged += RadioButton_CheckedChanged;
         }
         private async void MetindenSese(string textBoxText)
         {
@@ -88,6 +90,12 @@ namespace Kelimecim
                 kelimeWordShowPlace.Text += "(!!!)";
                 await DisplayAlert("Uyarı", "Aradığınız kelime/cümle hatalı olabilir!", "Tamam");
             }
+        }
+        private void RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            kelimeWordLabel.Text = EngTr.IsChecked ? "English" : "Türkçe";
+            kelimeWordShowPlaceLabel.Text = EngTr.IsChecked ? "Türkçe" : "English";
+         
         }
     }
 }

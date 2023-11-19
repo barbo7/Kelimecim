@@ -49,13 +49,15 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo.png" />
 
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+    <!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#Eee6de" BaseSize="128,128" />
 
-		<!-- Images -->
+
+    <!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
+		<MauiImage Update="Resources\Images\dotnet_bot.svg" Color="#eee6de" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -78,9 +80,6 @@
 	  <None Remove="Resources\Images\vocabulary.png" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\appicon.svg"  ForegroundFile="Resources\AppIcon\appiconfore.svg"/>
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Google.Apis" Version="1.63.0" />

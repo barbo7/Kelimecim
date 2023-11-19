@@ -21,12 +21,12 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Spacing="20" >
                 <RadioButton
                     x:Name="EngTr"
-                    GroupName="Ceviri"
+                    GroupName="CeviriSecenegi"
                     Content="ENG -> TR"
                     IsChecked="True" />
                 <RadioButton
                     x:Name="TrEng"
-                    GroupName="Ceviri"
+                    GroupName="CeviriSecenegi"
                     Content="TR -> ENG" />
             </StackLayout>
             <Label
