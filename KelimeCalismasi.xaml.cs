@@ -11,11 +11,18 @@ public partial class KelimeCalismasi : ContentPage
 	}
     private void SagButton_Clicked(object sender, EventArgs e)
     {
+        if(!gs.kelimeSayfasiHazirMi)
+        {
+            DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
+            return;
+        }
+
         veri = gs.RastgeleKelimeGetirVTOrMyList(true);
 
         wordText.Text = veri.Item2;
         kelimeText.Text = veri.Item1;
         MetindenSese(wordText.Text);
+       
     }
     private async void MetindenSese(string textBoxText)
     {

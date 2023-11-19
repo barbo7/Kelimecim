@@ -12,6 +12,11 @@ namespace Kelimecim
 {
     public class GoogleSheets
     {
+        public bool kelimeSayfasiHazirMi = false;
+        public bool CumleSayfasiHazirMi = false;
+        public bool CoktanSecmeliSayfasiHazirMi = false;
+
+
         private static GoogleSheets _instance;
 
         private Random rn = new Random(); // Bir methodda bunu tanımlayıp methodu üst üste çağırdığım zaman aynı değer geliyordu. daha geniş bir kapsamda tanımlayınca her türlü farklı cevap vermesi sağlanabiliyormuş.
@@ -156,10 +161,17 @@ namespace Kelimecim
 
             columnWordData = responseSearchWord.Values;
             columnKelimeVeri = responseAramaKelime.Values;
+            if (columnWordData.Count > 10)
+            {
+                kelimeSayfasiHazirMi = true;
+                CoktanSecmeliSayfasiHazirMi = true;
+            }
 
             cumleliSayfaCumle = responseCumle.Values;
             cumleliSayfaWord = responseCumleWord.Values;
             cumleliSayfaKelime = responseCumleKelime.Values;
+            if (cumleliSayfaCumle.Count > 10)
+                CumleSayfasiHazirMi = true;
         }
         private async void InitializeAsync()
         {
@@ -355,7 +367,7 @@ namespace Kelimecim
             return veri;
         }
 
-        private string Ceviri(string text, bool tr)
+        public string Ceviri(string text, bool tr)
         {
             using (HttpClient client = new HttpClient())
             {
