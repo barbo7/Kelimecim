@@ -162,14 +162,15 @@ namespace Kelimecim
             columnWordData = responseSearchWord.Values;
             columnKelimeVeri = responseAramaKelime.Values;
             if (columnWordData.Count > 10)
-            {
                 kelimeSayfasiHazirMi = true;
+
+            if (columnWordData.Count > 10 && sutunAVeri.Count > 1)
                 CoktanSecmeliSayfasiHazirMi = true;
-            }
 
             cumleliSayfaCumle = responseCumle.Values;
             cumleliSayfaWord = responseCumleWord.Values;
             cumleliSayfaKelime = responseCumleKelime.Values;
+
             if (cumleliSayfaCumle.Count > 10)
                 CumleSayfasiHazirMi = true;
         }

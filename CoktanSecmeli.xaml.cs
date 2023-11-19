@@ -29,21 +29,28 @@ public partial class CoktanSecmeli : ContentPage
         radioButton5.CheckedChanged += RadioButton_CheckedChanged;
 
         radioButtons = new RadioButton[] { radioButton1, radioButton2, radioButton3, radioButton4, radioButton5 };
-        SayfayiAc();
+        SayfayiAc(); 
     }
-
     private async void SayfayiAc()
     {
-        if (!gs.CoktanSecmeliSayfasiHazirMi)
+        int denemeS = 0;
+        while (!gs.CoktanSecmeliSayfasiHazirMi)
         {
-            await DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil hemen hazýrlýyoruz!", "Tamam");
-            await Task.Delay(3000); // Asenkron bekleme
+            await Task.Delay(500);
+            if(denemeS==0)
+            {
+                await DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
+                denemeS++;
+            }
         }
+
         sirala();
         dogruSayisi.Text = yazidogru + dogru;
         yanlisSayisi.Text = yaziyanlis + yanlis;
-        MetindenSese(word.Text);
     }
+
+
+
     private async void RadioButton_CheckedChanged(object sender, EventArgs e)
     {
         RadioButton rb = (RadioButton)sender;//Hangi button'a týklandýðýný anlayýp iþlem yapmak için bir deðiþkene atýyorum.
@@ -87,7 +94,6 @@ public partial class CoktanSecmeli : ContentPage
 
     private void sirala()
     {
-        
         Tuple<string, string> dogruCevap = gs.RastgeleKelimeGetirVTOrMyList(true);
         string[] yanlisKelimeler = gs.Rastgele4KelimeGetir(dogruCevap.Item1);
         int indexx = 0;
@@ -108,6 +114,7 @@ public partial class CoktanSecmeli : ContentPage
             else
                 radioButtons[i].Content = dogruCevap.Item1;//belirlediðim cevabý atýyorum.
         }
+        MetindenSese(word.Text);
     }
 
     private async void MetindenSese(string textBoxText)
