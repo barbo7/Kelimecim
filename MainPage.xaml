@@ -12,8 +12,6 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Image Source="dictionary.png" Grid.Column="1" Grid.Row="0"></Image>
@@ -45,9 +43,9 @@
 
             <StackLayout Orientation="Vertical">
                 <StackLayout Orientation="Horizontal">
-                    <Label x:Name="kelimeWordLabel" Text="English" TextColor="DarkSlateBlue" Margin="30,0,0,0" HorizontalOptions="StartAndExpand"></Label>
+                    <Label x:Name="kelimeWordLabel" Text="English" TextColor="DarkSlateBlue" Margin="30,0,0,0" HorizontalOptions="{OnPlatform WinUI='EndAndExpand',Android='StartAndExpand'}"></Label>
                     <ImageButton Source="copytoclipboard.png" WidthRequest="30" HeightRequest="20" HorizontalOptions="{OnPlatform WinUI='EndAndExpand'}" Clicked="kelimeWordCopy_Clicked"/>
-                    <ImageButton Source="sound.png" WidthRequest="50" HeightRequest="20" HorizontalOptions="{OnPlatform WinUI='End'}" Clicked="kelimeWord_Clicked"/>
+                    <ImageButton Source="sound.png" WidthRequest="50" HeightRequest="20" HorizontalOptions="{OnPlatform WinUI='StartAndExpand'}" Clicked="kelimeWord_Clicked"/>
                 </StackLayout>
                 <Entry
                 Placeholder="Metin girin"
@@ -62,9 +60,9 @@
                 HorizontalOptions="FillAndExpand"
                 />
                 <StackLayout Orientation="Horizontal" >
-                    <Label x:Name="kelimeWordShowPlaceLabel" Text="Türkçe" TextColor="DarkSlateBlue" Margin="30,0,0,0" HorizontalOptions="StartAndExpand"></Label>
+                    <Label x:Name="kelimeWordShowPlaceLabel" Text="Türkçe" TextColor="DarkSlateBlue" Margin="30,0,0,0" HorizontalOptions="{OnPlatform WinUI='EndAndExpand',Android='StartAndExpand'}"></Label>
                     <ImageButton Source="copytoclipboard.png" WidthRequest="30" HeightRequest="20" HorizontalOptions="{OnPlatform WinUI='EndAndExpand'}"  Clicked="kelimeWordShowPlaceCopy_Clicked"/>
-                    <ImageButton Source="sound.png" WidthRequest="50" HeightRequest="20" HorizontalOptions="{OnPlatform WinUI='End'}" Clicked="kelimeWordShowPlace_Clicked"/>
+                    <ImageButton Source="sound.png" WidthRequest="50" HeightRequest="20" HorizontalOptions="{OnPlatform WinUI='StartAndExpand'}" Clicked="kelimeWordShowPlace_Clicked"/>
                 </StackLayout>
                 <Entry
                 x:Name="kelimeWordShowPlace"
