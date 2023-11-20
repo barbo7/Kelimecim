@@ -66,7 +66,7 @@ namespace Kelimecim
                 await Clipboard.SetTextAsync(kelimeWordShowPlace.Text);
             }
         }
-        private void OnCounterClicked(object sender, EventArgs e)
+        private  void OnCounterClicked(object sender, EventArgs e)
         {
             Arama();
         }
