@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Flyout"
     Shell.FlyoutIcon="Resources/Images/menu.png"
     >
-    <FlyoutItem Title="Çeviri" >
+    <!--<FlyoutItem Title="Çeviri" >
         <ShellContent Title="Çeviri" StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
     </FlyoutItem>
@@ -15,17 +15,18 @@
         <ShellContent Title="Kelime Çalış" ContentTemplate="{DataTemplate local:KelimeCalismasi}" Route="KelimeCalismasi" />
         <ShellContent Title="Cümle Çalış" ContentTemplate="{DataTemplate local:CumleCalismasi}" Route="CumleCalismasi" />
         <ShellContent Title="Çoktan Seçmeli" ContentTemplate="{DataTemplate local:CoktanSecmeli}" Route="CoktanSecmeli" />
-    </FlyoutItem>
-    
-    <Tab>
-        <ContentPage Title="Çeviri">
-            <!-- Çeviri sayfasının içeriği buraya gelecek -->
-        </ContentPage>
-        <ContentPage Title="Kelime Çalış">
-            <!-- Kelime Çalış sayfasının içeriği buraya gelecek -->
-        </ContentPage>
-        <!-- Diğer sayfalar -->
-    </Tab>
+    </FlyoutItem>-->
+
+    <TabBar>
+        <Tab Title="Çeviri">
+            <ShellContent Title="Çeviri" StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+        </Tab>
+        <Tab Title="Egzersizler">
+            <ShellContent Title="Kelime Çalış"  StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:KelimeCalismasi}" Route="KelimeCalismasi" />
+            <ShellContent Title="Cümle Çalış"  StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:CumleCalismasi}" Route="CumleCalismasi" />
+            <ShellContent Title="Çoktan Seçmeli"  StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:CoktanSecmeli}" Route="CoktanSecmeli" />
+        </Tab>
+    </TabBar>
 
 
     <Shell.FlyoutFooter>
