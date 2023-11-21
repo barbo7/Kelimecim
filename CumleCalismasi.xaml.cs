@@ -20,7 +20,6 @@ public partial class CumleCalismasi : ContentPage
             // Önceki okuma iþlemini iptal et
             cancelTokenSource.Cancel();
         }
-
         // Yeni bir iptal belirteci oluþtur
         cancelTokenSource = new CancellationTokenSource();
 

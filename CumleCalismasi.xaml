@@ -50,13 +50,15 @@
                  HeightRequest="100"
                 FontSize="Medium"
                  />
-                <Button Text="Yeni cümle"
-                  HorizontalOptions="CenterAndExpand"
-                  Clicked="SagButton_Clicked"
-                  WidthRequest="250"
-                  HeightRequest="60"
-                  />
+                
 
         </VerticalStackLayout>
+        <Button Text="Yeni cümle"
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                Clicked="SagButton_Clicked"
+                WidthRequest="250"
+                HeightRequest="60"
+                />
     </Grid>
 </ContentPage>
