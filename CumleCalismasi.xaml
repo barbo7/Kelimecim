@@ -30,7 +30,7 @@
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
         </VerticalStackLayout>
         
-        <VerticalStackLayout Grid.Row="1" Margin="35" Spacing="10" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <VerticalStackLayout Grid.Row="1" Margin="35" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
             <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked"   HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}"/>
                 <Editor Placeholder="Word"
@@ -50,19 +50,16 @@
                  TextColor="#ED5AB3"
                  HorizontalOptions="CenterAndExpand"
                  HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
+                 VerticalTextAlignment="Center"
                  HeightRequest="100"
-                FontSize="Medium"
+                 FontSize="Medium"
                  />
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Button Text="Yeni cümle"
-                  HorizontalOptions="End"
-                  Clicked="SagButton_Clicked"
-                  WidthRequest="250"
-                  HeightRequest="60"
-                  />
-            </HorizontalStackLayout>
-            <Image Source="{OnPlatform iOS='cumle2.png',Android='cumle2.png'}" Grid.Row="2"  HorizontalOptions="CenterAndExpand"  HeightRequest="{OnPlatform iOS='175', Android='175'}"/>
+            <Button Text="Yeni cümle"
+                HorizontalOptions="CenterAndExpand"
+                Clicked="SagButton_Clicked"
+                WidthRequest="250"
+                HeightRequest="60"
+                />
 
         </VerticalStackLayout>
     </Grid>

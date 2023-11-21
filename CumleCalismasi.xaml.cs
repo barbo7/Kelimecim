@@ -29,7 +29,7 @@ public partial class CumleCalismasi : ContentPage
 
     private void SagButton_Clicked(object sender, EventArgs e)
     {
-        if(!gs.CumleSayfasiHazirMi)
+         if(!gs.CumleSayfasiHazirMi)
         {
             DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
             return;

@@ -22,7 +22,7 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">10.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
@@ -45,6 +45,10 @@
 	  <DebugSymbols>True</DebugSymbols>
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <MtouchLink>Full</MtouchLink>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -73,6 +77,7 @@
 	  <None Remove="Resources\Images\cumle1.png" />
 	  <None Remove="Resources\Images\cumle2.png" />
 	  <None Remove="Resources\Images\dictionary.png" />
+	  <None Remove="Resources\Images\exit.png" />
 	  <None Remove="Resources\Images\hocam.png" />
 	  <None Remove="Resources\Images\logo.jpeg" />
 	  <None Remove="Resources\Images\menu.png" />

@@ -5,29 +5,40 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Kelimecim"
     Shell.FlyoutBehavior="Flyout"
-    Shell.FlyoutIcon="Resources/Images/menu.png">
+    Shell.FlyoutIcon="Resources/Images/menu.png"
+    >
+    <FlyoutItem Title="Çeviri" >
+        <ShellContent Title="Çeviri" StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
-    <ShellContent
-    Title="Ana Sayfa"
-    ContentTemplate="{DataTemplate local:MainPage}"
-    Route="MainPage" />
+    </FlyoutItem>
+    <FlyoutItem FlyoutDisplayOptions="AsSingleItem" Title="Kelime Egzersizler">
+        <ShellContent Title="Kelime Çalış" ContentTemplate="{DataTemplate local:KelimeCalismasi}" Route="KelimeCalismasi" />
+        <ShellContent Title="Cümle Çalış" ContentTemplate="{DataTemplate local:CumleCalismasi}" Route="CumleCalismasi" />
+        <ShellContent Title="Çoktan Seçmeli" ContentTemplate="{DataTemplate local:CoktanSecmeli}" Route="CoktanSecmeli" />
+    </FlyoutItem>
+    
+    <Tab>
+        <ContentPage Title="Çeviri">
+            <!-- Çeviri sayfasının içeriği buraya gelecek -->
+        </ContentPage>
+        <ContentPage Title="Kelime Çalış">
+            <!-- Kelime Çalış sayfasının içeriği buraya gelecek -->
+        </ContentPage>
+        <!-- Diğer sayfalar -->
+    </Tab>
 
-    <ShellContent
-    Title="Kelime Çalışma Sayfası"
-    ContentTemplate="{DataTemplate local:KelimeCalismasi}"
-    Route="KelimeCalismasi" />
 
-    <ShellContent
-    Title="Cümle Çalışma Sayfası"
-    ContentTemplate="{DataTemplate local:CumleCalismasi}"
-    Route="CumleCalismasi" />
+    <Shell.FlyoutFooter>
 
-    <ShellContent
-    Title="Çoktan Seçmeli Sorular"
-    ContentTemplate="{DataTemplate local:CoktanSecmeli}"
-    Route="CoktanSecmeli" />
-    <!--<ShellContent
-     Title="Harf Alayım Sayfası"
-     ContentTemplate="{DataTemplate local:HarfAlayim}"
-     Route="HarfAlayim" />-->
+            <ImageButton
+                BorderWidth="1"
+                BorderColor="LightGray"
+                Source="exit.png"
+                Clicked="ExitButton_Clicked"
+                HeightRequest="40"
+                WidthRequest="400"
+                ></ImageButton>
+            
+    </Shell.FlyoutFooter>
+
 </Shell>
