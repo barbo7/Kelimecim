@@ -185,11 +185,10 @@ namespace Kelimecim
             //VerileriCekAsync().Wait();
         }
 
-        public Tuple<List<string>, List<string>> KelimeAra(string AranacakWord)
+        public Tuple<string,string> KelimeAra(string AranacakWord)
         {
-            //Kendi Database'imde bulunan değerleri çekip atıyorum listelere
-            List<string> sonucA = new List<string>();
-            List<string> sonucB = new List<string>();
+            string ingKelime = default;
+            string trKelime = default;
 
             bool kelimeBulundu = false; // Kelimenin bulunup bulunmadığını kontrol etmek için bir bayrak
 
@@ -199,15 +198,12 @@ namespace Kelimecim
                 {
                     for (int j = 0; j < columnWordData[i].Count; j++)
                     {
-                        string[] words = columnWordData[i][j].ToString().Split(new[] { ' ', '-', '/' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string word in words)
+                        string word = columnWordData[i][j].ToString();
+                        if (word.Trim().Equals(AranacakWord, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (word.Trim().Equals(AranacakWord, StringComparison.OrdinalIgnoreCase))
-                            {
-                                sonucA.Add(columnWordData[i][j].ToString());
-                                sonucB.Add(columnKelimeVeri[i][j].ToString());
-                                kelimeBulundu = true; // Kelimeyi bulduk, bayrağı true yap
-                            }
+                            ingKelime = columnWordData[i][j].ToString();
+                            trKelime = columnKelimeVeri[i][j].ToString();
+                            kelimeBulundu = true; // Kelimeyi bulduk, bayrağı true yap
                         }
                     }
                 }
@@ -215,14 +211,11 @@ namespace Kelimecim
 
             if (!kelimeBulundu)//Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
             {
-                sonucA.Add(KelimeDuzelt(AranacakWord));
-                sonucB.Add(Ceviri(AranacakWord, false).ToString());
+                ingKelime = KelimeDuzelt(AranacakWord);
+                trKelime = Ceviri(AranacakWord, false).ToString();
             }
 
-            var uniqueSonucA = new HashSet<string>(sonucA);
-            var uniqueSonucB = new HashSet<string>(sonucB);
-
-            return new Tuple<List<string>, List<string>>(uniqueSonucA.ToList(), uniqueSonucB.ToList());
+            return new Tuple<string,string>(ingKelime,trKelime);
         }
 
         /// <summary>
@@ -297,20 +290,17 @@ namespace Kelimecim
             // KelimeAra metodunu asenkron olarak çağırın
             var kelimeAraResult = KelimeAra(word);
 
-            string[] words = kelimeAraResult.Item1.ToArray();
-            string[] kelimeler = kelimeAraResult.Item2.ToArray();
+            string words = kelimeAraResult.Item1;
+            string kelimeler = kelimeAraResult.Item2;
 
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (word.ToLower() == words[i].ToLower())//Eğer database'imde aradığım kelime varsa bu çalışacak yoksa aşağıdaki
+                if (word.ToLower() == words.ToLower())//Eğer database'imde aradığım kelime varsa bu çalışacak yoksa aşağıdaki
                 {
-                    kelime = KelimeDuzelt(kelimeler[i]);
+                    kelime = KelimeDuzelt(kelimeler);
                 }
                 else
                 {
                     kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
                 }
-            }
             // Veriyi eklemek için gereken parametreleri oluştur
             body = new ValueRange
             {
