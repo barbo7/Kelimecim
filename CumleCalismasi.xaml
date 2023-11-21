@@ -30,7 +30,7 @@
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
         </VerticalStackLayout>
         
-        <VerticalStackLayout Grid.Row="1" Margin="35" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
             <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked"   HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}"/>
                 <Editor Placeholder="Word"
