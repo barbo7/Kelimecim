@@ -84,9 +84,10 @@ namespace Kelimecim
             }
 
             bool translateMi = EngTr.IsChecked;
+            string query = kelimeWordEntry.Text;
             kelimeWordShowPlace.Text = translateMi
-                ? gs.KelimeAraENG(kelimeWordEntry.Text)
-                : gs.Ceviri(kelimeWordEntry.Text, true);
+                ? gs.KelimeAraENG(query)
+                : gs.KelimeAraTR(query);
 
 
             string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;

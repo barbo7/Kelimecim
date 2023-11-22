@@ -125,52 +125,76 @@ namespace Kelimecim
                 HttpClientInitializer = credential,
                 ApplicationName = appName,
             };
-         
-                service = new SheetsService(initializer);
 
-            //Api'ye istek atıyorum
-            SpreadsheetsResource.ValuesResource.GetRequest request1 =
-                service.Spreadsheets.Values.Get(spreadsheetId, sutun1);
-            SpreadsheetsResource.ValuesResource.GetRequest request2 =
-                service.Spreadsheets.Values.Get(spreadsheetId, sutun2);
+            // Google E-Tablolar API'sini çalıştırma
+            service = new SheetsService(initializer);
 
-            SpreadsheetsResource.ValuesResource.GetRequest reqSearch =
-                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiIng);
-            SpreadsheetsResource.ValuesResource.GetRequest reqArama =
-                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiTr);
+            // Create requests for each data range
+            var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
+            {
+                service.Spreadsheets.Values.Get(spreadsheetId, sutun1),
+                service.Spreadsheets.Values.Get(spreadsheetId, sutun2),
+                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiIng),
+                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiTr),
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerCumle),
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerWord),
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime),
+            };
 
-            SpreadsheetsResource.ValuesResource.GetRequest reqCumleC =
-                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerCumle);
-            SpreadsheetsResource.ValuesResource.GetRequest reqCumleW =
-                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerWord);
-            SpreadsheetsResource.ValuesResource.GetRequest reqCumleK =
-                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime);
+            // Execute requests in parallel and wait for all to complete
+            var responses = await Task.WhenAll(requests.Select(request => request.ExecuteAsync()));
 
-            responseSutunA = await request1.ExecuteAsync();
-            responseSutunB = await request2.ExecuteAsync();
+            // Retrieve values from each response
+            sutunAVeri = responses[0].Values;
+            sutunBVeri = responses[1].Values;
+            columnWordData = responses[2].Values;
+            columnKelimeVeri = responses[3].Values;
+            cumleliSayfaCumle = responses[4].Values;
+            cumleliSayfaWord = responses[5].Values;
+            cumleliSayfaKelime = responses[6].Values;
 
-            responseSearchWord = await reqSearch.ExecuteAsync();
-            responseAramaKelime = await reqArama.ExecuteAsync();
+            ////Api'ye istek atıyorum
+            //SpreadsheetsResource.ValuesResource.GetRequest request1 =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, sutun1);
+            //SpreadsheetsResource.ValuesResource.GetRequest request2 =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, sutun2);
 
-            responseCumle = await reqCumleC.ExecuteAsync();
-            responseCumleWord = await reqCumleW.ExecuteAsync();
-            responseCumleKelime = await reqCumleK.ExecuteAsync();
+            //SpreadsheetsResource.ValuesResource.GetRequest reqSearch =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiIng);
+            //SpreadsheetsResource.ValuesResource.GetRequest reqArama =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiTr);
 
-            //değerleri listelere çekiyorum.
-            sutunAVeri = responseSutunA.Values;
-            sutunBVeri = responseSutunB.Values;
+            //SpreadsheetsResource.ValuesResource.GetRequest reqCumleC =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, cumlelerCumle);
+            //SpreadsheetsResource.ValuesResource.GetRequest reqCumleW =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, cumlelerWord);
+            //SpreadsheetsResource.ValuesResource.GetRequest reqCumleK =
+            //    service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime);
 
-            columnWordData = responseSearchWord.Values;
-            columnKelimeVeri = responseAramaKelime.Values;
+            //responseSutunA = await request1.ExecuteAsync();
+            //responseSutunB = await request2.ExecuteAsync();
+
+            //responseSearchWord = await reqSearch.ExecuteAsync();
+            //responseAramaKelime = await reqArama.ExecuteAsync();
+
+            //responseCumle = await reqCumleC.ExecuteAsync();
+            //responseCumleWord = await reqCumleW.ExecuteAsync();
+            //responseCumleKelime = await reqCumleK.ExecuteAsync();
+
+            ////değerleri listelere çekiyorum.
+            //sutunAVeri = responseSutunA.Values;
+            //sutunBVeri = responseSutunB.Values;
+            //columnWordData = responseSearchWord.Values;
+            //columnKelimeVeri = responseAramaKelime.Values;
+            //cumleliSayfaCumle = responseCumle.Values;
+            //cumleliSayfaWord = responseCumleWord.Values;
+            //cumleliSayfaKelime = responseCumleKelime.Values;
+
             if (columnWordData.Count > 10)
                 kelimeSayfasiHazirMi = true;
 
             if (columnWordData.Count > 10 && sutunAVeri.Count > 1)
                 CoktanSecmeliSayfasiHazirMi = true;
-
-            cumleliSayfaCumle = responseCumle.Values;
-            cumleliSayfaWord = responseCumleWord.Values;
-            cumleliSayfaKelime = responseCumleKelime.Values;
 
             if (cumleliSayfaCumle.Count > 10)
                 CumleSayfasiHazirMi = true;
@@ -189,44 +213,50 @@ namespace Kelimecim
         public string KelimeAraENG(string AranacakWord)
         {
             string ingKelime = KelimeDuzelt(AranacakWord);
-            string trKelime = default;
+            string trKelime = null;
 
-            bool kelimeBulundu = false; // Kelimenin bulunup bulunmadığını kontrol etmek için bir bayrak
 
-            for (int i = 0; i < columnWordData.Count(); i++)
-                if (columnWordData[i].Contains(ingKelime))
-                {
-                    trKelime = columnKelimeVeri[i].ToString();
-                    kelimeBulundu = true;
-                    break;
-                }
-            
-            if (!kelimeBulundu)//Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
-                trKelime = Ceviri(AranacakWord, false).ToString();
+            var indexBul = columnWordData
+            .Select((row, rowIndex) => new 
+            { 
+                RowIndex = rowIndex,
+                Kelimeler = row.Select(kelime => kelime.ToString().ToLower())
+            })
+            .Where(row=>row.Kelimeler.Contains(AranacakWord.ToLower(),StringComparer.OrdinalIgnoreCase))
+            .FirstOrDefault();
+
+            if (indexBul != null)
+                trKelime = columnKelimeVeri[indexBul.RowIndex][0].ToString();
+            else
+                trKelime = Ceviri(AranacakWord, false).ToString(); //Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
 
             return trKelime;
         }
 
+
         /// <summary>
-        /// Bu overloading methodu direkt olarak ingilizceden türkçeye arama yapmamız için oluşturduğum bir kod.
-        /// tr adlı değişken true olursa devreye girer.
+        /// Tr eng çeviri yapmak için oluşturduğum kod
         /// </summary>
         /// <param name="kelime"></param>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string KelimeAraTR(string kelime, bool tr) //Buna gerek yok??
+        public string KelimeAraTR(string kelime) //Buna gerek yok??
         {
             string trKelime = KelimeDuzelt(kelime);
-            string ingKelime = default;
+            string ingKelime = null;
 
-            bool wordBulundu = false;
-            for(int i=0;i<columnKelimeVeri.Count();i++)
-                if (columnKelimeVeri[i].Contains(trKelime))
+            var kelimeSorgusu = columnKelimeVeri
+                .Select((row, rowIndex) => new
                 {
-                    ingKelime = columnWordData[i].ToString();
-                    wordBulundu = true;
-                }
-            if (!wordBulundu)
+                    RowIndex = rowIndex,
+                    Words = row.Select(word => word.ToString().ToLower())
+                })
+                .Where(row => row.Words.Contains(kelime.ToLower(), StringComparer.OrdinalIgnoreCase))
+                .FirstOrDefault();
+
+            if (kelimeSorgusu != null)
+                ingKelime = columnWordData.ElementAtOrDefault(kelimeSorgusu.RowIndex)[0].ToString();
+            else
                 ingKelime = Ceviri(kelime, true).ToString();
 
             return ingKelime;
@@ -374,7 +404,7 @@ namespace Kelimecim
         private string KelimeDuzelt(string kelime)//Sayfama veri eklerken bu formatta eklensin istiyorum.
         {
             string sonuc = char.ToUpper(kelime[0]) + kelime.Substring(1).ToLower();
-            return sonuc;
+            return sonuc.Trim();
         }
     }
 
