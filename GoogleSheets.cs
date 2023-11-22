@@ -27,13 +27,13 @@ namespace Kelimecim
 
         private SheetsService service;
 
-        ValueRange responseSutunA;
-        ValueRange responseSutunB;
-        ValueRange responseSearchWord;
-        ValueRange responseAramaKelime;
-        ValueRange responseCumle;
-        ValueRange responseCumleWord;
-        ValueRange responseCumleKelime;
+        //ValueRange responseSutunA;
+        //ValueRange responseSutunB;
+        //ValueRange responseSearchWord;
+        //ValueRange responseAramaKelime;
+        //ValueRange responseCumle;
+        //ValueRange responseCumleWord;
+        //ValueRange responseCumleKelime;
 
         IList<IList<object>> sutunAVeri;
         IList<IList<object>> sutunBVeri;
@@ -45,14 +45,10 @@ namespace Kelimecim
 
 
         string spreadsheetId = "1kafz2KAuvxqSdGbfNOou1S5keIf5wQDIDRLsdm9t6l8"; // excel tablosunun id'si
-        string sutun1 = "Sayfa1!A:A"; //hangi satırı yazmak istediğim.
-        string sutun2 = "Sayfa1!B:B"; //hangi satırı yazmak istediğim.
-        string veriKumesiIng = "Veriler!A:A";
-        string veriKumesiTr = "Veriler!B:B";
-        string cumlelerCumle = "Cumleler!A:A";
-        string cumlelerWord = "Cumleler!B:B";
-        string cumlelerKelime = "Cumleler!C:C";
-        string range = "Sayfa1!A:B"; //verieklemeSatırı
+
+        string kendiSutunum = "Sayfa1!A:B"; //hangi satırı yazmak istediğim.
+        string veriKumesi = "Veriler!A:B";
+        string cumlelerKumesi = "Cumleler!A:C";
 
         SpreadsheetsResource.ValuesResource.AppendRequest verireq;
         ValueRange body;
@@ -132,26 +128,28 @@ namespace Kelimecim
             // Create requests for each data range
             var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
             {
-                service.Spreadsheets.Values.Get(spreadsheetId, sutun1),
-                service.Spreadsheets.Values.Get(spreadsheetId, sutun2),
-                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiIng),
-                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesiTr),
-                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerCumle),
-                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerWord),
-                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKelime),
+                service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum),
+                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesi),
+                service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKumesi),
+                //Bir önceki sürümde bütün sayfalar için hücre hücre veri çekme isteği oluşturuyordum. Bunun yerine tek bir sayfadaki tüm verileri çekmek için yeni bir geliştirme yaptım. Performans arttırma amaçlı
             };
 
             // Execute requests in parallel and wait for all to complete
             var responses = await Task.WhenAll(requests.Select(request => request.ExecuteAsync()));
 
-            // Retrieve values from each response
-            sutunAVeri = responses[0].Values;
-            sutunBVeri = responses[1].Values;
-            columnWordData = responses[2].Values;
-            columnKelimeVeri = responses[3].Values;
-            cumleliSayfaCumle = responses[4].Values;
-            cumleliSayfaWord = responses[5].Values;
-            cumleliSayfaKelime = responses[6].Values;
+            var kendiSutunumDegerleri = responses[0].Values;
+            var veriKumesiDegerleri = responses[1].Values;
+            var cumlelerKumesiDegerleri = responses[2].Values;
+
+            sutunAVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>(); //Linq kullanarak ilk hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
+            sutunBVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Linq kullanarak ikinci hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
+
+            columnWordData = veriKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>();//Veritabanında bulunan Word'ler
+            columnKelimeVeri = veriKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Veri tabanında bulunan Kelimeler
+
+            cumleliSayfaCumle = cumlelerKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>();
+            cumleliSayfaWord = cumlelerKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();
+            cumleliSayfaKelime = cumlelerKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(2) }).ToList<IList<object>>();
 
             ////Api'ye istek atıyorum
             //SpreadsheetsResource.ValuesResource.GetRequest request1 =
@@ -212,7 +210,7 @@ namespace Kelimecim
 
         public string KelimeAraENG(string AranacakWord)
         {
-            string ingKelime = KelimeDuzelt(AranacakWord);
+            string ingKelime = AranacakWord;
             string trKelime = null;
 
 
@@ -230,7 +228,7 @@ namespace Kelimecim
             else
                 trKelime = Ceviri(AranacakWord, false).ToString(); //Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
 
-            return trKelime;
+            return KelimeDuzelt(trKelime);
         }
 
 
@@ -242,7 +240,7 @@ namespace Kelimecim
         /// <returns></returns>
         public string KelimeAraTR(string kelime) //Buna gerek yok??
         {
-            string trKelime = KelimeDuzelt(kelime);
+            string trKelime = kelime;
             string ingKelime = null;
 
             var kelimeSorgusu = columnKelimeVeri
@@ -259,7 +257,7 @@ namespace Kelimecim
             else
                 ingKelime = Ceviri(kelime, true).ToString();
 
-            return ingKelime;
+            return KelimeDuzelt(ingKelime);
         }
 
         public Tuple<string, string, string> RastgeleCumle()
@@ -327,7 +325,7 @@ namespace Kelimecim
                 Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), KelimeDuzelt(kelime) } }
             };
 
-            verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, range);//Veri ekleme
+            verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);//Veri ekleme
 
             // Veriyi eklemek istediğiniz hücreyi belirleyin
 
