@@ -29,7 +29,8 @@ public partial class CoktanSecmeli : ContentPage
         radioButton5.CheckedChanged += RadioButton_CheckedChanged;
 
         radioButtons = new RadioButton[] { radioButton1, radioButton2, radioButton3, radioButton4, radioButton5 };
-        SayfayiAc(); 
+        foreach (var i in radioButtons)
+            i.IsEnabled = false;
     }
     private async void SayfayiAc()
     {
@@ -134,5 +135,11 @@ public partial class CoktanSecmeli : ContentPage
     private void ImageButton_Clicked(object sender, EventArgs e)
     {
         MetindenSese(word.Text);
+    }
+    private void BaslatButton_Clicked(object sender,EventArgs e)
+    {
+        foreach (var i in radioButtons)
+            i.IsEnabled = true;
+        SayfayiAc();
     }
 }

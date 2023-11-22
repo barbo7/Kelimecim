@@ -13,11 +13,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Source="hocam.png" Grid.Row="2" Grid.ColumnSpan="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" />
+        <Image Source="hocam.png" Grid.Row="0" Grid.Column="0"  HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" />
 
-
-
-        <VerticalStackLayout HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}" Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
+        <VerticalStackLayout HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}" 
+                             Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
 
             <StackLayout Orientation="Horizontal" Spacing="10">
                 <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20"  HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
@@ -45,21 +44,29 @@
             </StackLayout>
             <StackLayout Spacing="20" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label
-                 Text="a"
+                 Text="Doğru Sayısı"
                  TextColor="LawnGreen"
                  FontSize="18"
                  HorizontalTextAlignment="Start"
                  x:Name="dogruSayisi">
                 </Label>
                 <Label
-                 Text="b"
+                 Text="Yanlış Sayısı"
                  TextColor="DarkRed"
                  FontSize="18"
                  HorizontalTextAlignment="End"
                  x:Name="yanlisSayisi">
                 </Label>
             </StackLayout>
-
         </VerticalStackLayout>
+        <Button Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Text="Başlat"
+                HorizontalOptions="Center"
+                HeightRequest="50"
+                WidthRequest="150"
+                FontSize="Medium"
+                Clicked="BaslatButton_Clicked">
+        </Button>
     </Grid>
 </ContentPage>

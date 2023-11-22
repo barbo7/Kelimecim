@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Auth.OAuth2.Flows;
 using System.Collections;
+using System.Linq;
 
 namespace Kelimecim
 {
@@ -185,37 +186,25 @@ namespace Kelimecim
             //VerileriCekAsync().Wait();
         }
 
-        public Tuple<string,string> KelimeAra(string AranacakWord)
+        public string KelimeAraENG(string AranacakWord)
         {
-            string ingKelime = default;
+            string ingKelime = KelimeDuzelt(AranacakWord);
             string trKelime = default;
 
             bool kelimeBulundu = false; // Kelimenin bulunup bulunmadığını kontrol etmek için bir bayrak
 
-            if (columnWordData != null && columnWordData.Count > 0)
-            {
-                for (int i = 0; i < columnWordData.Count; i++)
+            for (int i = 0; i < columnWordData.Count(); i++)
+                if (columnWordData[i].Contains(ingKelime))
                 {
-                    for (int j = 0; j < columnWordData[i].Count; j++)
-                    {
-                        string word = columnWordData[i][j].ToString();
-                        if (word.Trim().Equals(AranacakWord, StringComparison.OrdinalIgnoreCase))
-                        {
-                            ingKelime = columnWordData[i][j].ToString();
-                            trKelime = columnKelimeVeri[i][j].ToString();
-                            kelimeBulundu = true; // Kelimeyi bulduk, bayrağı true yap
-                        }
-                    }
+                    trKelime = columnKelimeVeri[i].ToString();
+                    kelimeBulundu = true;
+                    break;
                 }
-            }
-
+            
             if (!kelimeBulundu)//Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
-            {
-                ingKelime = KelimeDuzelt(AranacakWord);
                 trKelime = Ceviri(AranacakWord, false).ToString();
-            }
 
-            return new Tuple<string,string>(ingKelime,trKelime);
+            return trKelime;
         }
 
         /// <summary>
@@ -225,11 +214,22 @@ namespace Kelimecim
         /// <param name="kelime"></param>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string KelimeAra2(string kelime, bool tr) //Buna gerek yok??
+        public string KelimeAraTR(string kelime, bool tr) //Buna gerek yok??
         {
-            string result = Ceviri(kelime, true).ToString();
+            string trKelime = KelimeDuzelt(kelime);
+            string ingKelime = default;
 
-            return result;
+            bool wordBulundu = false;
+            for(int i=0;i<columnKelimeVeri.Count();i++)
+                if (columnKelimeVeri[i].Contains(trKelime))
+                {
+                    ingKelime = columnWordData[i].ToString();
+                    wordBulundu = true;
+                }
+            if (!wordBulundu)
+                ingKelime = Ceviri(kelime, true).ToString();
+
+            return ingKelime;
         }
 
         public Tuple<string, string, string> RastgeleCumle()
@@ -285,22 +285,12 @@ namespace Kelimecim
             return kelimeler;
         }
 
-        public void VeriEkle(string word, string kelime)
+        public void VeriEkle(string word)
         {
-            // KelimeAra metodunu asenkron olarak çağırın
-            var kelimeAraResult = KelimeAra(word);
+            string kelime = KelimeDuzelt(KelimeAraENG(word));//sadece ing'den tr'ye çevirme özelliğini ekledim.
 
-            string words = kelimeAraResult.Item1;
-            string kelimeler = kelimeAraResult.Item2;
-
-                if (word.ToLower() == words.ToLower())//Eğer database'imde aradığım kelime varsa bu çalışacak yoksa aşağıdaki
-                {
-                    kelime = KelimeDuzelt(kelimeler);
-                }
-                else
-                {
-                    kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
-                }
+              
+            //kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
             // Veriyi eklemek için gereken parametreleri oluştur
             body = new ValueRange
             {
