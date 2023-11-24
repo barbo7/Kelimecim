@@ -7,6 +7,9 @@ public partial class CoktanSecmeli : ContentPage
 
     private RadioButton[] radioButtons; // System.Windows.Forms.RadioButton türünü kullanýyoruz
 
+    List<string> gosterilenKelimelerDogru = new();
+    List<string> gosterilenKelimelerYanlis = new();
+
     int randomIndex;
     int yanlis = 0;
     int dogru = 0;
@@ -15,6 +18,9 @@ public partial class CoktanSecmeli : ContentPage
     string yaziyanlis = "Yanlýþ Sayýsý = ";
     string yazidogru = "Doðru Sayýsý = ";
     //string soru = "Soru ";
+
+    bool buttonStarted = false;
+    bool tersCevirildiMi = false;
 
     CancellationTokenSource cancelTokenSource;
     public CoktanSecmeli()
@@ -59,9 +65,12 @@ public partial class CoktanSecmeli : ContentPage
         {
             radioButtons[randomIndex].TextColor = Color.FromRgb(0, 255, 0);//doðru olan cevabý yeþil iþaretliyorum.
 
+            gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());//Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
 
             if (rb != radioButtons[randomIndex])
             {
+                gosterilenKelimelerYanlis.Add(rb.Content.ToString());//Yukarýda açýkladýðýmýn benzeri.
+
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
                 yanlisSayisi.Text = yaziyanlis + yanlis;
@@ -71,6 +80,8 @@ public partial class CoktanSecmeli : ContentPage
                 dogru++;
                 dogruSayisi.Text = yazidogru + dogru;
             }
+
+
             //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
             MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
             for (int i = 0; i < radioButtons.Length; i++)
@@ -96,10 +107,15 @@ public partial class CoktanSecmeli : ContentPage
     private void sirala()
     {
         Tuple<string, string> dogruCevap = gs.RastgeleKelimeGetirVTOrMyList(true);
-        string[] yanlisKelimeler = gs.Rastgele4KelimeGetir(dogruCevap.Item1);
+        //string[] yanlisKelimeler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
+        //string[] yanlisWordler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true);
+
+        string[] yanlislar = tersCevirildiMi ? gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true) : gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
+        //Eðer tersCevirildiMi switch'ine dokunulmadýysa ingilizce kelimeyi tahmin ediyoruz iþaretlendiðinde türkçe kelimeyi tahmin ediyoruz.
+
         int indexx = 0;
         soruS++;
-        word.Text = dogruCevap.Item2;
+        word.Text = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2;
         //label5.Text = soru + soruS;
 
         // Rastgele bir RadioButton seçin
@@ -109,11 +125,11 @@ public partial class CoktanSecmeli : ContentPage
         {
             if (i != randomIndex)
             {
-                radioButtons[i].Content = yanlisKelimeler[indexx]; ;//eðer seçilen rastgele button deðil ise diðer buttonlara deðer giriyorum rastgele.
+                radioButtons[i].Content = yanlislar[indexx]; ;//eðer seçilen rastgele button deðil ise diðer buttonlara deðer giriyorum rastgele.
                 indexx++;
             }
             else
-                radioButtons[i].Content = dogruCevap.Item1;//belirlediðim cevabý atýyorum.
+                radioButtons[i].Content = tersCevirildiMi ? dogruCevap.Item2 : dogruCevap.Item1;//belirlediðim cevabý atýyorum.
         }
         MetindenSese(word.Text);
     }
@@ -136,10 +152,43 @@ public partial class CoktanSecmeli : ContentPage
     {
         MetindenSese(word.Text);
     }
+
+    private void switchCevir(object sender, ToggledEventArgs e)
+    {
+        // SwitchCell'in iþaretlenip iþaretlenmediði deðiþtiðinde burasý çalýþýr
+        bool isSwitchCellChecked = e.Value;
+        tersCevirildiMi = isSwitchCellChecked;
+        switchCevirr.Text = tersCevirildiMi ? "Ters çevir" : "Reverse it";
+        sirala();
+        
+        // Ýþaretlenip iþaretlenmediði ile ilgili iþlemleri burada yapabilirsiniz
+    }
+
     private void BaslatButton_Clicked(object sender,EventArgs e)
     {
-        foreach (var i in radioButtons)
-            i.IsEnabled = true;
-        SayfayiAc();
+        if (!buttonStarted)
+        {
+            foreach (var i in radioButtons)
+                i.IsEnabled = true;
+            SayfayiAc();
+            buttonStarted = true;
+            button.Text = "Sýfýrla";
+        }
+        else
+        {
+            SayfayiAc();
+
+            //var result = await DisplayAlert("Listeye Ekle", "Sayfaya yönlendiriliyorsunuz", "Eklemeden çýk", "Devam et");
+
+            //if (!result)
+            //{
+            //    await Navigation.PushAsync(new SorguSayfasi());
+            //    // Kullanýcý "Evet" butonuna týkladý
+            //}
+            //else 
+            //{
+            //}
+        }
+
     }
 }

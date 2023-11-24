@@ -236,7 +236,6 @@ namespace Kelimecim
         /// Tr eng çeviri yapmak için oluşturduğum kod
         /// </summary>
         /// <param name="kelime"></param>
-        /// <param name="tr"></param>
         /// <returns></returns>
         public string KelimeAraTR(string kelime) //Buna gerek yok??
         {
@@ -293,16 +292,20 @@ namespace Kelimecim
 
             return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
         }
-        public string[] Rastgele4KelimeGetir(string dogruKelime)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
+
+        public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime, bool tersCevir)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
         {
-            int sonsatirVT = columnKelimeVeri.Count();
+            //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
+            IList<IList<object>> veriSeti = tersCevir ? columnWordData : columnKelimeVeri;
+
+            int sonsatirVT = veriSeti.Count();
             int eklenenIndex = 0;
             string[] kelimeler = new string[4];
 
             while (eklenenIndex < 4)
             {
                 int hangiSatirVTT = rn.Next(0, sonsatirVT);
-                string gelenVeri = columnKelimeVeri[hangiSatirVTT][0].ToString();
+                string gelenVeri = veriSeti[hangiSatirVTT][0].ToString();
                 if (!kelimeler.Contains(gelenVeri) && gelenVeri != dogruKelime)
                 {
                     kelimeler[eklenenIndex] = gelenVeri;

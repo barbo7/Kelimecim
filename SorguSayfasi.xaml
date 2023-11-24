@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kelimecim.SorguSayfasi">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+
+            <TableView x:Name="yanlisKelimeListesi" Intent="Data" HorizontalOptions="CenterAndExpand">
+                <TableRoot>
+                    <TableSection Title="DATA">
+                        <!-- İhtiyacınıza göre daha fazla SwitchCell ekleyebilirsiniz -->
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+
+    <Button 
+                x:Name="yanlisButton"
+                Text="Yanlış Verileri Kaydet!"
+                WidthRequest="300"
+                HeightRequest="60"
+                FontSize="Medium"
+                HorizontalOptions="Center"
+                Grid.Row="1"
+                Grid.Column="1"
+                Clicked="button_Clicked"></Button>
+        </Grid>
+
+</ContentPage>

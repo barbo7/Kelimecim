@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kelimecim.CoktanSecmeli"
-             Title="CoktanSecmeli">
+             Title="Çoktan Seçmeli">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -15,6 +15,16 @@
         </Grid.ColumnDefinitions>
         <Image Source="hocam.png" Grid.Row="0" Grid.Column="0"  HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" />
 
+        <TableView Intent="Settings" Grid.Row="0"
+                   VerticalOptions="Center"
+                    HorizontalOptions="CenterAndExpand"
+                   Grid.Column="1">
+                <TableSection  >
+                <SwitchCell x:Name="switchCevirr" OnChanged="switchCevir" Text="Ters Çevir" Height="100" />
+                </TableSection>
+        </TableView>
+        
+        
         <VerticalStackLayout HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}" 
                              Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
 
@@ -60,6 +70,7 @@
             </StackLayout>
         </VerticalStackLayout>
         <Button Grid.Row="2"
+                x:Name="button"
                 Grid.ColumnSpan="2"
                 Text="Başlat"
                 HorizontalOptions="Center"
