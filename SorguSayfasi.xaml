@@ -14,16 +14,36 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
+        <!--<CollectionView Grid.Row="0" Grid.ColumnSpan="3" x:Name="mainCollectionView" ItemsSource="{Binding PageItems}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>-->
+        <StackLayout>
+                <TableView x:Name="yanlisKelimeListesi">
+                    <TableRoot>
+                        <TableSection Title="1.Bölme">
+                           
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
 
-            <TableView x:Name="yanlisKelimeListesi" Intent="Data" HorizontalOptions="CenterAndExpand">
-                <TableRoot>
-                    <TableSection Title="DATA">
-                        <!-- İhtiyacınıza göre daha fazla SwitchCell ekleyebilirsiniz -->
-                    </TableSection>
-                </TableRoot>
-            </TableView>
+                <TableView x:Name="dogruKelimeListesi">
+                    <TableRoot>
+                        <TableSection Title="2.Bölme">
+                           
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+        </StackLayout>
 
-    <Button 
+
+        <Button 
                 x:Name="yanlisButton"
                 Text="Yanlış Verileri Kaydet!"
                 WidthRequest="300"

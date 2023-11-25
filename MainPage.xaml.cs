@@ -1,4 +1,7 @@
-﻿
+﻿using Microsoft.Maui.Platform;
+using System.Globalization;
+
+
 namespace Kelimecim
 {
     public partial class MainPage : ContentPage
@@ -24,9 +27,11 @@ namespace Kelimecim
 
             // Yeni bir iptal belirteci oluştur
             cancelTokenSource = new CancellationTokenSource();
+             // Set the locale for the text-to-speech output
 
             await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
         }
+
         private void kelimeWord_Clicked(object sender, EventArgs e)
         {
             if (kelimeWordEntry != null && kelimeWordEntry.Text != null)

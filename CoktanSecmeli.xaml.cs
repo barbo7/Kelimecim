@@ -164,7 +164,7 @@ public partial class CoktanSecmeli : ContentPage
         // Ýþaretlenip iþaretlenmediði ile ilgili iþlemleri burada yapabilirsiniz
     }
 
-    private void BaslatButton_Clicked(object sender,EventArgs e)
+    private async void BaslatButton_Clicked(object sender,EventArgs e)
     {
         if (!buttonStarted)
         {
@@ -178,16 +178,21 @@ public partial class CoktanSecmeli : ContentPage
         {
             SayfayiAc();
 
-            //var result = await DisplayAlert("Listeye Ekle", "Sayfaya yönlendiriliyorsunuz", "Eklemeden çýk", "Devam et");
+            var result = await DisplayAlert("Listeye Ekle", "Sayfaya yönlendiriliyorsunuz", "Eklemeden çýk", "Devam et");
 
-            //if (!result)
-            //{
-            //    await Navigation.PushAsync(new SorguSayfasi());
-            //    // Kullanýcý "Evet" butonuna týkladý
-            //}
-            //else 
-            //{
-            //}
+            if (!result)
+            {
+                var dataModel = new DataModel
+                {
+                    FirstList = new List<string> { "Veri 1", "Veri 2", "Veri 3" },
+                    SecondList = new List<string> { "Veri A", "Veri B", "Veri C" }
+                };
+                await Navigation.PushAsync(new SorguSayfasi());
+                // Kullanýcý "Evet" butonuna týkladý
+            }
+            else
+            {
+            }
         }
 
     }
