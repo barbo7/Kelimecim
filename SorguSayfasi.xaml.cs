@@ -4,18 +4,22 @@ namespace Kelimecim
 {
     public partial class SorguSayfasi : ContentPage
     {
-        public ObservableCollection<SwitchCellViewModel> PageItems { get; set; }
-
+        public ObservableCollection<string> PageItems { get; set; }
         public SorguSayfasi()
         {
             InitializeComponent();
             BindingContext = this;
+
+            PageItems = new ObservableCollection<string>
+            {
+                "Page 1", "Page 2"
+            };
+
             VeriListele();
         }
 
         private void VeriListele()
         {
-             PageItems = new ObservableCollection<SwitchCellViewModel>();
            for(int i=0;i<4;i++) 
             {
                 var yanlisSwitchCell = new SwitchCell { Text = $"Yanlis Switch {i}" };

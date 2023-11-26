@@ -14,6 +14,40 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
+        <StackLayout>
+            <CollectionView Grid.Row="0" Grid.ColumnSpan="3" x:Name="mainCollectionView" ItemsSource="{Binding PageItems}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding .}" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" />
+                        </ViewCell>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout>
+                <TableView x:Name="yanlisKelimeListesi">
+                    <TableRoot>
+                        <TableSection Title="1.Bölme">
+
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+
+                <TableView x:Name="dogruKelimeListesi">
+                    <TableRoot>
+                        <TableSection Title="2.Bölme">
+
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+            </StackLayout>
+        </StackLayout>
+
         <!--<CollectionView Grid.Row="0" Grid.ColumnSpan="3" x:Name="mainCollectionView" ItemsSource="{Binding PageItems}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start"/>
@@ -24,7 +58,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>-->
-        <StackLayout>
+        <!--<StackLayout>
                 <TableView x:Name="yanlisKelimeListesi">
                     <TableRoot>
                         <TableSection Title="1.Bölme">
@@ -40,7 +74,7 @@
                         </TableSection>
                     </TableRoot>
                 </TableView>
-        </StackLayout>
+        </StackLayout>-->
 
 
         <Button 
