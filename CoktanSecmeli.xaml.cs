@@ -180,12 +180,7 @@ public partial class CoktanSecmeli : ContentPage
 
             if (!result)
             {
-                var dataModel = new DataModel
-                {
-                    FirstList = gs.gosterilenKelimelerYanlis,
-                    SecondList = gs.gosterilenKelimelerDogru,
-                    EngMii = tersCevirildiMi//false ise ing true ise false
-                };
+                gs.trMii = tersCevirildiMi;//false ise ing true ise tr
                 await Navigation.PushAsync(new SorguSayfasi());
                 // Kullanýcý "Evet" butonuna týkladý
             }

@@ -47,14 +47,17 @@ namespace Kelimecim
 
         private async void KaydetButton_Clicked(object sender, EventArgs e)
         {
+            List<string> eklenecekVeriler = new();
             foreach (var yanlisS in YanlisSwitchCells)
                 if (yanlisS.On)
-                    gs.gosterilenKelimelerYanlis.Add(yanlisS.Text);
+                    eklenecekVeriler.Add(yanlisS.Text);
 
             foreach (var dogruS in DogruSwitchCells)
                 if (dogruS.On)
-                    gs.gosterilenKelimelerDogru.Add(dogruS.Text);
+                    eklenecekVeriler.Add(dogruS.Text);
 
+            foreach (string i in eklenecekVeriler)
+                gs.VeriEkle(i);
                 // Display success message after successful data save
                 await DisplayAlert("Bilgi", "Doðru veriler kaydedildi!", "Tamam");
             

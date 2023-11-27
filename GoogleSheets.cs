@@ -16,9 +16,11 @@ namespace Kelimecim
         public bool kelimeSayfasiHazirMi = false;
         public bool CumleSayfasiHazirMi = false;
         public bool CoktanSecmeliSayfasiHazirMi = false;
+
+
         public List<string> gosterilenKelimelerYanlis = new();
         public List<string> gosterilenKelimelerDogru = new();
-
+        public bool trMii;
 
 
 
@@ -320,10 +322,10 @@ namespace Kelimecim
             return kelimeler;
         }
 
-        public void VeriEkle(string word,bool engMi)
+        public void VeriEkle(string word)
         {
             string kelime;
-            if (engMi)
+            if (trMii)
                 kelime = KelimeDuzelt(KelimeAraENG(word));//sadece ing'den tr'ye çevirme özelliğini ekledim.
             else
             {
