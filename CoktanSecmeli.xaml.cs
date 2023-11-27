@@ -7,9 +7,6 @@ public partial class CoktanSecmeli : ContentPage
 
     private RadioButton[] radioButtons; // System.Windows.Forms.RadioButton türünü kullanýyoruz
 
-    List<string> gosterilenKelimelerDogru = new();
-    List<string> gosterilenKelimelerYanlis = new();
-
     int randomIndex;
     int yanlis = 0;
     int dogru = 0;
@@ -65,11 +62,12 @@ public partial class CoktanSecmeli : ContentPage
         {
             radioButtons[randomIndex].TextColor = Color.FromRgb(0, 255, 0);//doðru olan cevabý yeþil iþaretliyorum.
 
-            gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());//Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
+            gs.gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());
+           //Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
 
             if (rb != radioButtons[randomIndex])
             {
-                gosterilenKelimelerYanlis.Add(rb.Content.ToString());//Yukarýda açýkladýðýmýn benzeri.
+                gs.gosterilenKelimelerYanlis.Add(rb.Content.ToString());//Yukarýda açýkladýðýmýn benzeri.
 
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
@@ -184,14 +182,18 @@ public partial class CoktanSecmeli : ContentPage
             {
                 var dataModel = new DataModel
                 {
-                    FirstList = new List<string> { "Veri 1", "Veri 2", "Veri 3" },
-                    SecondList = new List<string> { "Veri A", "Veri B", "Veri C" }
+                    FirstList = gs.gosterilenKelimelerYanlis,
+                    SecondList = gs.gosterilenKelimelerDogru,
+                    EngMii = tersCevirildiMi//false ise ing true ise false
                 };
                 await Navigation.PushAsync(new SorguSayfasi());
                 // Kullanýcý "Evet" butonuna týkladý
             }
             else
             {
+                gs.gosterilenKelimelerDogru.Clear();
+                gs.gosterilenKelimelerYanlis.Clear();
+
             }
         }
 

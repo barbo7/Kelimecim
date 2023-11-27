@@ -16,6 +16,10 @@ namespace Kelimecim
         public bool kelimeSayfasiHazirMi = false;
         public bool CumleSayfasiHazirMi = false;
         public bool CoktanSecmeliSayfasiHazirMi = false;
+        public List<string> gosterilenKelimelerYanlis = new();
+        public List<string> gosterilenKelimelerDogru = new();
+
+
 
 
         private static GoogleSheets _instance;
@@ -316,16 +320,23 @@ namespace Kelimecim
             return kelimeler;
         }
 
-        public void VeriEkle(string word)
+        public void VeriEkle(string word,bool engMi)
         {
-            string kelime = KelimeDuzelt(KelimeAraENG(word));//sadece ing'den tr'ye çevirme özelliğini ekledim.
+            string kelime;
+            if (engMi)
+                kelime = KelimeDuzelt(KelimeAraENG(word));//sadece ing'den tr'ye çevirme özelliğini ekledim.
+            else
+            {
+                kelime = KelimeDuzelt(word);
+                word = KelimeDuzelt(KelimeAraTR(kelime));
+            }
 
               
             //kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
             // Veriyi eklemek için gereken parametreleri oluştur
             body = new ValueRange
             {
-                Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), KelimeDuzelt(kelime) } }
+                Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), kelime } }
             };
 
             verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);//Veri ekleme
