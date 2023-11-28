@@ -391,6 +391,7 @@ namespace Kelimecim
                     Requests = new List<Request> { silmeIstegi }
                 }, spreadsheetId).Execute();
                 silindiMi = true;
+                Sayfa1VeriGuncelle();
             }
             return silindiMi;
         }

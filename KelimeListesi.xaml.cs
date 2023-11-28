@@ -30,22 +30,14 @@ namespace Kelimecim
             List<string> sutunA = gs.Sayfa1Veri().Item1;
             List<string> sutunB = gs.Sayfa1Veri().Item2;
 
-            // ScrollView ekleyin
-            var scrollView = new ScrollView
-            {
-                Orientation = ScrollOrientation.Horizontal, // Yatay kaydýrma ekleyin
-                Content = kelimeAnlamlariGrid,
-            };
-
             // Sayfa içeriðini ScrollView'a ayarlayýn
-            Content = scrollView;
 
             kelimeAnlamlariGrid.ColumnSpacing = 10; // Hücreler arasýndaki yatay boþluðu ayarla
 
             for (int i = 0; i < sutunA.Count; i++)
             {
-                var kelimeLabel = new Label { Text = sutunA[i], FontSize = 16, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
-                var anlamLabel = new Label { Text = sutunB[i], FontSize = 16, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
+                var kelimeLabel = new Label { Text = sutunA[i], FontSize = 11, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
+                var anlamLabel = new Label { Text = sutunB[i], FontSize = 11, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
                 var textToSpeechButton = new ImageButton { Source = "sound.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
                 var removeButton = new ImageButton { Source = "remove.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
 
@@ -53,10 +45,10 @@ namespace Kelimecim
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = 10 }); // Boþluk ekleyen satýr
 
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
                 // Grid.SetRow ve Grid.SetColumn ile satýr ve sütun belirtiyoruz
                 Grid.SetRow(kelimeLabel, i * 2); // Her iki satýr arasýnda bir boþluk olduðu için çift sayýlarýný kullanýyoruz
@@ -98,7 +90,10 @@ namespace Kelimecim
             if (!result)
             {
                 if (gs.VeriSil(word))
-                    await DisplayAlert("Baþarýlý", "Kelime silme iþleminiz baþarýlý!","Tamam");
+                {
+                    SayfayiAc();
+                    await DisplayAlert("Baþarýlý", "Kelime silme iþleminiz baþarýlý!", "Tamam");
+                }
                 else
                     await DisplayAlert("Baþarýlý", "Kelime silme baþarýsýz oldu.", "???");
             }
