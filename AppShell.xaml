@@ -20,6 +20,10 @@
     <TabBar>
         <Tab Title="Çeviri">
             <ShellContent Title="Çeviri" StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+            <ShellContent Title="Kelime Listesi" ContentTemplate="{DataTemplate local:KelimeListesi}" Route="KelimeListesi" />
+            <ShellContent Title="Kelimelerimden Çalış" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" />
+
+
         </Tab>
         <Tab Title="Egzersizler">
             <ShellContent Title="Kelime Çalış"  StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:KelimeCalismasi}" Route="KelimeCalismasi" />
@@ -28,15 +32,6 @@
         </Tab>
     </TabBar>
     
-    
-    <FlyoutItem Title="Kelime Listem" FlyoutDisplayOptions="AsSingleItem">
-        <ShellContent Title="Kelime Listesi" ContentTemplate="{DataTemplate local:KelimeListesi}" Route="KelimeListesi" />
-
-    </FlyoutItem>
-    <FlyoutItem Title="Kelime Çalışması" FlyoutDisplayOptions="AsSingleItem">
-        <ShellContent Title="Kelime Çalış" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" />
-
-    </FlyoutItem>
 
     <Shell.FlyoutFooter>
 

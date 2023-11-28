@@ -46,6 +46,8 @@
 	  <DebugSymbols>False</DebugSymbols>
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	  <AndroidSigningStorePass></AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
@@ -54,6 +56,8 @@
 	  <DebugSymbols>True</DebugSymbols>
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	  <AndroidSigningStorePass></AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
@@ -90,6 +94,7 @@
 	  <None Remove="Resources\Images\hocam.png" />
 	  <None Remove="Resources\Images\logo.jpeg" />
 	  <None Remove="Resources\Images\menu.png" />
+	  <None Remove="Resources\Images\remove.png" />
 	  <None Remove="Resources\Images\sound.svg" />
 	  <None Remove="Resources\Images\vocabulary.png" />
 	</ItemGroup>

@@ -283,6 +283,9 @@ namespace Kelimecim
         /// <returns></returns>
         public Tuple<string, string> RastgeleKelimeGetirVTOrMyList(bool VeritabaniMi)
         {
+            if(!VeritabaniMi)
+                Sayfa1VeriGuncelle();
+
             //kaç satırlık veri var bunların değerini çekiyorum.
             int sonsatirMyList = sutunAVeri.Count();
             int sonsatirVT = columnKelimeVeri.Count();
@@ -321,6 +324,8 @@ namespace Kelimecim
 
         private bool VeriSorgu(string word)
         {
+            Sayfa1VeriGuncelle();
+
             bool varMi = sutunAVeri
                 .Any(row => row.Any(kelime => kelime.ToString().Equals(word, StringComparison.OrdinalIgnoreCase)));
 
@@ -351,7 +356,44 @@ namespace Kelimecim
 
             AppendValuesResponse response = await verireq.ExecuteAsync();
         }
+        public bool VeriSil(string word)
+        {
+            int index = -1;
+            bool silindiMi = false;
+            for (int i = 0; i < sutunAVeri.Count; i++)
+                if (sutunAVeri[i].FirstOrDefault()?.ToString() == word)
+                {
+                    index = i;
+                    break;
+                }
 
+            if (index != -1)
+            {
+                index++;
+
+                // Silme isteği oluştur
+                var silmeIstegi = new Request
+                {
+                    DeleteDimension = new DeleteDimensionRequest
+                    {
+                        Range = new DimensionRange
+                        {
+                            Dimension = "ROWS", // Satır boyunca sil
+                            StartIndex = index - 1,
+                            EndIndex = index
+                        }
+                    }
+                };
+
+                // Silme işlemini gerçekleştir
+                service.Spreadsheets.BatchUpdate(new BatchUpdateSpreadsheetRequest
+                {
+                    Requests = new List<Request> { silmeIstegi }
+                }, spreadsheetId).Execute();
+                silindiMi = true;
+            }
+            return silindiMi;
+        }
         public void VeriEkle(string word)
         {
             if (VeriSorgu(word))
@@ -386,9 +428,24 @@ namespace Kelimecim
             //Console.WriteLine("Veri ekleme başarısız.");
             //}
         }
+        private async void Sayfa1VeriGuncelle()
+        {
+            // Create requests for each data range
+            var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
+            {
+                service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum) };
+
+            // Execute requests in parallel and wait for all to complete
+            var responses = await Task.WhenAll(requests.Select(request => request.ExecuteAsync()));
+
+            var kendiSutunumDegerleri = responses[0].Values;
+            sutunAVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>(); //Linq kullanarak ilk hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
+            sutunBVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Linq kullanarak ikinci hücredeki verileri gerektiği şekilde 
+        }
 
         public Tuple<List<string>, List<string>> Sayfa1Veri()
         {
+            Sayfa1VeriGuncelle();
             List<string> ASutunu = new List<string>();
             List<string> BSutunu = new List<string>();
 
