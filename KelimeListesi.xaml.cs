@@ -51,7 +51,7 @@ namespace Kelimecim
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = 10 }); // Boþluk ekleyen satýr
 
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
                 // Grid.SetRow ve Grid.SetColumn ile satýr ve sütun belirtiyoruz
                 Grid.SetRow(kelimeLabel, i * 2); // Her iki satýr arasýnda bir boþluk olduðu için çift sayýlarýný kullanýyoruz
