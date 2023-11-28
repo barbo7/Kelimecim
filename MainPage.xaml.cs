@@ -91,9 +91,11 @@ namespace Kelimecim
             bool translateMi = EngTr.IsChecked;
             string query = kelimeWordEntry.Text;
             kelimeWordShowPlace.Text = translateMi
-                ? gs.KelimeAraENG(query)
-                : gs.KelimeAraTR(query);
+                ? gs.KelimeAraENG(query)//Türkçeye çeviri
+                : gs.KelimeAraTR(query);//İngilizceye çeviri
 
+
+           
 
             string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;
             await TextToSpeech.SpeakAsync(okunacakKelime);
@@ -101,6 +103,13 @@ namespace Kelimecim
             {
                 kelimeWordShowPlace.Text += "(!!!)";
                 await DisplayAlert("Uyarı", "Aradığınız kelime/cümle hatalı olabilir!", "Tamam");
+            }
+            else
+            {
+                string sutunA = translateMi ? query : kelimeWordShowPlace.Text;//word
+                string sutunB = translateMi ? kelimeWordShowPlace.Text : query;//kelime
+
+                await gs.VeriEkle(sutunA, sutunB);
             }
         }
         private void RadioButton_CheckedChanged(object sender, EventArgs e)

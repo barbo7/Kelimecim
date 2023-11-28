@@ -4,7 +4,9 @@ namespace Kelimecim
 {
     public partial class SorguSayfasi : ContentPage
     {
-        GoogleSheets gs = new GoogleSheets();
+        GoogleSheets gs = GoogleSheets.Instance;
+
+        VeriYonlendir vy = VeriYonlendir.Instance;
         public ObservableCollection<string> PageItems { get; set; }
         public ObservableCollection<SwitchCell> YanlisSwitchCells { get; set; }
         public ObservableCollection<SwitchCell> DogruSwitchCells { get; set; }
@@ -26,8 +28,8 @@ namespace Kelimecim
 
         private void VeriListele()
         {
-            List<string> yanlisKelimeler = gs.gosterilenKelimelerYanlis;
-            List<string> dogruKelimeler = gs.gosterilenKelimelerDogru;
+            List<string> yanlisKelimeler = vy.gosterilenKelimelerYanlis;
+            List<string> dogruKelimeler = vy.gosterilenKelimelerDogru;
 
             for (int i=0;i< yanlisKelimeler.Count(); i++) 
             {
@@ -41,8 +43,8 @@ namespace Kelimecim
                 DogruSwitchCells.Add(dogruSwitchCell);
                 dogruKelimeListesi.Root[0].Add(dogruSwitchCell);
             }
-            gs.gosterilenKelimelerYanlis.Clear();
-            gs.gosterilenKelimelerDogru.Clear();
+            vy.gosterilenKelimelerYanlis.Clear();
+            vy.gosterilenKelimelerDogru.Clear();
         }
 
         private async void KaydetButton_Clicked(object sender, EventArgs e)
@@ -57,10 +59,14 @@ namespace Kelimecim
                     eklenecekVeriler.Add(dogruS.Text);
 
             foreach (string i in eklenecekVeriler)
-                gs.VeriEkle(i);
-                // Display success message after successful data save
-                await DisplayAlert("Bilgi", "Doðru veriler kaydedildi!", "Tamam");
-            
+            {
+                    gs.VeriEkle(i);
+            }
+            // Display success message after successful data save
+            await DisplayAlert("Bilgi", "Doðru veriler kaydedildi!", "Tamam");
+                await Navigation.PushAsync(new CoktanSecmeli());
+
+
         }
     }
 }

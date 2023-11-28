@@ -18,9 +18,6 @@ namespace Kelimecim
         public bool CoktanSecmeliSayfasiHazirMi = false;
 
 
-        public List<string> gosterilenKelimelerYanlis = new();
-        public List<string> gosterilenKelimelerDogru = new();
-        public bool trMii;
 
 
 
@@ -243,7 +240,7 @@ namespace Kelimecim
         /// </summary>
         /// <param name="kelime"></param>
         /// <returns></returns>
-        public string KelimeAraTR(string kelime) //Buna gerek yok??
+        public string KelimeAraTR(string kelime) 
         {
             string trKelime = kelime;
             string ingKelime = null;
@@ -322,17 +319,45 @@ namespace Kelimecim
             return kelimeler;
         }
 
+        private bool VeriSorgu(string word)
+        {
+            bool varMi = sutunAVeri
+                .Any(row => row.Any(kelime => kelime.ToString().Equals(word, StringComparison.OrdinalIgnoreCase)));
+
+            return varMi;
+        }
+
+
+        /// <summary>
+        /// Çeviri yaptığım zaman kullanılasını istediğim method(verilerimi excel'e yerleştirmek için)
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="kelime"></param>
+        public async Task VeriEkle(string word, string kelime)
+        {
+            if (VeriSorgu(word))
+                return;
+
+            body = new ValueRange
+            {
+                Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), kelime } }
+            };
+
+            verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);
+
+            // Veriyi ekle
+            verireq.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
+            verireq.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
+
+            AppendValuesResponse response = await verireq.ExecuteAsync();
+        }
+
         public void VeriEkle(string word)
         {
-            string kelime;
-            if (trMii)
-                kelime = KelimeDuzelt(KelimeAraENG(word));//sadece ing'den tr'ye çevirme özelliğini ekledim.
-            else
-            {
-                kelime = KelimeDuzelt(word);
-                word = KelimeDuzelt(KelimeAraTR(kelime));
-            }
-
+            if (VeriSorgu(word))
+                return;
+            string kelime = KelimeDuzelt(KelimeAraENG(word));
+            word = KelimeDuzelt(word);
               
             //kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
             // Veriyi eklemek için gereken parametreleri oluştur
@@ -422,4 +447,31 @@ namespace Kelimecim
         }
     }
 
+}
+class VeriYonlendir
+{
+    private static VeriYonlendir _instance;
+
+    public static VeriYonlendir Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new VeriYonlendir();
+            }
+            return _instance;
+        }
+    }
+    public List<string> gosterilenKelimelerYanlis { get; set; }
+    public List<string> gosterilenKelimelerDogru  { get; set; }
+    public bool trMii { get; set; }
+
+    // Yapıcı metod
+    public VeriYonlendir()
+    {
+        // Listeleri başlat
+        gosterilenKelimelerYanlis = new List<string>();
+        gosterilenKelimelerDogru = new List<string>();
+    }
 }

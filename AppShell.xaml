@@ -26,6 +26,10 @@
             <ShellContent Title="Cümle Çalış"  StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:CumleCalismasi}" Route="CumleCalismasi" />
             <ShellContent Title="Çoktan Seçmeli"  StyleClass="MainPageFlyoutItem" ContentTemplate="{DataTemplate local:CoktanSecmeli}" Route="CoktanSecmeli" />
         </Tab>
+        <Tab Title="Kelime Tekrar Listem">
+            <ShellContent Title="Yeni Sayfa" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" FlyoutItemIsVisible="False" />
+        </Tab>
+
     </TabBar>
 
 

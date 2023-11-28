@@ -13,7 +13,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ImageButton Source="sound.png" Margin="{OnPlatform iOS='20,20,0,0', Android='20,20,0,0',WinUI='-550,0,0,0'}" WidthRequest="20" VerticalOptions="StartAndExpand"  HorizontalOptions="{OnPlatform Android='StartAndExpand', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
+        <VerticalStackLayout Spacing="1" >
+        <ImageButton Source="sound.png"  WidthRequest="20" VerticalOptions="StartAndExpand"  HorizontalOptions="{OnPlatform Android='StartAndExpand', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
 
         <Editor  Placeholder="Sentence"
                      x:Name="sentences"
@@ -25,6 +26,7 @@
                      FontSize="Medium"
                      HeightRequest="180"
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
+        </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
@@ -53,12 +55,21 @@
                 
 
         </VerticalStackLayout>
-        <Button Text="Yeni cümle"
-                Grid.Row="2"
-                HorizontalOptions="Center"
+        <VerticalStackLayout  Grid.Row="2"
+                                HorizontalOptions="CenterAndExpand">
+            <Button Text="Listeme Ekle ve Geç"
+              x:Name="listeyeDeEkleButton"
+              Margin="20"
+              BackgroundColor="LawnGreen"
+              WidthRequest="250"
+              Clicked="SolButton_Clicked"
+              HeightRequest="50">
+            </Button>
+            <Button Text="Yeni Cümleye Geç"
                 Clicked="SagButton_Clicked"
                 WidthRequest="250"
-                HeightRequest="60"
+                HeightRequest="50"
                 />
+            </VerticalStackLayout>
     </Grid>
 </ContentPage>

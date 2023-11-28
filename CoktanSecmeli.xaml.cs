@@ -3,6 +3,8 @@ namespace Kelimecim;
 public partial class CoktanSecmeli : ContentPage
 {
     GoogleSheets gs = GoogleSheets.Instance;
+    VeriYonlendir vy = VeriYonlendir.Instance;
+
     private Random random = new Random();
 
     private RadioButton[] radioButtons; // System.Windows.Forms.RadioButton türünü kullanýyoruz
@@ -62,16 +64,18 @@ public partial class CoktanSecmeli : ContentPage
         {
             radioButtons[randomIndex].TextColor = Color.FromRgb(0, 255, 0);//doðru olan cevabý yeþil iþaretliyorum.
 
-            gs.gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());
+            //gs.gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());
            //Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
 
             if (rb != radioButtons[randomIndex])
             {
-                gs.gosterilenKelimelerYanlis.Add(rb.Content.ToString());//Yukarýda açýkladýðýmýn benzeri.
+               
 
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
                 yanlisSayisi.Text = yaziyanlis + yanlis;
+                string veri = tersCevirildiMi ? rb.Content.ToString() : gs.KelimeAraTR(rb.Content.ToString());
+                vy.gosterilenKelimelerYanlis.Add(veri);
             }
             else
             {
@@ -113,8 +117,10 @@ public partial class CoktanSecmeli : ContentPage
 
         int indexx = 0;
         soruS++;
-        word.Text = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2;
+        word.Text = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2; // ing mi tr mi
         //label5.Text = soru + soruS;
+
+        vy.gosterilenKelimelerDogru.Add(dogruCevap.Item2);
 
         // Rastgele bir RadioButton seçin
         randomIndex = random.Next(0, radioButtons.Length); // 0 ile (RadioButton dizisinin uzunluðu - 1) arasýnda rastgele bir indeks seçin
@@ -174,21 +180,21 @@ public partial class CoktanSecmeli : ContentPage
         }
         else
         {
-            SayfayiAc();
 
             var result = await DisplayAlert("Listeye Ekle", "Sayfaya yönlendiriliyorsunuz", "Eklemeden çýk", "Devam et");
 
             if (!result)
             {
-                gs.trMii = tersCevirildiMi;//false ise ing true ise tr
+                vy.trMii = tersCevirildiMi;//false ise ing true ise tr
+
                 await Navigation.PushAsync(new SorguSayfasi());
                 // Kullanýcý "Evet" butonuna týkladý
             }
             else
             {
-                gs.gosterilenKelimelerDogru.Clear();
-                gs.gosterilenKelimelerYanlis.Clear();
-
+                SayfayiAc();
+                vy.gosterilenKelimelerDogru.Clear();
+                vy.gosterilenKelimelerYanlis.Clear();
             }
         }
 

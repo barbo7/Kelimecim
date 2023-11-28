@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Kelimecim.KelimeCalismasi"
-             Title="Kelime Çalışması">
-
+             x:Class="Kelimecim.KelimeTekrar"
+             Title="KelimeTekrar">
+    
     <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
         <Grid>
             <Grid.RowDefinitions>
@@ -15,7 +15,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="150" ></Image>
+        <Image Source="cumle2.png" Grid.Row="0" HeightRequest="150" ></Image>
 
 
         <StackLayout Grid.Row="1">
@@ -29,7 +29,7 @@
             FontSize="Large"
             IsEnabled="false"
            />
-        <Editor Placeholder="Kelime"
+            <Editor Placeholder="Kelime"
             x:Name="kelimeText"
             IsEnabled="false"
             TextColor="#ED5AB3"
@@ -38,27 +38,16 @@
             FontSize="Medium"
               />
 
-            <VerticalStackLayout>
-                <Button Text="Listeme Ekle ve Geç"
-                        x:Name="listeyeDeEkleButton"
-                        Margin="20"
-                        BackgroundColor="LawnGreen"
-                        HorizontalOptions="CenterAndExpand"
-                        WidthRequest="250"
-                        Clicked="SolButton_Clicked"
-                        HeightRequest="60">
-                </Button>
-                <Button Text="Yeni kelimeye geç"
-                       x:Name="button"
-                       Margin="20" HorizontalOptions="Center"
-                       Clicked="SagButton_Clicked"
-                       WidthRequest="250"
-                       HeightRequest="60"
-                       />   
-            </VerticalStackLayout>
-          
-    </StackLayout>
-        
+            <Button Text="Yeni kelimeye geç"
+                    x:Name="button"
+                    Margin="20" HorizontalOptions="Center"
+                    Clicked="SagButton_Clicked"
+                    WidthRequest="250"
+                    HeightRequest="60"
+                    />
+
+        </StackLayout>
+
 
 
     </VerticalStackLayout>

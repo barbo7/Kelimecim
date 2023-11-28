@@ -8,8 +8,16 @@ public partial class KelimeCalismasi : ContentPage
     public KelimeCalismasi()
 	{
 		InitializeComponent();
-	}
-
+        YeniKelime();
+    }
+    private async void SolButton_Clicked(object sender, EventArgs e)
+    {
+        if(wordText.Text !="")
+        {
+            await gs.VeriEkle(wordText.Text, kelimeText.Text);
+            YeniKelime();
+        }
+    }
     //geriye gelme özelliði de eklenebilir.
     private void SagButton_Clicked(object sender, EventArgs e)
     {
@@ -19,13 +27,17 @@ public partial class KelimeCalismasi : ContentPage
             return;
         }
 
+        YeniKelime();
+    }
+    private void YeniKelime()
+    {
         veri = gs.RastgeleKelimeGetirVTOrMyList(true);
 
         wordText.Text = veri.Item2;
         kelimeText.Text = veri.Item1;
         MetindenSese(wordText.Text);
-       
     }
+
     private async void MetindenSese(string textBoxText)
     {
         // Ýptal belirteci (CancellationToken) oluþtur

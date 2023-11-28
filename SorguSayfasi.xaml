@@ -49,7 +49,7 @@
 
         <Button 
             x:Name="KaydetButton"
-            Text="Yanlış Verileri Kaydet!"
+            Text="Kelimeleri Kaydet!"
             WidthRequest="300"
             HeightRequest="60"
             FontSize="Medium"

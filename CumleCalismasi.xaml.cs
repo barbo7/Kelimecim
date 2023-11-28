@@ -7,6 +7,7 @@ public partial class CumleCalismasi : ContentPage
     public CumleCalismasi()
     {
         InitializeComponent();
+        CumleGetir();
     }
     /// <summary>
     /// Bu method sayesinde metin okuma fonksiyonu çalýþtýrýldýðý zaman eðer zaten okunan bir metin var ise duraksatýp yeni metni okutabiliyorum.
@@ -25,6 +26,14 @@ public partial class CumleCalismasi : ContentPage
 
         await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
     }
+    private async void SolButton_Clicked(object sender, EventArgs e)
+    {
+        if(wordText.Text !="")
+        {
+            await gs.VeriEkle(wordText.Text, kelimeText.Text);
+            CumleGetir();
+        }
+    }
 
     private void SagButton_Clicked(object sender, EventArgs e)
     {
@@ -34,6 +43,11 @@ public partial class CumleCalismasi : ContentPage
             return;
         }
 
+        CumleGetir();
+    }
+
+    private void CumleGetir()
+    {
         Tuple<string, string, string> vericik = gs.RastgeleCumle();
         sentences.Text = vericik.Item1;
         wordText.Text = vericik.Item2;
