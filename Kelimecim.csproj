@@ -118,6 +118,9 @@
 	  <MauiXaml Update="KelimeCalismasi.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="KelimeListesi.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="KelimeTekrar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

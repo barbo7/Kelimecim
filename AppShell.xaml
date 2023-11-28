@@ -30,9 +30,13 @@
     
     
     <FlyoutItem Title="Kelime Listem" FlyoutDisplayOptions="AsSingleItem">
-        <ShellContent Title="Kelime Tekrar" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" />
-    </FlyoutItem>
+        <ShellContent Title="Kelime Listesi" ContentTemplate="{DataTemplate local:KelimeListesi}" Route="KelimeListesi" />
 
+    </FlyoutItem>
+    <FlyoutItem Title="Kelime Çalışması" FlyoutDisplayOptions="AsSingleItem">
+        <ShellContent Title="Kelime Çalış" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" />
+
+    </FlyoutItem>
 
     <Shell.FlyoutFooter>
 
