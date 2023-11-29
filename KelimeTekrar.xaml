@@ -15,7 +15,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Image Source="cumle2.png" Grid.Row="0" HeightRequest="250" ></Image>
+        <Image Source="cumle2.png" Grid.Row="0" HeightRequest="125" ></Image>
 
 
         <StackLayout Grid.Row="1">
@@ -40,7 +40,7 @@
 
             <Button Text="Yeni kelimeye geç"
                     x:Name="button"
-                    Margin="20" HorizontalOptions="Center"
+                    Margin="5" HorizontalOptions="Center"
                     Clicked="SagButton_Clicked"
                     WidthRequest="250"
                     HeightRequest="60"

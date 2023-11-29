@@ -431,8 +431,8 @@ namespace Kelimecim
         }
         private async void Sayfa1VeriGuncelle()
         {
-            // Create requests for each data range
-            var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
+      
+                var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
             {
                 service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum) };
 

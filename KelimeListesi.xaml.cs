@@ -6,11 +6,30 @@ namespace Kelimecim
         GoogleSheets gs = GoogleSheets.Instance;
         CancellationTokenSource cancelTokenSource;
 
+        public string KelimeListesiRoute { get; set; }
+
         public KelimeListesi()
         {
             InitializeComponent();
+            OnAppearing(); // Ýlk yükleme iþlemleri
+        }
+
+        protected override void OnAppearing()
+        {
+            SayfayiAc();
+            SayfayiYenidenYukle();
+        }
+        void SayfayiYenidenYukle()
+        {
+            // Sayfa içeriðini temizle
+            kelimeAnlamlariGrid.Children.Clear();
+            kelimeAnlamlariGrid.RowDefinitions.Clear();
+            kelimeAnlamlariGrid.ColumnDefinitions.Clear();
+
+            // Yeniden oluþtur
             SayfayiAc();
         }
+
         private async void MetindenSese(string textBoxText)
         {
             // Ýptal belirteci (CancellationToken) oluþtur
@@ -36,10 +55,21 @@ namespace Kelimecim
 
             for (int i = 0; i < sutunA.Count; i++)
             {
-                var kelimeLabel = new Label { Text = sutunA[i], FontSize = 11, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
-                var anlamLabel = new Label { Text = sutunB[i], FontSize = 11, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
+                var kelimeLabel = new Label { Text = sutunA[i], FontSize = 12, WidthRequest=150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
+                var anlamLabel = new Label { Text = sutunB[i], FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
                 var textToSpeechButton = new ImageButton { Source = "sound.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
                 var removeButton = new ImageButton { Source = "remove.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
+
+                // ImageButton'a týklanma olayýný ekleyin
+                textToSpeechButton.Clicked += (sender, e) =>
+                {
+                    MetindenSese(kelimeLabel.Text);
+                };
+                removeButton.Clicked += (sender, e) =>
+                {
+                    silmeEmri(kelimeLabel.Text);
+                };
+
 
                 // Grid içerisinde satýr ve sütunlar oluþturuyoruz
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -49,6 +79,7 @@ namespace Kelimecim
                 kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
 
                 // Grid.SetRow ve Grid.SetColumn ile satýr ve sütun belirtiyoruz
                 Grid.SetRow(kelimeLabel, i * 2); // Her iki satýr arasýnda bir boþluk olduðu için çift sayýlarýný kullanýyoruz
@@ -66,22 +97,12 @@ namespace Kelimecim
                 // Boþluk ekleyen satýrýn yüksekliðini belirliyoruz
                 kelimeAnlamlariGrid.RowDefinitions[i * 2 + 1].Height = 10;
 
-                // ImageButton'a týklanma olayýný ekleyin
-                textToSpeechButton.Clicked += (sender, e) =>
-                {
-                    MetindenSese(kelimeLabel.Text);
-                };
-                removeButton.Clicked += (sender, e) =>
-                {
-                    silmeEmri(kelimeLabel.Text);
-                };
-
+               
                 kelimeAnlamlariGrid.Children.Add(kelimeLabel);
                 kelimeAnlamlariGrid.Children.Add(anlamLabel);
                 kelimeAnlamlariGrid.Children.Add(textToSpeechButton);
                 kelimeAnlamlariGrid.Children.Add(removeButton);
             }
-
         }
         private async void silmeEmri(string word)
         {
@@ -91,13 +112,14 @@ namespace Kelimecim
             {
                 if (gs.VeriSil(word))
                 {
-                    SayfayiAc();
+                    // Sayfayý tekrar yükle
+                    SayfayiYenidenYukle();
                     await DisplayAlert("Baþarýlý", "Kelime silme iþleminiz baþarýlý!", "Tamam");
                 }
                 else
-                    await DisplayAlert("Baþarýlý", "Kelime silme baþarýsýz oldu.", "???");
+                    await DisplayAlert("Zaten silindi", "Kelime çoktan silindi. Sayfayý tekrar açýnýz.", "Tamam");
             }
-
         }
+        // Yeni eklediðimiz GridItem sýnýfý
     }
 }

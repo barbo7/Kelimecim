@@ -21,8 +21,7 @@
         <Tab Title="Çeviri">
             <ShellContent Title="Çeviri" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
             <ShellContent Title="Kelimelerim Tekrar" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" />
-            <ShellContent Title="Kelime Listem" ContentTemplate="{DataTemplate local:KelimeListesi}" Route="KelimeListesi" />
-
+            <ShellContent Title="Kelime Listem" ContentTemplate="{DataTemplate local:KelimeListesi}"/>
         </Tab>
         <Tab Title="Egzersizler">
             <ShellContent Title="Kelime Çalış" ContentTemplate="{DataTemplate local:KelimeCalismasi}" Route="KelimeCalismasi" />

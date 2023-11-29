@@ -159,9 +159,7 @@ public partial class CoktanSecmeli : ContentPage
 
     private void switchCevir(object sender, ToggledEventArgs e)
     {
-        // SwitchCell'in iþaretlenip iþaretlenmediði deðiþtiðinde burasý çalýþýr
-        bool isSwitchCellChecked = e.Value;
-        tersCevirildiMi = isSwitchCellChecked;
+        tersCevirildiMi = switchCevirr.On;
         switchCevirr.Text = tersCevirildiMi ? "Ters çevir" : "Reverse it";
         sirala();
         
@@ -176,10 +174,13 @@ public partial class CoktanSecmeli : ContentPage
                 i.IsEnabled = true;
             SayfayiAc();
             buttonStarted = true;
-            button.Text = "Sýfýrla";
+            button.Text = "Bitir";
         }
         else
         {
+            int sorus = dogru + yanlis;
+            if (sorus == 0)
+                return;
 
             var result = await DisplayAlert("Listeye Ekle", "Sayfaya yönlendiriliyorsunuz", "Eklemeden çýk", "Devam et");
 

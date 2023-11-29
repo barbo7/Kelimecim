@@ -32,7 +32,7 @@
         <VerticalStackLayout>
             <TableView x:Name="yanlisKelimeListesi">
                 <TableRoot>
-                    <TableSection Title="1.Bölme">
+                    <TableSection Title="Yanlış Bilinen Kelimeler">
 
                     </TableSection>
                 </TableRoot>
@@ -40,7 +40,7 @@
 
             <TableView x:Name="dogruKelimeListesi">
                 <TableRoot>
-                    <TableSection Title="2.Bölme">
+                    <TableSection Title="Doğru Bilinen Kelimeler">
 
                     </TableSection>
                 </TableRoot>
@@ -49,7 +49,7 @@
 
         <Button 
             x:Name="KaydetButton"
-            Text="Kelimeleri Kaydet!"
+            Text="Kelimeleri Listeme Kaydet!"
             WidthRequest="300"
             HeightRequest="60"
             FontSize="Medium"

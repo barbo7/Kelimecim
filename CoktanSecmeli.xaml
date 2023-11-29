@@ -20,7 +20,7 @@
                     HorizontalOptions="CenterAndExpand"
                    Grid.Column="1">
                 <TableSection  >
-                <SwitchCell x:Name="switchCevirr" OnChanged="switchCevir" Text="Ters Çevir" Height="100" />
+                <SwitchCell x:Name="switchCevirr" On="False" OnChanged="switchCevir" Text="Ters Çevir" Height="100" />
                 </TableSection>
         </TableView>
         

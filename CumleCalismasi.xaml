@@ -28,9 +28,9 @@
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <VerticalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
 
-            <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20" Clicked="WordTextSoundButton_Clicked"   HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}"/>
+            <ImageButton Source="sound.png" WidthRequest="20"  HeightRequest="20" Clicked="WordTextSoundButton_Clicked"   HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}"/>
             <Editor Placeholder="Word"
                  x:Name="wordText"
                  HorizontalTextAlignment="Center"
@@ -52,15 +52,15 @@
                  HeightRequest="100"
                 FontSize="Medium"
                  />
-                
-
         </VerticalStackLayout>
-        <VerticalStackLayout  Grid.Row="2"
-                                HorizontalOptions="CenterAndExpand">
+        <VerticalStackLayout
+            Margin="0,-25,0,0"
+            Grid.Row="2"
+            HorizontalOptions="CenterAndExpand">
             <Button Text="Listeme Ekle ve Geç"
               x:Name="listeyeDeEkleButton"
-              Margin="20"
-              BackgroundColor="LawnGreen"
+              Margin="10"
+              BackgroundColor="DarkSeaGreen"
               WidthRequest="250"
               Clicked="SolButton_Clicked"
               HeightRequest="50">
