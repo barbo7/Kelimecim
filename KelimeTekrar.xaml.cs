@@ -24,8 +24,8 @@ public partial class KelimeTekrar : ContentPage
     {
         veri = gs.RastgeleKelimeGetirVTOrMyList(false);
 
-        wordText.Text = veri.Item2;
-        kelimeText.Text = veri.Item1;
+        wordText.Text = veri.Item1;
+        kelimeText.Text = veri.Item2;
         MetindenSese(wordText.Text);
     }
 

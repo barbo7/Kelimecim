@@ -20,8 +20,6 @@
     <TabBar>
         <Tab Title="Çeviri">
             <ShellContent Title="Çeviri" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
-            <ShellContent Title="Kelimelerim Tekrar" ContentTemplate="{DataTemplate local:KelimeTekrar}" Route="KelimeTekrar" />
-            <ShellContent Title="Kelime Listem" ContentTemplate="{DataTemplate local:KelimeListesi}"/>
         </Tab>
         <Tab Title="Egzersizler">
             <ShellContent Title="Kelime Çalış" ContentTemplate="{DataTemplate local:KelimeCalismasi}" Route="KelimeCalismasi" />
@@ -29,6 +27,26 @@
             <ShellContent Title="Çoktan Seçmeli" ContentTemplate="{DataTemplate local:CoktanSecmeli}" Route="CoktanSecmeli" />
         </Tab>
     </TabBar>
+    
+    <FlyoutItem Title="Listeden Tekrar" Route="KelimeTekrar">
+        <ShellContent ContentTemplate="{DataTemplate local:KelimeTekrar}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Kelime Listesi" Route="KelimeListesi">
+        <ShellContent ContentTemplate="{DataTemplate local:KelimeListesi}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Listemden Çoktan Seçmeli" Route="CoktanSecmeliListem">
+        <ShellContent ContentTemplate="{DataTemplate local:ListemdenCoktanSecmeli}" />
+    </FlyoutItem>
+
+    <Shell.FlyoutHeader>
+        <Button Text="Ana Sayfaya Dön"
+                WidthRequest="300"
+                Clicked="AnaSayfayaDon_Clicked"
+                BackgroundColor="#9EB8D9">
+        </Button>
+    </Shell.FlyoutHeader>
+
+
 
 
     <Shell.FlyoutFooter>

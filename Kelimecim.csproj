@@ -135,6 +135,9 @@
 	  <MauiXaml Update="KelimeTekrar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="ListemdenCoktanSecmeli.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="SorguSayfasi.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

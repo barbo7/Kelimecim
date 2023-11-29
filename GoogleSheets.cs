@@ -311,14 +311,36 @@ namespace Kelimecim
             while (eklenenIndex < 4)
             {
                 int hangiSatirVTT = rn.Next(0, sonsatirVT);
-                string gelenVeri = veriSeti[hangiSatirVTT][0].ToString();
-                if (!kelimeler.Contains(gelenVeri) && gelenVeri != dogruKelime)
+                string gelenVeri = KelimeDuzelt(veriSeti[hangiSatirVTT][0].ToString());
+                if (!kelimeler.Contains(gelenVeri) && gelenVeri != KelimeDuzelt(dogruKelime))
+                {
+                    kelimeler[eklenenIndex] = KelimeDuzelt(gelenVeri);
+                    eklenenIndex++;
+                }
+            }
+
+            return kelimeler;
+        }
+        public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
+        {
+            Sayfa1VeriGuncelle();
+            //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
+            IList<IList<object>> veriSeti = sutunBVeri;
+
+            int sonsatirVT = veriSeti.Count();
+            int eklenenIndex = 0;
+            string[] kelimeler = new string[4];
+
+            while (eklenenIndex < 4)
+            {
+                int hangiSatirVTT = rn.Next(0, sonsatirVT);
+                string gelenVeri = KelimeDuzelt(veriSeti[hangiSatirVTT][0].ToString());
+                if (!kelimeler.Contains(gelenVeri) && gelenVeri != KelimeDuzelt(dogruKelime))
                 {
                     kelimeler[eklenenIndex] = gelenVeri;
                     eklenenIndex++;
                 }
             }
-
             return kelimeler;
         }
 
@@ -356,6 +378,7 @@ namespace Kelimecim
 
             AppendValuesResponse response = await verireq.ExecuteAsync();
         }
+
         public bool VeriSil(string word)
         {
             int index = -1;

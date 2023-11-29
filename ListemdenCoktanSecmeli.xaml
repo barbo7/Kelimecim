@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kelimecim.ListemdenCoktanSecmeli"
+             Title="ListemdenCoktanSecmeli">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image Source="dictionary.png" Grid.Row="0" Grid.ColumnSpan="2"  HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" />
+
+        <VerticalStackLayout HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}" 
+                             Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
+
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20"  HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
+                <Label 
+              Text="Word"
+              x:Name="word"
+              VerticalOptions="StartAndExpand" 
+              FontSize="Large"
+              TextColor="DarkBlue"></Label>
+            </StackLayout>
+            <Label
+                 Text="Yukarıdaki kelimenin karşılığı nedir?"
+                 x:Name="kelime"
+                 VerticalOptions="Center"
+                 FontSize="Small"
+                 TextColor="HotPink"
+                 HorizontalOptions="Start"
+         />
+            <StackLayout Orientation="Vertical"  >
+                <RadioButton Content="Seçenek 1" GroupName="RadioButtonGroup" x:Name="radioButton1"/>
+                <RadioButton Content="Seçenek 2" GroupName="RadioButtonGroup" x:Name="radioButton2"/>
+                <RadioButton Content="Seçenek 3" GroupName="RadioButtonGroup" x:Name="radioButton3"/>
+                <RadioButton Content="Seçenek 4" GroupName="RadioButtonGroup" x:Name="radioButton4"/>
+                <RadioButton Content="Seçenek 5" GroupName="RadioButtonGroup" x:Name="radioButton5"/>
+            </StackLayout>
+            <StackLayout Spacing="20" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label
+                 Text="Doğru Sayısı"
+                 TextColor="LawnGreen"
+                 FontSize="18"
+                 HorizontalTextAlignment="Start"
+                 x:Name="dogruSayisi">
+                </Label>
+                <Label
+                 Text="Yanlış Sayısı"
+                 TextColor="DarkRed"
+                 FontSize="18"
+                 HorizontalTextAlignment="End"
+                 x:Name="yanlisSayisi">
+                </Label>
+            </StackLayout>
+        </VerticalStackLayout>
+        <Button Grid.Row="2"
+                x:Name="button"
+                Grid.ColumnSpan="2"
+                Text="Başlat"
+                HorizontalOptions="Center"
+                HeightRequest="50"
+                WidthRequest="150"
+                FontSize="Medium"
+                Clicked="BaslatButton_Clicked">
+        </Button>
+    </Grid>
+</ContentPage>
