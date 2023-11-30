@@ -40,9 +40,12 @@
 
     <Shell.FlyoutHeader>
         <Button Text="Ana Sayfaya Dön"
-                WidthRequest="300"
+                WidthRequest="450"
                 Clicked="AnaSayfayaDon_Clicked"
-                BackgroundColor="#9EB8D9">
+                TextColor="Black"
+                FontSize="14"
+                BackgroundColor="WhiteSmoke">
+
         </Button>
     </Shell.FlyoutHeader>
 

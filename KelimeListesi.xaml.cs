@@ -21,10 +21,7 @@ namespace Kelimecim
         }
         void SayfayiYenidenYukle()
         {
-            // Sayfa içeriðini temizle
-            kelimeAnlamlariGrid.Children.Clear();
-            kelimeAnlamlariGrid.RowDefinitions.Clear();
-            kelimeAnlamlariGrid.ColumnDefinitions.Clear();
+
 
             // Yeniden oluþtur
             SayfayiAc();
@@ -49,7 +46,9 @@ namespace Kelimecim
             List<string> sutunA = gs.Sayfa1Veri().Item1;
             List<string> sutunB = gs.Sayfa1Veri().Item2;
 
-            // Sayfa içeriðini ScrollView'a ayarlayýn
+            //var baslik = new Label { Text = "Word", FontSize = 12, WidthRequest = 150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
+            //var baslik2 = new Label { Text = "Anlamý", FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
+
 
             kelimeAnlamlariGrid.ColumnSpacing = 10; // Hücreler arasýndaki yatay boþluðu ayarla
 

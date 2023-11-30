@@ -29,10 +29,10 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
 
-        <VerticalStackLayout>
+        <VerticalStackLayout Grid.ColumnSpan="3">
             <TableView x:Name="yanlisKelimeListesi">
                 <TableRoot>
-                    <TableSection Title="Yanlış Bilinen Kelimeler">
+                    <TableSection Title="Yanlış Bilinen Kelimeler" TextColor="PaleVioletRed">
 
                     </TableSection>
                 </TableRoot>
@@ -40,7 +40,7 @@
 
             <TableView x:Name="dogruKelimeListesi">
                 <TableRoot>
-                    <TableSection Title="Doğru Bilinen Kelimeler">
+                    <TableSection Title="Doğru Bilinen Kelimeler" TextColor="DarkSeaGreen">
 
                     </TableSection>
                 </TableRoot>
