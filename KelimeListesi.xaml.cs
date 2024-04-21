@@ -52,7 +52,7 @@ namespace Kelimecim
 
             kelimeAnlamlariGrid.ColumnSpacing = 10; // Hücreler arasýndaki yatay boþluðu ayarla
 
-            for (int i = 0; i < sutunA.Count; i++)
+            for (int i = 0; i < 20; i++)
             {
                 var kelimeLabel = new Label { Text = sutunA[i], FontSize = 12, WidthRequest=150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
                 var anlamLabel = new Label { Text = sutunB[i], FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };

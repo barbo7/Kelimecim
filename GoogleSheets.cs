@@ -17,10 +17,6 @@ namespace Kelimecim
         public bool CumleSayfasiHazirMi = false;
         public bool CoktanSecmeliSayfasiHazirMi = false;
 
-
-
-
-
         private static GoogleSheets _instance;
 
         private Random rn = new Random(); // Bir methodda bunu tanımlayıp methodu üst üste çağırdığım zaman aynı değer geliyordu. daha geniş bir kapsamda tanımlayınca her türlü farklı cevap vermesi sağlanabiliyormuş.
@@ -493,6 +489,8 @@ namespace Kelimecim
                     }
                 }
             }
+            ASutunu.Reverse();
+            BSutunu.Reverse();
             Tuple<List<string>, List<string>> veri = new Tuple<List<string>, List<string>>(ASutunu, BSutunu);
 
             return veri;
