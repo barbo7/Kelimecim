@@ -1,4 +1,4 @@
-
+ï»¿
 namespace Kelimecim
 {
     public partial class KelimeListesi : ContentPage
@@ -11,7 +11,7 @@ namespace Kelimecim
         public KelimeListesi()
         {
             InitializeComponent();
-            OnAppearing(); // İlk yükleme işlemleri
+            OnAppearing(); // Ãlk yÃ¼kleme iÃ¾lemleriKm
         }
 
         protected override void OnAppearing()
@@ -23,20 +23,20 @@ namespace Kelimecim
         {
 
 
-            // Yeniden oluştur
+            // Yeniden oluÃ¾tur
             SayfayiAc();
         }
 
         private async void MetindenSese(string textBoxText)
         {
-            // İptal belirteci (CancellationToken) oluştur
+            // Ãptal belirteci (CancellationToken) oluÃ¾tur
             if (cancelTokenSource != null)
             {
-                // Önceki okuma işlemini iptal et
+                // Ã–nceki okuma iÃ¾lemini iptal et
                 cancelTokenSource.Cancel();
             }
 
-            // Yeni bir iptal belirteci oluştur
+            // Yeni bir iptal belirteci oluÃ¾tur
             cancelTokenSource = new CancellationTokenSource();
 
             await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
@@ -46,79 +46,96 @@ namespace Kelimecim
             List<string> sutunA = gs.Sayfa1Veri().Item1;
             List<string> sutunB = gs.Sayfa1Veri().Item2;
 
-            //var baslik = new Label { Text = "Word", FontSize = 12, WidthRequest = 150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
-            //var baslik2 = new Label { Text = "Anlamı", FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
+            // Grid'i temizleyin
+            kelimeAnlamlariGrid.Children.Clear();
+            kelimeAnlamlariGrid.RowDefinitions.Clear();
+            kelimeAnlamlariGrid.ColumnDefinitions.Clear();
 
-
-            kelimeAnlamlariGrid.ColumnSpacing = 10; // Hücreler arasındaki yatay boşluğu ayarla
+            // SÃ¼tun tanÄ±mlarÄ±nÄ± yeniden oluÅŸturun
+            kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
             for (int i = 0; i < 20; i++)
             {
-                var kelimeLabel = new Label { Text = sutunA[i], FontSize = 12, WidthRequest=150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
+                var kelimeLabel = new Label { Text = sutunA[i], FontSize = 12, WidthRequest = 150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
                 var anlamLabel = new Label { Text = sutunB[i], FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
                 var textToSpeechButton = new ImageButton { Source = "sound.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
                 var removeButton = new ImageButton { Source = "remove.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
 
-                // ImageButton'a tıklanma olayını ekleyin
-                textToSpeechButton.Clicked += (sender, e) =>
-                {
-                    MetindenSese(kelimeLabel.Text);
-                };
-                removeButton.Clicked += (sender, e) =>
-                {
-                    silmeEmri(kelimeLabel.Text);
-                };
+                textToSpeechButton.Clicked += (sender, e) => MetindenSese(kelimeLabel.Text);
+                removeButton.Clicked += (sender, e) => silmeEmri(kelimeLabel.Text);
 
-
-                // Grid içerisinde satır ve sütunlar oluşturuyoruz
+                // Her eleman iÃ§in yeni satÄ±r tanÄ±mÄ± ekleyin
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = 10 }); // Boşluk ekleyen satır
 
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-
-                // Grid.SetRow ve Grid.SetColumn ile satır ve sütun belirtiyoruz
-                Grid.SetRow(kelimeLabel, i * 2); // Her iki satır arasında bir boşluk olduğu için çift sayılarını kullanıyoruz
+                // Grid iÃ§erisinde satÄ±r ve sÃ¼tunlarÄ± belirleyin
+                Grid.SetRow(kelimeLabel, i);
                 Grid.SetColumn(kelimeLabel, 0);
 
-                Grid.SetRow(anlamLabel, i * 2);
+                Grid.SetRow(anlamLabel, i);
                 Grid.SetColumn(anlamLabel, 1);
 
-                Grid.SetRow(textToSpeechButton, i * 2);
+                Grid.SetRow(textToSpeechButton, i);
                 Grid.SetColumn(textToSpeechButton, 2);
 
-                Grid.SetRow(removeButton, i * 2);
+                Grid.SetRow(removeButton, i);
                 Grid.SetColumn(removeButton, 3);
 
-                // Boşluk ekleyen satırın yüksekliğini belirliyoruz
-                kelimeAnlamlariGrid.RowDefinitions[i * 2 + 1].Height = 10;
-
-               
                 kelimeAnlamlariGrid.Children.Add(kelimeLabel);
                 kelimeAnlamlariGrid.Children.Add(anlamLabel);
                 kelimeAnlamlariGrid.Children.Add(textToSpeechButton);
                 kelimeAnlamlariGrid.Children.Add(removeButton);
             }
         }
+
         private async void silmeEmri(string word)
         {
-            var result = await DisplayAlert("Silme İşlemi", $"'{word}' Kelimesini silmek istediğinize emin misiniz?", "Hayır", "Evet");
+            var result = await DisplayAlert("Silme ÃÃ¾lemi", $"'{word}' Kelimesini silmek istediÃ°inize emin misiniz?", "HayÃ½r", "Evet");
 
             if (!result)
             {
                 if (gs.VeriSil(word))
                 {
-                    // Sayfayı tekrar yükle
+                    // SayfayÃ½ tekrar yÃ¼kle
                     SayfayiYenidenYukle();
-                    await DisplayAlert("Başarılı", "Kelime silme işleminiz başarılı!", "Tamam");
+                    await DisplayAlert("BaÃ¾arÃ½lÃ½", "Kelime silme iÃ¾leminiz baÃ¾arÃ½lÃ½!", "Tamam");
                 }
                 else
-                    await DisplayAlert("Zaten silindi", "Kelime çoktan silindi. Sayfayı tekrar açınız.", "Tamam");
+                    await DisplayAlert("Zaten silindi", "Kelime Ã§oktan silindi. SayfayÃ½ tekrar aÃ§Ã½nÃ½z.", "Tamam");
             }
         }
-        // Yeni eklediğimiz GridItem sınıfı
+
+     
+        private void ilkSayfa_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void oncekiSayfa_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void sayfaNumarasi1_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void sayfaNumarasi2_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void sayfaNumarasi3_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void sonrakiSayfa_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        private void sonSayfa_Clicked(object sender, EventArgs e)
+        {
+
+        }
+        // Yeni eklediÃ°imiz GridItem sÃ½nÃ½fÃ½
     }
 }
