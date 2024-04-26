@@ -29,21 +29,41 @@ namespace Kelimecim
 
             return builder.Build();
         }
+        //public static void VtSil()
+        //{
+
+        //    var context = new KelimecimDbContext();
+        //    context.Dispose();
+
+        //    var dbName = "KelimecimDb.db";
+        //    var dbPath = PathDB.GetPath(dbName);
+        //    int attempts = 0;
+        //    while (attempts < 2 && File.Exists(dbPath))
+        //    {
+        //        try
+        //        {
+        //            File.Delete(dbPath);
+        //            Console.WriteLine("Database successfully deleted.");
+        //            break;
+        //        }
+        //        catch (IOException ex)
+        //        {
+        //            Console.WriteLine($"Failed to delete database file. Attempt {attempts + 1}: {ex.Message}");
+        //            System.Threading.Thread.Sleep(1000);  // 1 saniye bekle
+        //        }
+        //        attempts++;
+        //    }
+        //}
         public static void InitializeDatabase()
         {
             var dbName = "KelimecimDb.db";
             var dbPath = PathDB.GetPath(dbName);
             Console.WriteLine($"Database path: {dbPath}");
 
-            if (string.IsNullOrEmpty(dbPath))
-            {
-                throw new ArgumentException("Database path cannot be null or empty.", nameof(dbPath));
-            }
-
             if (!File.Exists(dbPath))
             {
                 var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MauiProgram)).Assembly;
-                var resourceName = "Kelimecim.Resources.KelimecimDb.db"; // Bu ismi projenize göre düzenleyin
+                var resourceName = "Kelimecim.Resources.KelimecimDb.db";
                 Stream stream = assembly.GetManifestResourceStream(resourceName);
 
                 if (stream == null)
@@ -54,7 +74,12 @@ namespace Kelimecim
                 using (var fileStream = new FileStream(dbPath, FileMode.Create))
                 {
                     stream.CopyTo(fileStream);
+                    Console.WriteLine("Database copied from resources.");
                 }
+            }
+            else
+            {
+                Console.WriteLine("Database already exists.");
             }
         }
 

@@ -7,7 +7,7 @@ namespace Kelimecim
     public partial class MainPage : ContentPage
     {
         //GoogleSheets gs = GoogleSheets.Instance;
-        SqliteProcess sp = SqliteProcess.Instance;
+        SqliteProcess sp;
         CancellationTokenSource cancelTokenSource;
 
         public MainPage()
@@ -16,6 +16,19 @@ namespace Kelimecim
             InitializeComponent();
             TrEng.CheckedChanged += RadioButton_CheckedChanged;
             EngTr.CheckedChanged += RadioButton_CheckedChanged;
+           
+        }
+        private async void dbCagir()
+        {
+            try
+            {
+                sp = SqliteProcess.Instance;
+            }
+            catch (Exception ex)
+            {
+                // Hata mesajını kullanıcıya göster
+                await DisplayAlert("Hata", $"Veri tabanında bir hata oluştu. Uygulama ön belleğini temizlemenizi öneririz.", "Tamam");
+            }
         }
         private async void MetindenSese(string textBoxText)
         {

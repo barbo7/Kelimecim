@@ -37,29 +37,9 @@ namespace Kelimecim
             {
                 if (ex.Message.Contains("no such table"))
                 {
-                    string databasePath = GetDatabasePath("KelimecimDb.db");
-
-                    // Veritabanı dosyasını sil
-                    if (File.Exists(databasePath))
-                    {
-                        File.Delete(databasePath);
-                    }
-                }
-                else
-                {
-                    // Diğer hatalar için genel bir işlem
-                    throw;
+                        MauiProgram.InitializeDatabase();  // Yeniden başlat
                 }
             }
-
-        }
-
-        public static string GetDatabasePath(string filename)//eğer database'de değişiklik yapıldıysa silip tekrar oluşturma işlemini gerçekleştirmek için.
-        {
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string databasePath = Path.Combine(folderPath, filename);
-
-            return databasePath;
         }
 
         private void TablolarıGetir(KelimecimDbContext vocabularyDb)
@@ -245,7 +225,7 @@ namespace Kelimecim
         {
             return vocabularyDb.UsersDictionary
                 .Select(w => new Vocabulary { Word = w.Word, Meaning = w.Meaning })
-                .Where(w => w.Word.StartsWith(query))
+                .Where(w => w.Word.ToLower().StartsWith(query.ToLower()))
                 .ToList();
         }
         public int UserTablosundaKacVeriVar()//dB'DE VAR MI YOK MU
