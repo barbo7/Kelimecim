@@ -13,8 +13,16 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
         </Grid>
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="2">
+
+            <Picker x:Name="picker" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
+                    Title="Veri Seti Seçebilirsiniz" FontSize="Small" SelectedIndexChanged="Picker_SelectedIndexChanged"></Picker>
+
+        </HorizontalStackLayout>
         <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="125" ></Image>
 
 

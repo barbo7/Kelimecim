@@ -1,14 +1,17 @@
-namespace Kelimecim;
+Ôªønamespace Kelimecim;
 
 public partial class KelimeCalismasi : ContentPage
 {
     //GoogleSheets gs = GoogleSheets.Instance;
     SqliteProcess sp = SqliteProcess.Instance;
     CancellationTokenSource cancelTokenSource;
-    Tuple<string, string> veri;
+    int dataset = 4;
+    //Tuple<string, string> veri;
     public KelimeCalismasi()
 	{
 		InitializeComponent();
+        List<string> veriSetleri = new List<string> { "A1-B2 Eng", "B2-C1 Eng", "Deutsch" ,"Mixed Eng"};
+        picker.ItemsSource = veriSetleri;
         YeniKelime();
     }
     private async void SolButton_Clicked(object sender, EventArgs e)
@@ -19,12 +22,26 @@ public partial class KelimeCalismasi : ContentPage
             YeniKelime();
         }
     }
-    //geriye gelme ˆzellii de eklenebilir.
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        dataset = picker.SelectedIndex;
+
+        if (picker.SelectedIndex == 0)//a1-b2
+            dataset = 1;
+        else if (picker.SelectedIndex == 1)//b2-c1
+            dataset = 2;
+        else if (picker.SelectedIndex == 2)//deutsch
+            dataset = 3;
+        else if (picker.SelectedIndex == 3)//mixed
+            dataset = 4;
+        YeniKelime();
+    }
+    //geriye gelme √∂zelli√∞i de eklenebilir.
     private void SagButton_Clicked(object sender, EventArgs e)
     {
         //if(!gs.kelimeSayfasiHazirMi)
         //{
-        //    DisplayAlert("Uyar˝", "Sayfa hen¸z haz˝r deil tekrar deneyin", "Tamam");
+        //    DisplayAlert("Uyar√Ω", "Sayfa hen√ºz haz√Ωr de√∞il tekrar deneyin", "Tamam");
         //    return;
         //}
 
@@ -32,23 +49,26 @@ public partial class KelimeCalismasi : ContentPage
     }
     private void YeniKelime()
     {
-        veri = sp.RastgeleKelimeGetirVTOrMyList(true);
+        string word = sp.RastgeleKelimeGetirVeriSeti(dataset).Split(',').ToList()[0];//veriyi par√ßalayƒ±p i≈üliyorum.
+        string meaning = sp.RastgeleKelimeGetirVeriSeti(dataset).Split(',').ToList()[1];
 
-        wordText.Text = veri.Item2;
-        kelimeText.Text = veri.Item1;
+        //veri = sp.RastgeleKelimeGetirVTOrMyList(true);
+
+        wordText.Text = word;
+        kelimeText.Text = meaning;
         MetindenSese(wordText.Text);
     }
 
     private async void MetindenSese(string textBoxText)
     {
-        // ›ptal belirteci (CancellationToken) olu˛tur
+        // √ùptal belirteci (CancellationToken) olu√ætur
         if (cancelTokenSource != null)
         {
-            // ÷nceki okuma i˛lemini iptal et
+            // √ñnceki okuma i√ælemini iptal et
             cancelTokenSource.Cancel();
         }
 
-        // Yeni bir iptal belirteci olu˛tur
+        // Yeni bir iptal belirteci olu√ætur
         cancelTokenSource = new CancellationTokenSource();
 
         await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);

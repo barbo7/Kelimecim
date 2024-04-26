@@ -124,6 +124,29 @@ namespace Kelimecim
             }
         }
 
+        public string RastgeleKelimeGetirVeriSeti(int dataSet)
+        {
+            List<Vocabulary> v = new List<Vocabulary>();
+            if (dataSet == 1)
+            {
+                v = wordMeaningDBBeginner;
+            }
+            else if (dataSet == 2)
+            {
+                v = wordMeaningDBIntermediate;
+            }
+            else if (dataSet == 3)
+            {
+                //v =deutschVocabularies;
+            }
+            else
+            {//dataset=0
+                v = wordMeaningDBTotal;
+            }
+            int sonSatir = v.Count();
+            int hangiSatir = rn.Next(0, sonSatir);
+            return v[hangiSatir].Word + "," + v[hangiSatir].Meaning;
+        }
 
         /// <summary>
         /// Rastgele kelime ve anlamını çekmek için oluşturduğum method. Sözlükten veri çekilmesini istiyorsanız değişken true olmalı. Veri ekleyerek oluşturduğumuz listeden veri çekmek için false olması gerekiyor.
