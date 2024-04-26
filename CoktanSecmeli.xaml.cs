@@ -2,7 +2,8 @@ namespace Kelimecim;
 
 public partial class CoktanSecmeli : ContentPage
 {
-    GoogleSheets gs = GoogleSheets.Instance;
+    //GoogleSheets gs = GoogleSheets.Instance;
+    SqliteProcess sp = SqliteProcess.Instance;
     VeriYonlendir vy = VeriYonlendir.Instance;
 
     private Random random = new Random();
@@ -40,15 +41,15 @@ public partial class CoktanSecmeli : ContentPage
     private async void SayfayiAc()
     {
         int denemeS = 0;
-        while (!gs.CoktanSecmeliSayfasiHazirMi)
-        {
-            await Task.Delay(500);
-            if(denemeS==0)
-            {
-                await DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
-                denemeS++;
-            }
-        }
+        //while (!gs.CoktanSecmeliSayfasiHazirMi)
+        //{
+        //    await Task.Delay(500);
+        //    if(denemeS==0)
+        //    {
+        //        await DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
+        //        denemeS++;
+        //    }
+        //}
 
         sirala();
         dogruSayisi.Text = yazidogru + dogru;
@@ -74,7 +75,7 @@ public partial class CoktanSecmeli : ContentPage
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
                 yanlisSayisi.Text = yaziyanlis + yanlis;
-                string veri = tersCevirildiMi ? rb.Content.ToString() : gs.KelimeAraTR(rb.Content.ToString());
+                string veri = tersCevirildiMi ? rb.Content.ToString() : sp.KelimeAraTR(rb.Content.ToString());
                 vy.gosterilenKelimelerYanlis.Add(veri);
             }
             else
@@ -106,11 +107,11 @@ public partial class CoktanSecmeli : ContentPage
 
     private void sirala()
     {
-        Tuple<string, string> dogruCevap = gs.RastgeleKelimeGetirVTOrMyList(true);
+        Tuple<string, string> dogruCevap = sp.RastgeleKelimeGetirVTOrMyList(true);
         //string[] yanlisKelimeler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
         //string[] yanlisWordler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true);
 
-        string[] yanlislar = tersCevirildiMi ? gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true) : gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
+        string[] yanlislar = tersCevirildiMi ? sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true) : sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
         //Eðer tersCevirildiMi switch'ine dokunulmadýysa ingilizce kelimeyi tahmin ediyoruz iþaretlendiðinde türkçe kelimeyi tahmin ediyoruz.
 
         int indexx = 0;

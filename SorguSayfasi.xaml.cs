@@ -4,8 +4,8 @@ namespace Kelimecim
 {
     public partial class SorguSayfasi : ContentPage
     {
-        GoogleSheets gs = GoogleSheets.Instance;
-
+        //GoogleSheets gs = GoogleSheets.Instance;
+        SqliteProcess sp = SqliteProcess.Instance;
         VeriYonlendir vy = VeriYonlendir.Instance;
         public ObservableCollection<string> PageItems { get; set; }
         public ObservableCollection<SwitchCell> YanlisSwitchCells { get; set; }
@@ -60,7 +60,9 @@ namespace Kelimecim
 
             foreach (string i in eklenecekVeriler)
             {
-                    gs.VeriEkle(i);// Böyle yapmak yerine database'de mevcut olan kelimenin karşılığını bulup ikisini birden eklemek daha mantıklı olur.
+                    //gs.VeriEkle(i);// Böyle yapmak yerine database'de mevcut olan kelimenin karşılığını bulup ikisini birden eklemek daha mantıklı olur.
+                    string kelime = sp.KelimeAraENG(i);
+                sp.VeriEkle(i,kelime);
             }
             // Display success message after successful data save
             await DisplayAlert("Bilgi", "Doðru veriler kaydedildi!", "Tamam");

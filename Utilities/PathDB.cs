@@ -15,14 +15,17 @@ namespace Kelimecim.Utilities
             {
                 pathDbSqlite = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), nameDb);
             }
-            else if(DeviceInfo.Platform == DevicePlatform.iOS)
+            else if (DeviceInfo.Platform == DevicePlatform.iOS)
             {
                 pathDbSqlite = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library", nameDb);
             }
-           
+            else if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                pathDbSqlite = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameDb);
+            }
             return pathDbSqlite;
         }
-    
     }
-                  
+
+
 }

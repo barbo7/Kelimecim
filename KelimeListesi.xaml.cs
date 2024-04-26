@@ -3,7 +3,8 @@ namespace Kelimecim
 {
     public partial class KelimeListesi : ContentPage
     {
-        GoogleSheets gs = GoogleSheets.Instance;
+        //GoogleSheets gs = GoogleSheets.Instance;
+        SqliteProcess sp = SqliteProcess.Instance;
         CancellationTokenSource cancelTokenSource;
 
         public string KelimeListesiRoute { get; set; }
@@ -36,8 +37,8 @@ namespace Kelimecim
         }
         void SayfayiAc()
         {
-            List<string> sutunA = gs.Sayfa1Veri().Item1;
-            List<string> sutunB = gs.Sayfa1Veri().Item2;
+            List<string> sutunA = sp.Sayfa1Veri().Item1;
+            List<string> sutunB = sp.Sayfa1Veri().Item2;
 
             kelimeAnlamlariGrid.Children.Clear();
             kelimeAnlamlariGrid.RowDefinitions.Clear();
@@ -49,7 +50,11 @@ namespace Kelimecim
             kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-            for (int i = 0; i < 20; i++)
+            int rowCount = 20;//Değiştirilmeli
+            if(sutunA.Count < rowCount)
+                rowCount = sutunA.Count;
+            
+            for (int i = 0; i <  rowCount; i++)
             {
                 var kelimeLabel = new Label { Text = sutunA[i], FontSize = 12, WidthRequest = 150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
                 var anlamLabel = new Label { Text = sutunB[i], FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
@@ -89,7 +94,7 @@ namespace Kelimecim
 
             if (!result)
             {
-                if (gs.VeriSil(word))
+                if (sp.VeriSil(word))
                 {
                     // Sayfayý tekrar yükle
                     SayfayiAc();

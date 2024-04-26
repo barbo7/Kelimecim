@@ -4,7 +4,8 @@ namespace Kelimecim;
 
 public partial class ListemdenCoktanSecmeli : ContentPage
 {
-    GoogleSheets gs = GoogleSheets.Instance;
+    //GoogleSheets gs = GoogleSheets.Instance;
+    SqliteProcess sp = SqliteProcess.Instance;
     CancellationTokenSource cancelTokenSource;
 
     private Random random = new Random();
@@ -37,15 +38,15 @@ public partial class ListemdenCoktanSecmeli : ContentPage
     private async void SayfayiAc()
     {
         int denemeS = 0;
-        while (!gs.CoktanSecmeliSayfasiHazirMi)
-        {
-            await Task.Delay(250);
-            if (denemeS == 0)
-            {
-                await DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
-                denemeS++;
-            }
-        }
+        //while (!gs.CoktanSecmeliSayfasiHazirMi)
+        //{
+        //    await Task.Delay(250);
+        //    if (denemeS == 0)
+        //    {
+        //        await DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
+        //        denemeS++;
+        //    }
+        //}
 
         sirala();
         dogruSayisi.Text = yazidogru + dogru;
@@ -96,11 +97,11 @@ public partial class ListemdenCoktanSecmeli : ContentPage
     }
     private void sirala()
     {
-        Tuple<string, string> dogruCevap = gs.RastgeleKelimeGetirVTOrMyList(false);
+        Tuple<string, string> dogruCevap = sp.RastgeleKelimeGetirVTOrMyList(false);
 
         string bilinmesiIstenenKelime = dogruCevap.Item2;
 
-        string[] yanlislar = gs.Rastgele4KelimeYaDaWordGetir(bilinmesiIstenenKelime);
+        string[] yanlislar = sp.Rastgele4KelimeYaDaWordGetir(bilinmesiIstenenKelime);
 
         int indexx = 0;
         //soruS++;

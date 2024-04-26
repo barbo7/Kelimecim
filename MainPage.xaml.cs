@@ -6,7 +6,8 @@ namespace Kelimecim
 {
     public partial class MainPage : ContentPage
     {
-        GoogleSheets gs = GoogleSheets.Instance;
+        //GoogleSheets gs = GoogleSheets.Instance;
+        SqliteProcess sp = SqliteProcess.Instance;
         CancellationTokenSource cancelTokenSource;
 
         public MainPage()
@@ -91,8 +92,8 @@ namespace Kelimecim
             bool translateMi = EngTr.IsChecked;
             string query = kelimeWordEntry.Text;
             kelimeWordShowPlace.Text = translateMi
-                ? gs.KelimeAraENG(query)//Türkçeye çeviri
-                : gs.KelimeAraTR(query);//İngilizceye çeviri
+                ? sp.KelimeAraENG(query)//Türkçeye çeviri
+                : sp.KelimeAraTR(query);//İngilizceye çeviri
 
 
            
@@ -109,7 +110,7 @@ namespace Kelimecim
                 string sutunA = translateMi ? query : kelimeWordShowPlace.Text;//word
                 string sutunB = translateMi ? kelimeWordShowPlace.Text : query;//kelime
 
-                await gs.VeriEkle(sutunA, sutunB);
+                sp.VeriEkle(sutunA, sutunB);
             }
         }
         private void RadioButton_CheckedChanged(object sender, EventArgs e)

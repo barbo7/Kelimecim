@@ -30,14 +30,14 @@ namespace Kelimecim
         //ValueRange responseSutunB;
         //ValueRange responseSearchWord;
         //ValueRange responseAramaKelime;
-        //ValueRange responseCumle;
-        //ValueRange responseCumleWord;
-        //ValueRange responseCumleKelime;
+        ValueRange responseCumle;
+        ValueRange responseCumleWord;
+        ValueRange responseCumleKelime;
 
-        IList<IList<object>> sutunAVeri;//Kelime
-        IList<IList<object>> sutunBVeri;//Meaning
-        IList<IList<object>> columnWordData;//KullanıcıKelimeleri
-        IList<IList<object>> columnKelimeVeri;//Kullanıcı Verileri
+        //IList<IList<object>> sutunAVeri;//Kelime
+        //IList<IList<object>> sutunBVeri;//Meaning
+        //IList<IList<object>> columnWordData;//KullanıcıKelimeleri
+        //IList<IList<object>> columnKelimeVeri;//Kullanıcı Verileri
         IList<IList<object>> cumleliSayfaCumle;//VeriTabanı Cümleleri
         IList<IList<object>> cumleliSayfaWord;//VeriTabanı Kelimeleri
         IList<IList<object>> cumleliSayfaKelime;//VeriTabanı Anlamları
@@ -127,8 +127,8 @@ namespace Kelimecim
             // Create requests for each data range
             var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
             {
-                service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum),
-                service.Spreadsheets.Values.Get(spreadsheetId, veriKumesi),
+                //service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum),
+                //service.Spreadsheets.Values.Get(spreadsheetId, veriKumesi),
                 service.Spreadsheets.Values.Get(spreadsheetId, cumlelerKumesi),
                 //Bir önceki sürümde bütün sayfalar için hücre hücre veri çekme isteği oluşturuyordum. Bunun yerine tek bir sayfadaki tüm verileri çekmek için yeni bir geliştirme yaptım. Performans arttırma amaçlı
             };
@@ -136,15 +136,15 @@ namespace Kelimecim
             // Execute requests in parallel and wait for all to complete
             var responses = await Task.WhenAll(requests.Select(request => request.ExecuteAsync()));
 
-            var kendiSutunumDegerleri = responses[0].Values;
-            var veriKumesiDegerleri = responses[1].Values;
+            //var kendiSutunumDegerleri = responses[0].Values;
+            //var veriKumesiDegerleri = responses[1].Values;
             var cumlelerKumesiDegerleri = responses[2].Values;
 
-            sutunAVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>(); //Linq kullanarak ilk hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
-            sutunBVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Linq kullanarak ikinci hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
+            //sutunAVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>(); //Linq kullanarak ilk hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
+            //sutunBVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Linq kullanarak ikinci hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
 
-            columnWordData = veriKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>();//Veritabanında bulunan Word'ler
-            columnKelimeVeri = veriKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Veri tabanında bulunan Kelimeler
+            //columnWordData = veriKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>();//Veritabanında bulunan Word'ler
+            //columnKelimeVeri = veriKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Veri tabanında bulunan Kelimeler
 
             cumleliSayfaCumle = cumlelerKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>();
             cumleliSayfaWord = cumlelerKumesiDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();
@@ -187,11 +187,11 @@ namespace Kelimecim
             //cumleliSayfaWord = responseCumleWord.Values;
             //cumleliSayfaKelime = responseCumleKelime.Values;
 
-            if (columnWordData.Count > 10)
-                kelimeSayfasiHazirMi = true;
+            //if (columnWordData.Count > 10)
+            kelimeSayfasiHazirMi = true;
 
-            if (columnWordData.Count > 10 && sutunAVeri.Count > 1)
-                CoktanSecmeliSayfasiHazirMi = true;
+            //if (columnWordData.Count > 10 && sutunAVeri.Count > 1)
+            CoktanSecmeliSayfasiHazirMi = true;
 
             if (cumleliSayfaCumle.Count > 10)
                 CumleSayfasiHazirMi = true;
@@ -206,29 +206,29 @@ namespace Kelimecim
             InitializeAsync();
             //VerileriCekAsync().Wait();
         }
-        // Buraya kadar
-        public string KelimeAraENG(string AranacakWord)
-        {
-            string ingKelime = AranacakWord;
-            string trKelime = null;
+        
+        //public string KelimeAraENG(string AranacakWord)
+        //{
+        //    string ingKelime = AranacakWord;
+        //    string trKelime = null;
 
 
-            var indexBul = columnWordData
-            .Select((row, rowIndex) => new 
-            { 
-                RowIndex = rowIndex,
-                Kelimeler = row.Select(kelime => kelime.ToString().ToLower())
-            })
-            .Where(row=>row.Kelimeler.Contains(AranacakWord.ToLower(),StringComparer.OrdinalIgnoreCase))
-            .FirstOrDefault();
+        //    var indexBul = columnWordData
+        //    .Select((row, rowIndex) => new 
+        //    { 
+        //        RowIndex = rowIndex,
+        //        Kelimeler = row.Select(kelime => kelime.ToString().ToLower())
+        //    })
+        //    .Where(row=>row.Kelimeler.Contains(AranacakWord.ToLower(),StringComparer.OrdinalIgnoreCase))
+        //    .FirstOrDefault();
 
-            if (indexBul != null)
-                trKelime = columnKelimeVeri[indexBul.RowIndex][0].ToString();
-            else
-                trKelime = Ceviri(AranacakWord, false).ToString(); //Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
+        //    if (indexBul != null)
+        //        trKelime = columnKelimeVeri[indexBul.RowIndex][0].ToString();
+        //    else
+        //        trKelime = Ceviri(AranacakWord, false).ToString(); //Eğer database'imde aradığım kelime yok ise api ile çekiyorum veriyi.
 
-            return KelimeDuzelt(trKelime);
-        }
+        //    return KelimeDuzelt(trKelime);
+        //}
 
 
         /// <summary>
@@ -236,27 +236,27 @@ namespace Kelimecim
         /// </summary>
         /// <param name="kelime"></param>
         /// <returns></returns>
-        public string KelimeAraTR(string kelime) 
-        {
-            string trKelime = kelime;
-            string ingKelime = null;
+        //public string KelimeAraTR(string kelime) 
+        //{
+        //    string trKelime = kelime;
+        //    string ingKelime = null;
 
-            var kelimeSorgusu = columnKelimeVeri
-                .Select((row, rowIndex) => new
-                {
-                    RowIndex = rowIndex,
-                    Words = row.Select(word => word.ToString().ToLower())
-                })
-                .Where(row => row.Words.Contains(kelime.ToLower(), StringComparer.OrdinalIgnoreCase))
-                .FirstOrDefault();
+        //    var kelimeSorgusu = columnKelimeVeri
+        //        .Select((row, rowIndex) => new
+        //        {
+        //            RowIndex = rowIndex,
+        //            Words = row.Select(word => word.ToString().ToLower())
+        //        })
+        //        .Where(row => row.Words.Contains(kelime.ToLower(), StringComparer.OrdinalIgnoreCase))
+        //        .FirstOrDefault();
 
-            if (kelimeSorgusu != null)
-                ingKelime = columnWordData.ElementAtOrDefault(kelimeSorgusu.RowIndex)[0].ToString();
-            else
-                ingKelime = Ceviri(kelime, true).ToString();
+        //    if (kelimeSorgusu != null)
+        //        ingKelime = columnWordData.ElementAtOrDefault(kelimeSorgusu.RowIndex)[0].ToString();
+        //    else
+        //        ingKelime = Ceviri(kelime, true).ToString();
 
-            return KelimeDuzelt(ingKelime);
-        }
+        //    return KelimeDuzelt(ingKelime);
+        //}
 
         public Tuple<string, string, string> RastgeleCumle()//Cümleleri alınca koyacam.
         {
@@ -277,248 +277,248 @@ namespace Kelimecim
         /// </summary>
         /// <param name="VeritabaniMi"></param>
         /// <returns></returns>
-        public Tuple<string, string> RastgeleKelimeGetirVTOrMyList(bool VeritabaniMi)
-        {
-            if(!VeritabaniMi)
-                Sayfa1VeriGuncelle();
+        //public Tuple<string, string> RastgeleKelimeGetirVTOrMyList(bool VeritabaniMi)
+        //{
+        //    if(!VeritabaniMi)
+        //        Sayfa1VeriGuncelle();
 
-            //kaç satırlık veri var bunların değerini çekiyorum.
-            int sonsatirMyList = sutunAVeri.Count();
-            int sonsatirVT = columnKelimeVeri.Count();
+        //    //kaç satırlık veri var bunların değerini çekiyorum.
+        //    int sonsatirMyList = sutunAVeri.Count();
+        //    int sonsatirVT = columnKelimeVeri.Count();
 
-            int hangiSatirMyList = rn.Next(0, sonsatirMyList);//veri sayısına göre rastgele bir satırdan veri çekmeyi istiyorum.
-            int hangiSatirVT = rn.Next(0, sonsatirVT);
+        //    int hangiSatirMyList = rn.Next(0, sonsatirMyList);//veri sayısına göre rastgele bir satırdan veri çekmeyi istiyorum.
+        //    int hangiSatirVT = rn.Next(0, sonsatirVT);
 
-            string kelime = VeritabaniMi ? columnKelimeVeri[hangiSatirVT][0].ToString() : sutunAVeri[hangiSatirMyList][0].ToString();//Eğer veritabaniMi sorgusu true gelirse kendi sözlüğümden veri çekip değişkene atayacağım değilse sayfa1'de bulunan kendi eklediğim kelimelerden veri çekip değişkene atayacağım.
-            string word = VeritabaniMi ? columnWordData[hangiSatirVT][0].ToString() : sutunBVeri[hangiSatirMyList][0].ToString();//aynı mantıkla kelimenin anlamını çekiyorum.
+        //    string kelime = VeritabaniMi ? columnKelimeVeri[hangiSatirVT][0].ToString() : sutunAVeri[hangiSatirMyList][0].ToString();//Eğer veritabaniMi sorgusu true gelirse kendi sözlüğümden veri çekip değişkene atayacağım değilse sayfa1'de bulunan kendi eklediğim kelimelerden veri çekip değişkene atayacağım.
+        //    string word = VeritabaniMi ? columnWordData[hangiSatirVT][0].ToString() : sutunBVeri[hangiSatirMyList][0].ToString();//aynı mantıkla kelimenin anlamını çekiyorum.
 
-            return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
-        }
+        //    return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
+        //}
 
-        public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime, bool tersCevir)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
-        {
-            //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
-            IList<IList<object>> veriSeti = tersCevir ? columnWordData : columnKelimeVeri;
+        //public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime, bool tersCevir)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
+        //{
+        //    //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
+        //    IList<IList<object>> veriSeti = tersCevir ? columnWordData : columnKelimeVeri;
 
-            int sonsatirVT = veriSeti.Count();
-            int eklenenIndex = 0;
-            string[] kelimeler = new string[4];
+        //    int sonsatirVT = veriSeti.Count();
+        //    int eklenenIndex = 0;
+        //    string[] kelimeler = new string[4];
 
-            while (eklenenIndex < 4)
-            {
-                int hangiSatirVTT = rn.Next(0, sonsatirVT);
-                string gelenVeri = KelimeDuzelt(veriSeti[hangiSatirVTT][0].ToString());
-                if (!kelimeler.Contains(gelenVeri) && gelenVeri != KelimeDuzelt(dogruKelime))
-                {
-                    kelimeler[eklenenIndex] = KelimeDuzelt(gelenVeri);
-                    eklenenIndex++;
-                }
-            }
+        //    while (eklenenIndex < 4)
+        //    {
+        //        int hangiSatirVTT = rn.Next(0, sonsatirVT);
+        //        string gelenVeri = KelimeDuzelt(veriSeti[hangiSatirVTT][0].ToString());
+        //        if (!kelimeler.Contains(gelenVeri) && gelenVeri != KelimeDuzelt(dogruKelime))
+        //        {
+        //            kelimeler[eklenenIndex] = KelimeDuzelt(gelenVeri);
+        //            eklenenIndex++;
+        //        }
+        //    }
 
-            return kelimeler;
-        }
-        public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
-        {
-            Sayfa1VeriGuncelle();
-            //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
-            IList<IList<object>> veriSeti = sutunBVeri;
+        //    return kelimeler;
+        //}
+        //public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
+        //{
+        //    Sayfa1VeriGuncelle();
+        //    //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
+        //    IList<IList<object>> veriSeti = sutunBVeri;
 
-            int sonsatirVT = veriSeti.Count();
-            int eklenenIndex = 0;
-            string[] kelimeler = new string[4];
+        //    int sonsatirVT = veriSeti.Count();
+        //    int eklenenIndex = 0;
+        //    string[] kelimeler = new string[4];
 
-            while (eklenenIndex < 4)
-            {
-                int hangiSatirVTT = rn.Next(0, sonsatirVT);
-                string gelenVeri = KelimeDuzelt(veriSeti[hangiSatirVTT][0].ToString());
-                if (!kelimeler.Contains(gelenVeri) && gelenVeri != KelimeDuzelt(dogruKelime))
-                {
-                    kelimeler[eklenenIndex] = gelenVeri;
-                    eklenenIndex++;
-                }
-            }
-            return kelimeler;
-        }
+        //    while (eklenenIndex < 4)
+        //    {
+        //        int hangiSatirVTT = rn.Next(0, sonsatirVT);
+        //        string gelenVeri = KelimeDuzelt(veriSeti[hangiSatirVTT][0].ToString());
+        //        if (!kelimeler.Contains(gelenVeri) && gelenVeri != KelimeDuzelt(dogruKelime))
+        //        {
+        //            kelimeler[eklenenIndex] = gelenVeri;
+        //            eklenenIndex++;
+        //        }
+        //    }
+        //    return kelimeler;
+        //}
 
-        private bool VeriSorgu(string word)
-        {
-            Sayfa1VeriGuncelle();
+        //private bool VeriSorgu(string word)
+        //{
+        //    Sayfa1VeriGuncelle();
 
-            bool varMi = sutunAVeri
-                .Any(row => row.Any(kelime => kelime.ToString().Equals(word, StringComparison.OrdinalIgnoreCase)));
+        //    bool varMi = sutunAVeri
+        //        .Any(row => row.Any(kelime => kelime.ToString().Equals(word, StringComparison.OrdinalIgnoreCase)));
 
-            return varMi;
-        }
+        //    return varMi;
+        //}
 
 
-        /// <summary>
-        /// Çeviri yaptığım zaman kullanılasını istediğim method(verilerimi excel'e yerleştirmek için)
-        /// </summary>
-        /// <param name="word"></param>
-        /// <param name="kelime"></param>
-        public async Task VeriEkle(string word, string kelime)
-        {
-            if (VeriSorgu(word))
-                return;
+        ///// <summary>
+        ///// Çeviri yaptığım zaman kullanılasını istediğim method(verilerimi excel'e yerleştirmek için)
+        ///// </summary>
+        ///// <param name="word"></param>
+        ///// <param name="kelime"></param>
+        //public async Task VeriEkle(string word, string kelime)
+        //{
+        //    if (VeriSorgu(word))
+        //        return;
 
-            body = new ValueRange
-            {
-                Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), kelime } }
-            };
+        //    body = new ValueRange
+        //    {
+        //        Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), kelime } }
+        //    };
 
-            verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);
+        //    verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);
 
-            // Veriyi ekle
-            verireq.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
-            verireq.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
+        //    // Veriyi ekle
+        //    verireq.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
+        //    verireq.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
 
-            AppendValuesResponse response = await verireq.ExecuteAsync();
-        }
+        //    AppendValuesResponse response = await verireq.ExecuteAsync();
+        //}
 
-        public bool VeriSil(string word)
-        {
-            int index = -1;
-            bool silindiMi = false;
-            for (int i = 0; i < sutunAVeri.Count; i++)
-                if (sutunAVeri[i].FirstOrDefault()?.ToString() == word)
-                {
-                    index = i;
-                    break;
-                }
+        //public bool VeriSil(string word)
+        //{
+        //    int index = -1;
+        //    bool silindiMi = false;
+        //    for (int i = 0; i < sutunAVeri.Count; i++)
+        //        if (sutunAVeri[i].FirstOrDefault()?.ToString() == word)
+        //        {
+        //            index = i;
+        //            break;
+        //        }
 
-            if (index != -1)
-            {
-                index++;
+        //    if (index != -1)
+        //    {
+        //        index++;
 
-                // Silme isteği oluştur
-                var silmeIstegi = new Request
-                {
-                    DeleteDimension = new DeleteDimensionRequest
-                    {
-                        Range = new DimensionRange
-                        {
-                            Dimension = "ROWS", // Satır boyunca sil
-                            StartIndex = index - 1,
-                            EndIndex = index
-                        }
-                    }
-                };
+        //        // Silme isteği oluştur
+        //        var silmeIstegi = new Request
+        //        {
+        //            DeleteDimension = new DeleteDimensionRequest
+        //            {
+        //                Range = new DimensionRange
+        //                {
+        //                    Dimension = "ROWS", // Satır boyunca sil
+        //                    StartIndex = index - 1,
+        //                    EndIndex = index
+        //                }
+        //            }
+        //        };
 
-                // Silme işlemini gerçekleştir
-                service.Spreadsheets.BatchUpdate(new BatchUpdateSpreadsheetRequest
-                {
-                    Requests = new List<Request> { silmeIstegi }
-                }, spreadsheetId).Execute();
-                silindiMi = true;
-                Sayfa1VeriGuncelle();
-            }
-            return silindiMi;
-        }
-        public void VeriEkle(string word)
-        {
-            if (VeriSorgu(word))
-                return;
-            string kelime = KelimeDuzelt(KelimeAraENG(word));
-            word = KelimeDuzelt(word);
+        //        // Silme işlemini gerçekleştir
+        //        service.Spreadsheets.BatchUpdate(new BatchUpdateSpreadsheetRequest
+        //        {
+        //            Requests = new List<Request> { silmeIstegi }
+        //        }, spreadsheetId).Execute();
+        //        silindiMi = true;
+        //        Sayfa1VeriGuncelle();
+        //    }
+        //    return silindiMi;
+        //}
+        //public void VeriEkle(string word)
+        //{
+        //    if (VeriSorgu(word))
+        //        return;
+        //    string kelime = KelimeDuzelt(KelimeAraENG(word));
+        //    word = KelimeDuzelt(word);
               
-            //kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
-            // Veriyi eklemek için gereken parametreleri oluştur
-            body = new ValueRange
-            {
-                Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), kelime } }
-            };
+        //    //kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
+        //    // Veriyi eklemek için gereken parametreleri oluştur
+        //    body = new ValueRange
+        //    {
+        //        Values = new List<IList<object>> { new List<object> { KelimeDuzelt(word), kelime } }
+        //    };
 
-            verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);//Veri ekleme
+        //    verireq = service.Spreadsheets.Values.Append(body, spreadsheetId, kendiSutunum);//Veri ekleme
 
-            // Veriyi eklemek istediğiniz hücreyi belirleyin
+        //    // Veriyi eklemek istediğiniz hücreyi belirleyin
 
-            // Veriyi ekle
-            verireq.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
-            verireq.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
+        //    // Veriyi ekle
+        //    verireq.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
+        //    verireq.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
 
-            AppendValuesResponse response = verireq.Execute();
+        //    AppendValuesResponse response = verireq.Execute();
 
-            // İşlem sonucunu kontrol edin
-            //if (responseUpdate.UpdatedCells > 0)
-            //{
-            //    Console.WriteLine("Veri başarıyla eklendi.");//Değişebilir
-            //}
-            //else
-            //{
-            //Console.WriteLine("Veri ekleme başarısız.");
-            //}
-        }
-        private async void Sayfa1VeriGuncelle()
-        {
+        //    // İşlem sonucunu kontrol edin
+        //    //if (responseUpdate.UpdatedCells > 0)
+        //    //{
+        //    //    Console.WriteLine("Veri başarıyla eklendi.");//Değişebilir
+        //    //}
+        //    //else
+        //    //{
+        //    //Console.WriteLine("Veri ekleme başarısız.");
+        //    //}
+        //}
+        //private async void Sayfa1VeriGuncelle()
+        //{
       
-                var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
-            {
-                service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum) };
+        //        var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
+        //    {
+        //        service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum) };
 
-            // Execute requests in parallel and wait for all to complete
-            var responses = await Task.WhenAll(requests.Select(request => request.ExecuteAsync()));
+        //    // Execute requests in parallel and wait for all to complete
+        //    var responses = await Task.WhenAll(requests.Select(request => request.ExecuteAsync()));
 
-            var kendiSutunumDegerleri = responses[0].Values;
-            sutunAVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>(); //Linq kullanarak ilk hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
-            sutunBVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Linq kullanarak ikinci hücredeki verileri gerektiği şekilde 
-        }
+        //    var kendiSutunumDegerleri = responses[0].Values;
+        //    sutunAVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(0) }).ToList<IList<object>>(); //Linq kullanarak ilk hücredeki verileri gerektiği şekilde çekiyorum kendi listem için.
+        //    sutunBVeri = kendiSutunumDegerleri.Select(row => new List<object> { row.ElementAtOrDefault(1) }).ToList<IList<object>>();//Linq kullanarak ikinci hücredeki verileri gerektiği şekilde 
+        //}
 
-        public Tuple<List<string>, List<string>> Sayfa1Veri()
-        {
-            Sayfa1VeriGuncelle();
-            List<string> ASutunu = new List<string>();
-            List<string> BSutunu = new List<string>();
+        //public Tuple<List<string>, List<string>> Sayfa1Veri()
+        //{
+        //    Sayfa1VeriGuncelle();
+        //    List<string> ASutunu = new List<string>();
+        //    List<string> BSutunu = new List<string>();
 
-            if (sutunAVeri != null && sutunAVeri.Count > 0)
-            {
-                foreach (var row in sutunAVeri)
-                {
-                    foreach (string cell in row)
-                    {
-                        ASutunu.Add(cell);
-                    }
-                }
-            }
-            if (sutunBVeri != null && sutunBVeri.Count > 0)
-            {
-                foreach (var row in sutunBVeri)
-                {
-                    foreach (string cell in row)
-                    {
-                        BSutunu.Add(cell);
-                    }
-                }
-            }
-            ASutunu.Reverse();
-            BSutunu.Reverse();
-            Tuple<List<string>, List<string>> veri = new Tuple<List<string>, List<string>>(ASutunu, BSutunu);
+        //    if (sutunAVeri != null && sutunAVeri.Count > 0)
+        //    {
+        //        foreach (var row in sutunAVeri)
+        //        {
+        //            foreach (string cell in row)
+        //            {
+        //                ASutunu.Add(cell);
+        //            }
+        //        }
+        //    }
+        //    if (sutunBVeri != null && sutunBVeri.Count > 0)
+        //    {
+        //        foreach (var row in sutunBVeri)
+        //        {
+        //            foreach (string cell in row)
+        //            {
+        //                BSutunu.Add(cell);
+        //            }
+        //        }
+        //    }
+        //    ASutunu.Reverse();
+        //    BSutunu.Reverse();
+        //    Tuple<List<string>, List<string>> veri = new Tuple<List<string>, List<string>>(ASutunu, BSutunu);
 
-            return veri;
-        }
+        //    return veri;
+        //}
 
-        public string Ceviri(string text, bool tr)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                string ceviridil = tr ? "tr|en" : "en|tr";
-                string apiUrl = $"https://api.mymemory.translated.net/get?q={text}&langpair={ceviridil}";
+        //public string Ceviri(string text, bool tr)
+        //{
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        string ceviridil = tr ? "tr|en" : "en|tr";
+        //        string apiUrl = $"https://api.mymemory.translated.net/get?q={text}&langpair={ceviridil}";
 
-                HttpResponseMessage response = client.GetAsync(apiUrl).Result; // Bekleyerek sonucu al
+        //        HttpResponseMessage response = client.GetAsync(apiUrl).Result; // Bekleyerek sonucu al
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseBody = response.Content.ReadAsStringAsync().Result; // Bekleyerek içeriği al
-                    dynamic json = JObject.Parse(responseBody);
-                    string translatedText = json.responseData.translatedText;
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            string responseBody = response.Content.ReadAsStringAsync().Result; // Bekleyerek içeriği al
+        //            dynamic json = JObject.Parse(responseBody);
+        //            string translatedText = json.responseData.translatedText;
 
-                    return translatedText;
-                }
-                else
-                {
-                    return "Çevirisiz.";
-                }
-            }
-        }
+        //            return translatedText;
+        //        }
+        //        else
+        //        {
+        //            return "Çevirisiz.";
+        //        }
+        //    }
+        //}
         private string KelimeDuzelt(string kelime)//Sayfama veri eklerken bu formatta eklensin istiyorum.
         {
             string sonuc = char.ToUpper(kelime[0]) + kelime.Substring(1).ToLower();
@@ -527,30 +527,30 @@ namespace Kelimecim
     }
 
 }
-class VeriYonlendir
-{
-    private static VeriYonlendir _instance;
+//class VeriYonlendir
+//{
+//    private static VeriYonlendir _instance;
 
-    public static VeriYonlendir Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new VeriYonlendir();
-            }
-            return _instance;
-        }
-    }
-    public List<string> gosterilenKelimelerYanlis { get; set; }
-    public List<string> gosterilenKelimelerDogru  { get; set; }
-    public bool trMii { get; set; }
+//    public static VeriYonlendir Instance
+//    {
+//        get
+//        {
+//            if (_instance == null)
+//            {
+//                _instance = new VeriYonlendir();
+//            }
+//            return _instance;
+//        }
+//    }
+//    public List<string> gosterilenKelimelerYanlis { get; set; }
+//    public List<string> gosterilenKelimelerDogru  { get; set; }
+//    public bool trMii { get; set; }
 
-    // Yapıcı metod
-    public VeriYonlendir()
-    {
-        // Listeleri başlat
-        gosterilenKelimelerYanlis = new List<string>();
-        gosterilenKelimelerDogru = new List<string>();
-    }
-}
+//    // Yapıcı metod
+//    public VeriYonlendir()
+//    {
+//        // Listeleri başlat
+//        gosterilenKelimelerYanlis = new List<string>();
+//        gosterilenKelimelerDogru = new List<string>();
+//    }
+//}

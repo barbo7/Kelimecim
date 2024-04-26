@@ -2,7 +2,8 @@ namespace Kelimecim;
 
 public partial class CumleCalismasi : ContentPage
 {
-    GoogleSheets gs = GoogleSheets.Instance;
+    //GoogleSheets gs = GoogleSheets.Instance;
+    SqliteProcess sp = SqliteProcess.Instance;
     CancellationTokenSource cancelTokenSource;
     public CumleCalismasi()
     {
@@ -30,29 +31,29 @@ public partial class CumleCalismasi : ContentPage
     {
         if(wordText.Text !="")
         {
-            await gs.VeriEkle(wordText.Text, kelimeText.Text);
+            sp.VeriEkle(wordText.Text, kelimeText.Text);
             CumleGetir();
         }
     }
 
     private void SagButton_Clicked(object sender, EventArgs e)
     {
-         if(!gs.CumleSayfasiHazirMi)
-        {
-            DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
-            return;
-        }
+        // if(!gs.CumleSayfasiHazirMi)
+        //{
+        //    DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
+        //    return;
+        //}
 
         CumleGetir();
     }
 
     private void CumleGetir()
     {
-        Tuple<string, string, string> vericik = gs.RastgeleCumle();
-        sentences.Text = vericik.Item1;
-        wordText.Text = vericik.Item2;
-        kelimeText.Text = vericik.Item3;
-        MetindenSese(wordText.Text);
+        //Tuple<string, string, string> vericik = gs.RastgeleCumle();
+        //sentences.Text = vericik.Item1;
+        //wordText.Text = vericik.Item2;
+        //kelimeText.Text = vericik.Item3;
+        //MetindenSese(wordText.Text);
     }
 
     private void SentencesSoundButton_Clicked(object sender, EventArgs e)

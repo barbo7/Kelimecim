@@ -9,9 +9,9 @@ namespace Kelimecim.DataAccess
     public class KelimecimDbContext : DbContext
 
     {
-        public DbSet<EnglishTurkishDictionaryA1ToB2> EnglishTurkishDictionaryA1ToB2S { get; set; }
-        public DbSet<EnglishTurkishDictionaryB2ToC1> EnglishTurkishDictionaryB2ToC1S { get; set; }
-        public DbSet<UsersDictionary> UsersDictionaries { get; set; }
+        public DbSet<EnglishTurkishDictionaryA1ToB2> EnglishTurkishDictionaryA1ToB2 { get; set; }
+        public DbSet<EnglishTurkishDictionaryB2ToC1> EnglishTurkishDictionaryB2ToC1 { get; set; }
+        public DbSet<UsersDictionary> UsersDictionary { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

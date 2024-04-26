@@ -21,19 +21,22 @@ namespace Kelimecim
         //List<string> sentencesWords = new List<string>();
         //List<string> sentencesMeanings = new List<string>();
 
+        private static readonly object lockObject = new object();
+        private static SqliteProcess _instance;
         private readonly KelimecimDbContext vocabularyDb;
+
         public SqliteProcess(KelimecimDbContext vocabularyDb)
         {
             this.vocabularyDb = vocabularyDb;
-            foreach (var item in vocabularyDb.EnglishTurkishDictionaryA1ToB2S)
+            foreach (var item in vocabularyDb.EnglishTurkishDictionaryA1ToB2)
             {
                 wordMeaningDBBeginner.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//A1-B2 arası kelimeler
             }
-            foreach (var item in vocabularyDb.EnglishTurkishDictionaryB2ToC1S)
+            foreach (var item in vocabularyDb.EnglishTurkishDictionaryB2ToC1)
             {
                 wordMeaningDBIntermediate.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//B2-C1 arası kelimeler
             }
-            foreach (var item in vocabularyDb.UsersDictionaries)
+            foreach (var item in vocabularyDb.UsersDictionary)
             {
                 userWordsMeaning.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//Kullanıcının database'inden veri çekmek için
             }
@@ -41,6 +44,27 @@ namespace Kelimecim
             wordMeaningDBTotal.AddRange(wordMeaningDBBeginner);
             wordMeaningDBTotal.AddRange(wordMeaningDBIntermediate);
 
+        }
+
+        // Public static Instance property
+        public static SqliteProcess Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (lockObject)  // Ensure thread safety
+                    {
+                        if (_instance == null)
+                        {
+                            // Bu satırda DbContext oluşturmanız gerekebilir ya da dışarıdan almanız gerekir
+                            // Ancak singleton pattern genellikle parametresiz bir constructor gerektirir.
+                            _instance = new SqliteProcess(new KelimecimDbContext()); // Parametre gerektirebilir
+                        }
+                    }
+                }
+                return _instance;
+            }
         }
         //public bool kelimeSayfasiHazirMi = false;
         //public bool CumleSayfasiHazirMi = false;
@@ -54,12 +78,31 @@ namespace Kelimecim
             string trKelime = kelime.ToLower();
 
             string meaningOfWord = wordMeaningDBTotal
-                .Where(vocab => string.Equals(vocab.Word, kelime, StringComparison.OrdinalIgnoreCase))
-                .Select(vocab => vocab.Meaning)
+                .Where(vocab => string.Equals(vocab.Meaning, kelime, StringComparison.OrdinalIgnoreCase))
+                .Select(vocab => vocab.Word)
                 .FirstOrDefault();
             if (meaningOfWord != null)
             {
                 return meaningOfWord;
+            }
+            else
+            {
+                //Web'de çeviri yapma özelliği ekleyecem.
+                return "Kelime bulunamadı";
+            }
+
+        }
+        public string KelimeAraENG(string word)
+        {
+            string enKelime = word.ToLower();
+
+            string wordmeaning = wordMeaningDBTotal
+                .Where(vocab => string.Equals(vocab.Word, word, StringComparison.OrdinalIgnoreCase))
+                .Select(vocab => vocab.Meaning)
+                .FirstOrDefault();
+            if (wordmeaning != null)
+            {
+                return wordmeaning;
             }
             else
             {
@@ -87,9 +130,9 @@ namespace Kelimecim
             int hangiSatirMyList = rn.Next(0, sonsatirMyList);//veri sayısına göre rastgele bir satırdan veri çekmeyi istiyorum.
             int hangiSatirVT = rn.Next(0, sonsatirVT);
 
-            string kelime = VeritabaniMi ? userWordsMeaning[hangiSatirMyList].Meaning : wordMeaningDBTotal[hangiSatirVT].Meaning;//Eğer veritabaniMi sorgusu true gelirse kendi sözlüğümden veri çekip değişkene atayacağım değilse sayfa1'de bulunan kendi eklediğim kelimelerden veri çekip değişkene atayacağım.
+            string kelime = VeritabaniMi ? wordMeaningDBTotal[hangiSatirVT].Meaning : userWordsMeaning[hangiSatirMyList].Meaning;//Eğer veritabaniMi sorgusu true gelirse kendi sözlüğümden veri çekip değişkene atayacağım değilse sayfa1'de bulunan kendi eklediğim kelimelerden veri çekip değişkene atayacağım.
             
-            string word = VeritabaniMi ? userWordsMeaning[hangiSatirVT].Word : wordMeaningDBTotal[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
+            string word = VeritabaniMi ?  wordMeaningDBTotal[hangiSatirVT].Word : userWordsMeaning[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
 
             return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
         }
@@ -150,11 +193,11 @@ namespace Kelimecim
         {
             //Sayfa1VeriGuncelle();
 
-            bool varMi = wordMeaningDBTotal.Select(x => x.Word).ToList().Any(x => x.Equals(word, StringComparison.OrdinalIgnoreCase));
+            bool varMi = userWordsMeaning.Select(x => x.Word).ToList().Any(x => x.Equals(word, StringComparison.OrdinalIgnoreCase));
 
             return varMi;
         }
-        public async Task VeriEkle(string kelime, string anlam)
+        public void VeriEkle(string kelime, string anlam)
         {
             
             if (VeriSorgu(kelime))
@@ -162,8 +205,8 @@ namespace Kelimecim
             else
             {
                 userWordsMeaning.Add(new Vocabulary { Word = kelime, Meaning = anlam });
-                await vocabularyDb.UsersDictionaries.AddAsync(new UsersDictionary { Word = kelime, Meaning = anlam });
-                await vocabularyDb.SaveChangesAsync();
+                 vocabularyDb.UsersDictionary.Add(new UsersDictionary { Word = kelime, Meaning = anlam });
+                vocabularyDb.SaveChanges();
             }
         }
         public bool VeriSil(string word)
@@ -172,7 +215,7 @@ namespace Kelimecim
             if(userWordsMeaning.Select(x=>word).ToList().Any(x=>x.Equals(word, StringComparison.OrdinalIgnoreCase)))
             {
                 userWordsMeaning.Remove(userWordsMeaning.FirstOrDefault(x => x.Word == word));
-                vocabularyDb.UsersDictionaries.Remove(vocabularyDb.UsersDictionaries.FirstOrDefault(x => x.Word == word));
+                vocabularyDb.UsersDictionary.Remove(vocabularyDb.UsersDictionary.FirstOrDefault(x => x.Word == word));
                 vocabularyDb.SaveChanges();
                 silindiMi = true;
             }

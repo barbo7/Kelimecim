@@ -2,6 +2,7 @@
 using Kelimecim.DataAccess;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
+using Kelimecim.Utilities;
 
 namespace Kelimecim
 {
@@ -31,17 +32,32 @@ namespace Kelimecim
         public static void InitializeDatabase()
         {
             var dbName = "KelimecimDb.db";
-            var dbPath = Kelimecim.Utilities.PathDB.GetPath(dbName);
+            var dbPath = PathDB.GetPath(dbName);
+            Console.WriteLine($"Database path: {dbPath}");
+
+            if (string.IsNullOrEmpty(dbPath))
+            {
+                throw new ArgumentException("Database path cannot be null or empty.", nameof(dbPath));
+            }
+
             if (!File.Exists(dbPath))
             {
                 var assembly = IntrospectionExtensions.GetTypeInfo(typeof(MauiProgram)).Assembly;
-                Stream stream = assembly.GetManifestResourceStream($"Kelimecim.Resources.{dbName}");
+                var resourceName = "Kelimecim.Resources.KelimecimDb.db"; // Bu ismi projenize göre düzenleyin
+                Stream stream = assembly.GetManifestResourceStream(resourceName);
+
+                if (stream == null)
+                {
+                    throw new FileNotFoundException($"Resource '{resourceName}' not found.");
+                }
+
                 using (var fileStream = new FileStream(dbPath, FileMode.Create))
                 {
                     stream.CopyTo(fileStream);
                 }
             }
         }
+
     }
 
 }

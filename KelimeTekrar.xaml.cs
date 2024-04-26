@@ -2,7 +2,8 @@ namespace Kelimecim;
 
 public partial class KelimeTekrar : ContentPage
 {
-    GoogleSheets gs = GoogleSheets.Instance;
+    //GoogleSheets gs = GoogleSheets.Instance;
+    SqliteProcess sp = SqliteProcess.Instance;
     CancellationTokenSource cancelTokenSource;
     Tuple<string, string> veri;
     public KelimeTekrar()
@@ -12,17 +13,17 @@ public partial class KelimeTekrar : ContentPage
     }
     private void SagButton_Clicked(object sender, EventArgs e)
     {
-        if (!gs.kelimeSayfasiHazirMi)
-        {
-            DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
-            return;
-        }
+        //if (!gs.kelimeSayfasiHazirMi)
+        //{
+        //    DisplayAlert("Uyarý", "Sayfa henüz hazýr deðil tekrar deneyin", "Tamam");
+        //    return;
+        //}
 
         YeniKelime();
     }
     private void YeniKelime()
     {
-        veri = gs.RastgeleKelimeGetirVTOrMyList(false);
+        veri = sp.RastgeleKelimeGetirVTOrMyList(false);
 
         wordText.Text = veri.Item1;
         kelimeText.Text = veri.Item2;
