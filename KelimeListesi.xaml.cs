@@ -17,15 +17,8 @@ namespace Kelimecim
         protected override void OnAppearing()
         {
             SayfayiAc();
-            SayfayiYenidenYukle();
         }
-        void SayfayiYenidenYukle()
-        {
-
-
-            // Yeniden oluþtur
-            SayfayiAc();
-        }
+       
 
         private async void MetindenSese(string textBoxText)
         {
@@ -46,12 +39,11 @@ namespace Kelimecim
             List<string> sutunA = gs.Sayfa1Veri().Item1;
             List<string> sutunB = gs.Sayfa1Veri().Item2;
 
-            // Grid'i temizleyin
             kelimeAnlamlariGrid.Children.Clear();
             kelimeAnlamlariGrid.RowDefinitions.Clear();
             kelimeAnlamlariGrid.ColumnDefinitions.Clear();
 
-            // Sütun tanımlarını yeniden oluşturun
+            // Sütunları yeniden tanımla
             kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             kelimeAnlamlariGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -61,16 +53,16 @@ namespace Kelimecim
             {
                 var kelimeLabel = new Label { Text = sutunA[i], FontSize = 12, WidthRequest = 150, HorizontalOptions = LayoutOptions.Start, HorizontalTextAlignment = TextAlignment.Start };
                 var anlamLabel = new Label { Text = sutunB[i], FontSize = 10, WidthRequest = 150, HorizontalOptions = LayoutOptions.Center, HorizontalTextAlignment = TextAlignment.Start };
+
                 var textToSpeechButton = new ImageButton { Source = "sound.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
                 var removeButton = new ImageButton { Source = "remove.png", WidthRequest = 20, HeightRequest = 20, HorizontalOptions = LayoutOptions.End };
 
+                // Button'ların Clicked olayını yeniden bağla
                 textToSpeechButton.Clicked += (sender, e) => MetindenSese(kelimeLabel.Text);
                 removeButton.Clicked += (sender, e) => silmeEmri(kelimeLabel.Text);
 
-                // Her eleman için yeni satır tanımı ekleyin
                 kelimeAnlamlariGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                // Grid içerisinde satır ve sütunları belirleyin
                 Grid.SetRow(kelimeLabel, i);
                 Grid.SetColumn(kelimeLabel, 0);
 
@@ -90,6 +82,7 @@ namespace Kelimecim
             }
         }
 
+
         private async void silmeEmri(string word)
         {
             var result = await DisplayAlert("Silme Ýþlemi", $"'{word}' Kelimesini silmek istediðinize emin misiniz?", "Hayýr", "Evet");
@@ -99,7 +92,7 @@ namespace Kelimecim
                 if (gs.VeriSil(word))
                 {
                     // Sayfayý tekrar yükle
-                    SayfayiYenidenYukle();
+                    SayfayiAc();
                     await DisplayAlert("Baþarýlý", "Kelime silme iþleminiz baþarýlý!", "Tamam");
                 }
                 else
@@ -113,18 +106,6 @@ namespace Kelimecim
 
         }
         private void oncekiSayfa_Clicked(object sender, EventArgs e)
-        {
-
-        }
-        private void sayfaNumarasi1_Clicked(object sender, EventArgs e)
-        {
-
-        }
-        private void sayfaNumarasi2_Clicked(object sender, EventArgs e)
-        {
-
-        }
-        private void sayfaNumarasi3_Clicked(object sender, EventArgs e)
         {
 
         }

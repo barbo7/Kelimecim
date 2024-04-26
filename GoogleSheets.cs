@@ -34,13 +34,13 @@ namespace Kelimecim
         //ValueRange responseCumleWord;
         //ValueRange responseCumleKelime;
 
-        IList<IList<object>> sutunAVeri;
-        IList<IList<object>> sutunBVeri;
-        IList<IList<object>> columnWordData;
-        IList<IList<object>> columnKelimeVeri;
-        IList<IList<object>> cumleliSayfaCumle;
-        IList<IList<object>> cumleliSayfaWord;
-        IList<IList<object>> cumleliSayfaKelime;
+        IList<IList<object>> sutunAVeri;//Kelime
+        IList<IList<object>> sutunBVeri;//Meaning
+        IList<IList<object>> columnWordData;//KullanıcıKelimeleri
+        IList<IList<object>> columnKelimeVeri;//Kullanıcı Verileri
+        IList<IList<object>> cumleliSayfaCumle;//VeriTabanı Cümleleri
+        IList<IList<object>> cumleliSayfaWord;//VeriTabanı Kelimeleri
+        IList<IList<object>> cumleliSayfaKelime;//VeriTabanı Anlamları
 
 
         string spreadsheetId = "1kafz2KAuvxqSdGbfNOou1S5keIf5wQDIDRLsdm9t6l8"; // excel tablosunun id'si
@@ -206,7 +206,7 @@ namespace Kelimecim
             InitializeAsync();
             //VerileriCekAsync().Wait();
         }
-
+        // Buraya kadar
         public string KelimeAraENG(string AranacakWord)
         {
             string ingKelime = AranacakWord;

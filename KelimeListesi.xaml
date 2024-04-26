@@ -10,9 +10,9 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -52,11 +52,6 @@
             <HorizontalStackLayout x:Name="sonrakiLayout" HorizontalOptions="CenterAndExpand" Spacing="5" Grid.Row="2" VerticalOptions="FillAndExpand">
                 <Button x:Name="ilkSayfa" Text="«" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="ilkSayfa_Clicked" />
                 <Button x:Name="oncekiSayfa" Text="‹" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="oncekiSayfa_Clicked" />
-
-                <!-- Sayfa numaraları için daha kompakt tasarım -->
-                <Button x:Name="sayfaNumarasi1" Text="1" FontSize="Small" BackgroundColor="#E3F2FD" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sayfaNumarasi1_Clicked" />
-                <Button x:Name="sayfaNumarasi2" Text="2" FontSize="Small" BackgroundColor="#E3F2FD" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sayfaNumarasi2_Clicked" />
-                <Button x:Name="sayfaNumarasi3" Text="3" FontSize="Small" BackgroundColor="#E3F2FD" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sayfaNumarasi3_Clicked" />
 
                 <Button x:Name="sonrakiSayfa" Text="›" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sonrakiSayfa_Clicked" />
                 <Button x:Name="sonSayfa" Text="»" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sonSayfa_Clicked" />
