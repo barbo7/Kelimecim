@@ -10,8 +10,11 @@ namespace Kelimecim
 {
     public class SqliteProcess
     {
+        private Random rn = new Random();
+
         List<Vocabulary> wordMeaningDBBeginner = new List<Vocabulary>();
         List<Vocabulary> wordMeaningDBIntermediate = new List<Vocabulary>();
+        List<Vocabulary> wordMeaningDBTotal = new List<Vocabulary>();
 
         List<Vocabulary> userWordsMeaning = new List<Vocabulary>();
         //List<string> sentencesWithWords = new List<string>();
@@ -35,56 +38,46 @@ namespace Kelimecim
                 userWordsMeaning.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//Kullanıcının database'inden veri çekmek için
             }
 
-            //using(SqliteConnection connection = new SqliteConnection("Data Source=Db\\KelimecimDb.db"))
-            //{
-            //    connection.Open();
-            //    SqliteCommand cmd = new SqliteCommand("Select word, meaning from EnglishTurkishDictionaryA1ToB2",connection);
-            //    SqliteDataReader reader = cmd.ExecuteReader();
-            //    while(reader.Read())
-            //    {
-            //        wordsDB.Add(reader["word"].ToString());
-            //        meaningsDB.Add(reader["meaning"].ToString());
-            //    }
+            wordMeaningDBTotal.AddRange(wordMeaningDBBeginner);
+            wordMeaningDBTotal.AddRange(wordMeaningDBIntermediate);
 
-            //    SqliteCommand cmd2 = new SqliteCommand("Select word, meaning from UserDB", connection);
-            //    SqliteDataReader reader2 = cmd.ExecuteReader();
-            //    while (reader2.Read())
-            //    {
-            //        userWords.Add(reader2["word"].ToString());
-            //        userMeanings.Add(reader2["meaning"].ToString());
-            //    }
-            //}
         }
-        public bool kelimeSayfasiHazirMi = false;
-        public bool CumleSayfasiHazirMi = false;
-        public bool CoktanSecmeliSayfasiHazirMi = false;
+        //public bool kelimeSayfasiHazirMi = false;
+        //public bool CumleSayfasiHazirMi = false;
+        //public bool CoktanSecmeliSayfasiHazirMi = false;
 
 
-        private static SqliteProcess _instance;
+        //private static SqliteProcess _instance;
 
-        private Random rn = new Random();
+        public string KelimeAraTR(string kelime)
+        {
+            string trKelime = kelime.ToLower();
 
-        //public static SqliteProcess Instance
-        //{
-        //    get
-        //    {
-        //        if (_instance == null)
-        //        {
-        //            _instance = new SqliteProcess();
-        //        }
-        //        return _instance;
-        //    }
-        //}
-    
+            string meaningOfWord = wordMeaningDBTotal
+                .Where(vocab => string.Equals(vocab.Word, kelime, StringComparison.OrdinalIgnoreCase))
+                .Select(vocab => vocab.Meaning)
+                .FirstOrDefault();
+            if (meaningOfWord != null)
+            {
+                return meaningOfWord;
+            }
+            else
+            {
+                //Web'de çeviri yapma özelliği ekleyecem.
+                return "Kelime bulunamadı";
+            }
+
+        }
 
 
 
-       
-}
+
+
+    }
     public class Vocabulary
     {
         public string Word { get; set; }
         public string Meaning { get; set; }
-   
+
     }
 }

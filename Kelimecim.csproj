@@ -97,6 +97,13 @@
 	  <None Remove="Resources\Images\remove.png" />
 	  <None Remove="Resources\Images\sound.svg" />
 	  <None Remove="Resources\Images\vocabulary.png" />
+	  <None Remove="Resources\KelimecimDb.db" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\KelimecimDb.db">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<!--<ItemGroup>
