@@ -49,11 +49,11 @@ public partial class CumleCalismasi : ContentPage
 
     private void CumleGetir()
     {
-        //Tuple<string, string, string> vericik = gs.RastgeleCumle();
-        //sentences.Text = vericik.Item1;
-        //wordText.Text = vericik.Item2;
-        //kelimeText.Text = vericik.Item3;
-        //MetindenSese(wordText.Text);
+        Tuple<string, string, string> vericik = sp.RastgeleCumle();
+        sentences.Text = vericik.Item1;
+        wordText.Text = vericik.Item2;
+        kelimeText.Text = vericik.Item3;
+        MetindenSese(wordText.Text);
     }
 
     private void SentencesSoundButton_Clicked(object sender, EventArgs e)

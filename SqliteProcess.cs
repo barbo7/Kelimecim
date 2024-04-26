@@ -15,6 +15,7 @@ namespace Kelimecim
         List<Vocabulary> wordMeaningDBBeginner = new List<Vocabulary>();
         List<Vocabulary> wordMeaningDBIntermediate = new List<Vocabulary>();
         List<Vocabulary> wordMeaningDBTotal = new List<Vocabulary>();
+        List<Sentences> sentences = new List<Sentences>();
 
         List<Vocabulary> userWordsMeaning = new List<Vocabulary>();
         //List<string> sentencesWithWords = new List<string>();
@@ -40,10 +41,13 @@ namespace Kelimecim
             {
                 userWordsMeaning.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//Kullanıcının database'inden veri çekmek için
             }
+            foreach (var item in vocabularyDb.MixedSentencesInEnglish)
+            {
+                sentences.Add(new Sentences { Word = item.Word, Meaning = item.Meaning, Sentence = item.Sentence });
+            }
 
             wordMeaningDBTotal.AddRange(wordMeaningDBBeginner);
             wordMeaningDBTotal.AddRange(wordMeaningDBIntermediate);
-
         }
 
         // Public static Instance property
@@ -109,7 +113,6 @@ namespace Kelimecim
                 //Web'de çeviri yapma özelliği ekleyecem.
                 return "Kelime bulunamadı";
             }
-
         }
 
 
@@ -131,8 +134,8 @@ namespace Kelimecim
             int hangiSatirVT = rn.Next(0, sonsatirVT);
 
             string kelime = VeritabaniMi ? wordMeaningDBTotal[hangiSatirVT].Meaning : userWordsMeaning[hangiSatirMyList].Meaning;//Eğer veritabaniMi sorgusu true gelirse kendi sözlüğümden veri çekip değişkene atayacağım değilse sayfa1'de bulunan kendi eklediğim kelimelerden veri çekip değişkene atayacağım.
-            
-            string word = VeritabaniMi ?  wordMeaningDBTotal[hangiSatirVT].Word : userWordsMeaning[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
+
+            string word = VeritabaniMi ? wordMeaningDBTotal[hangiSatirVT].Word : userWordsMeaning[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
 
             return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
         }
@@ -141,9 +144,9 @@ namespace Kelimecim
         {
             //geliştirme yapmak istersem kullanıcıdan bir tane daha değer isterim boolean olacak şekilde ve true olursa columnKelimeVeri'yi false olursa columnWordData'yı
             List<string> veriler = new List<string>();
-            foreach(var i in wordMeaningDBTotal)
+            foreach (var i in wordMeaningDBTotal)
             {
-                if(tersCevir)
+                if (tersCevir)
                 {
                     veriler.Add(i.Word);
                 }
@@ -170,7 +173,7 @@ namespace Kelimecim
         }
         public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
         {
-      
+
             List<string> veriSeti = wordMeaningDBTotal.Select(x => x.Meaning).ToList();
 
             int sonsatirVT = veriSeti.Count();
@@ -189,6 +192,18 @@ namespace Kelimecim
             }
             return kelimeler;
         }
+        public Tuple<string, string, string> RastgeleCumle()//Cümleleri alınca koyacam.
+        {
+            int sonSatir = sentences.Count();
+            Random rn = new Random();
+            int hangiSayi = rn.Next(0, sonSatir);
+
+            string cumle = sentences.Select(x => x.Sentence).ToList()[hangiSayi];
+            string word = sentences.Select(x => x.Word).ToList()[hangiSayi];
+            string kelime = sentences.Select(x => x.Meaning).ToList()[hangiSayi];
+
+            return Tuple.Create(cumle, word, kelime);
+        }
         private bool VeriSorgu(string word)//dB'DE VAR MI YOK MU
         {
             //Sayfa1VeriGuncelle();
@@ -199,20 +214,20 @@ namespace Kelimecim
         }
         public void VeriEkle(string kelime, string anlam)
         {
-            
+
             if (VeriSorgu(kelime))
                 return;
             else
             {
                 userWordsMeaning.Add(new Vocabulary { Word = kelime, Meaning = anlam });
-                 vocabularyDb.UsersDictionary.Add(new UsersDictionary { Word = kelime, Meaning = anlam });
+                vocabularyDb.UsersDictionary.Add(new UsersDictionary { Word = kelime, Meaning = anlam });
                 vocabularyDb.SaveChanges();
             }
         }
         public bool VeriSil(string word)
         {
             bool silindiMi = false;
-            if(userWordsMeaning.Select(x=>word).ToList().Any(x=>x.Equals(word, StringComparison.OrdinalIgnoreCase)))
+            if (userWordsMeaning.Select(x => word).ToList().Any(x => x.Equals(word, StringComparison.OrdinalIgnoreCase)))
             {
                 userWordsMeaning.Remove(userWordsMeaning.FirstOrDefault(x => x.Word == word));
                 vocabularyDb.UsersDictionary.Remove(vocabularyDb.UsersDictionary.FirstOrDefault(x => x.Word == word));
@@ -270,7 +285,12 @@ namespace Kelimecim
     {
         public string Word { get; set; }
         public string Meaning { get; set; }
-
+    }
+    public class Sentences
+    {
+        public string Word { get; set; }
+        public string Meaning { get; set; }
+        public string Sentence { get; set; }
     }
     class VeriYonlendir
     {
