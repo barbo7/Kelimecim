@@ -45,8 +45,8 @@ namespace Kelimecim
 
         string spreadsheetId = "1kafz2KAuvxqSdGbfNOou1S5keIf5wQDIDRLsdm9t6l8"; // excel tablosunun id'si
 
-        string kendiSutunum = "Sayfa1!A:B"; //hangi satırı yazmak istediğim.
-        string veriKumesi = "Veriler!A:B";
+        string kendiSutunum = "Sayfa1!A:B"; //Kullanıcı verileri
+        string veriKumesi = "Veriler!A:B";//vt'deki veriler
         string cumlelerKumesi = "Cumleler!A:C";
 
         SpreadsheetsResource.ValuesResource.AppendRequest verireq;
@@ -258,7 +258,7 @@ namespace Kelimecim
             return KelimeDuzelt(ingKelime);
         }
 
-        public Tuple<string, string, string> RastgeleCumle()
+        public Tuple<string, string, string> RastgeleCumle()//Cümleleri alınca koyacam.
         {
             int sonSatir = cumleliSayfaCumle.Count();
             Random rn = new Random();

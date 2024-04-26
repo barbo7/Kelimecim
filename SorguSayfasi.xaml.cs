@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Kelimecim
 {
@@ -18,7 +18,7 @@ namespace Kelimecim
 
             PageItems = new ObservableCollection<string>
             {
-                "Yanl�� Bildiklerim", "Do�ru Bildiklrim"
+                "Yanlýþ Bildiklerim", "Doðru Bildiklrim"
             };
 
             YanlisSwitchCells = new ObservableCollection<SwitchCell>();
@@ -60,10 +60,10 @@ namespace Kelimecim
 
             foreach (string i in eklenecekVeriler)
             {
-                    gs.VeriEkle(i);
+                    gs.VeriEkle(i);// Böyle yapmak yerine database'de mevcut olan kelimenin karşılığını bulup ikisini birden eklemek daha mantıklı olur.
             }
             // Display success message after successful data save
-            await DisplayAlert("Bilgi", "Do�ru veriler kaydedildi!", "Tamam");
+            await DisplayAlert("Bilgi", "Doðru veriler kaydedildi!", "Tamam");
                 await Navigation.PushAsync(new CoktanSecmeli());
 
 
