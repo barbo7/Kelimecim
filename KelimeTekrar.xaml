@@ -19,7 +19,7 @@
 
 
         <StackLayout Grid.Row="1">
-            <ImageButton Source="sound.png" WidthRequest="25" HeightRequest="25"  HorizontalOptions="StartAndExpand" Clicked="ImageButton_Clicked"/>
+            <ImageButton Source="sound.png" x:Name="imageButton" WidthRequest="25" HeightRequest="25"  HorizontalOptions="StartAndExpand" Clicked="ImageButton_Clicked"/>
 
             <Editor Placeholder="Word"
             x:Name="wordText"

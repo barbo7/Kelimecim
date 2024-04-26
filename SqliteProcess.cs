@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using Kelimecim.DataAccess;
 using Kelimecim.Models;
 using System.Security.Cryptography.X509Certificates;
-
+using System.Linq;
 
 namespace Kelimecim
 {
@@ -29,22 +29,51 @@ namespace Kelimecim
         public SqliteProcess(KelimecimDbContext vocabularyDb)
         {
             this.vocabularyDb = vocabularyDb;
-            foreach (var item in vocabularyDb.EnglishTurkishDictionaryA1ToB2)
+            try
             {
-                wordMeaningDBBeginner.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//A1-B2 arası kelimeler
+                TablolarıGetir(vocabularyDb);
             }
-            foreach (var item in vocabularyDb.EnglishTurkishDictionaryB2ToC1)
+            catch (Microsoft.Data.Sqlite.SqliteException ex)
             {
-                wordMeaningDBIntermediate.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//B2-C1 arası kelimeler
+                if (ex.Message.Contains("no such table"))
+                {
+                    string databasePath = GetDatabasePath("KelimecimDb.db");
+
+                    // Veritabanı dosyasını sil
+                    if (File.Exists(databasePath))
+                    {
+                        File.Delete(databasePath);
+                    }
+                }
+                else
+                {
+                    // Diğer hatalar için genel bir işlem
+                    throw;
+                }
             }
-            foreach (var item in vocabularyDb.UsersDictionary)
-            {
-                userWordsMeaning.Add(new Vocabulary { Word = item.Word, Meaning = item.Meaning });//Kullanıcının database'inden veri çekmek için
-            }
-            foreach (var item in vocabularyDb.MixedSentencesInEnglish)
-            {
-                sentences.Add(new Sentences { Word = item.Word, Meaning = item.Meaning, Sentence = item.Sentence });
-            }
+
+        }
+
+        public static string GetDatabasePath(string filename)//eğer database'de değişiklik yapıldıysa silip tekrar oluşturma işlemini gerçekleştirmek için.
+        {
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string databasePath = Path.Combine(folderPath, filename);
+
+            return databasePath;
+        }
+
+        private void TablolarıGetir(KelimecimDbContext vocabularyDb)
+        {
+            wordMeaningDBBeginner.AddRange(from item in vocabularyDb.EnglishTurkishDictionaryA1ToB2
+                                           select new Vocabulary { Word = item.Word, Meaning = item.Meaning });
+            wordMeaningDBIntermediate.AddRange(from item in vocabularyDb.EnglishTurkishDictionaryB2ToC1
+                                               select new Vocabulary { Word = item.Word, Meaning = item.Meaning });
+
+            userWordsMeaning.AddRange(from item in vocabularyDb.UsersDictionary
+                                      select new Vocabulary { Word = item.Word, Meaning = item.Meaning });
+
+            sentences.AddRange(from item in vocabularyDb.MixedSentencesInEnglish
+                               select new Sentences { Word = item.Word, Meaning = item.Meaning, Sentence = item.Sentence });
 
             wordMeaningDBTotal.AddRange(wordMeaningDBBeginner);
             wordMeaningDBTotal.AddRange(wordMeaningDBIntermediate);
@@ -212,6 +241,18 @@ namespace Kelimecim
 
             return varMi;
         }
+        public List<Vocabulary> SearchWords(string query)
+        {
+            return vocabularyDb.UsersDictionary
+                .Select(w => new Vocabulary { Word = w.Word, Meaning = w.Meaning })
+                .Where(w => w.Word.StartsWith(query))
+                .ToList();
+        }
+        public int UserTablosundaKacVeriVar()//dB'DE VAR MI YOK MU
+        {
+
+            return vocabularyDb.UsersDictionary.ToList().Count(); ;
+        }
         public void VeriEkle(string kelime, string anlam)
         {
 
@@ -273,6 +314,7 @@ namespace Kelimecim
                 }
             }
         }
+
 
         private string KelimeDuzelt(string kelime)//Sayfama veri eklerken bu formatta eklensin istiyorum.
         {

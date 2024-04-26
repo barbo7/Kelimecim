@@ -6,7 +6,7 @@
 
     <ScrollView HorizontalOptions="Center" >
         <StackLayout >
-          
+
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -49,6 +49,16 @@
 
                 <!-- Labeller ve ImageButton buraya dinamik olarak eklenecek -->
             </Grid>
+            <VerticalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+                <Label Text="Kelime Ara" FontSize="Small" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Entry x:Name="kelimeAra" 
+               FontSize="Small" 
+               WidthRequest="150" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Center" 
+               TextChanged="KelimeAra_TextChanged" />
+            </VerticalStackLayout>
+            <!-- Labeller ve ImageButton buraya dinamik olarak eklenecek -->
             <HorizontalStackLayout x:Name="sonrakiLayout" HorizontalOptions="CenterAndExpand" Spacing="5" Grid.Row="2" VerticalOptions="FillAndExpand">
                 <Button x:Name="ilkSayfa" Text="«" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="ilkSayfa_Clicked" />
                 <Button x:Name="oncekiSayfa" Text="‹" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="oncekiSayfa_Clicked" />
