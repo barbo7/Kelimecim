@@ -6,7 +6,7 @@ public partial class KelimeCalismasi : ContentPage
     SqliteProcess sp = SqliteProcess.Instance;
     CancellationTokenSource cancelTokenSource;
     int dataset = 4;
-    //Tuple<string, string> veri;
+    Tuple<string, string> veri;
     public KelimeCalismasi()
 	{
 		InitializeComponent();
@@ -49,13 +49,12 @@ public partial class KelimeCalismasi : ContentPage
     }
     private void YeniKelime()
     {
-        string word = sp.RastgeleKelimeGetirVeriSeti(dataset).Split(',').ToList()[0];//veriyi parçalayıp işliyorum.
-        string meaning = sp.RastgeleKelimeGetirVeriSeti(dataset).Split(',').ToList()[1];
+        
 
-        //veri = sp.RastgeleKelimeGetirVTOrMyList(true);
+        veri = sp.RastgeleKelimeGetirVeriSeti(dataset);
 
-        wordText.Text = word;
-        kelimeText.Text = meaning;
+        wordText.Text = veri.Item1;
+        kelimeText.Text = veri.Item2;
         MetindenSese(wordText.Text);
     }
 

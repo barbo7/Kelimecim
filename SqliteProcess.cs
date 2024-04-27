@@ -101,7 +101,7 @@ namespace Kelimecim
             else
             {
                 //Web'de çeviri yapma özelliği ekleyecem.
-                return "Kelime bulunamadı";
+                return Ceviri(kelime,true);
             }
 
         }
@@ -119,12 +119,12 @@ namespace Kelimecim
             }
             else
             {
-                //Web'de çeviri yapma özelliği ekleyecem.
-                return "Kelime bulunamadı";
+                return Ceviri(word, false);
+
             }
         }
 
-        public string RastgeleKelimeGetirVeriSeti(int dataSet)
+        public Tuple<string,string> RastgeleKelimeGetirVeriSeti(int dataSet)
         {
             List<Vocabulary> v = new List<Vocabulary>();
             if (dataSet == 1)
@@ -135,17 +135,17 @@ namespace Kelimecim
             {
                 v = wordMeaningDBIntermediate;
             }
-            else if (dataSet == 3)
-            {
-                //v =deutschVocabularies;
-            }
+            //else if (dataSet == 3)
+            //{
+            //    //v =deutschVocabularies;
+            //}
             else
             {//dataset=0
                 v = wordMeaningDBTotal;
             }
             int sonSatir = v.Count();
             int hangiSatir = rn.Next(0, sonSatir);
-            return v[hangiSatir].Word + "," + v[hangiSatir].Meaning;
+            return Tuple.Create((v[hangiSatir].Word), v[hangiSatir].Meaning);//verileri Tuple nesnesine çevirip gönderiyorum.
         }
 
         /// <summary>

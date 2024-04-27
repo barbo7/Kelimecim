@@ -12,11 +12,13 @@ namespace Kelimecim
 
         public MainPage()
         {
+            
 
+            //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
             InitializeComponent();
+            dbCagir();//
             TrEng.CheckedChanged += RadioButton_CheckedChanged;
             EngTr.CheckedChanged += RadioButton_CheckedChanged;
-           
         }
         private async void dbCagir()
         {
