@@ -26,14 +26,26 @@ public partial class KelimeTekrar : ContentPage
         if (sp.UserTablosundaKacVeriVar() < 1)
         {
             DisplayAlert("Uyarı", "Lütfen çalışmak için kelime tablonuza kelime ekleyiniz", "Tamam");
-            wordText.IsEnabled = false;
-            kelimeText.IsEnabled = false;
-            imageButton.IsEnabled = false;
-            return;
+            MainThread.BeginInvokeOnMainThread(() => {
+                button.IsEnabled = false;
+                imageButton.IsEnabled = false;
+            });
+
+            // 10 saniye sonra butonları tekrar etkinleştirecek bir timer başlat
+            Device.StartTimer(TimeSpan.FromSeconds(3), () => {
+                MainThread.BeginInvokeOnMainThread(() => {
+                    button.IsEnabled = true;
+                    imageButton.IsEnabled = true;
+                });
+
+                // Timer'ın tekrar çalışmaması için false döndür
+                return false;
+            });
+
         }
-        else
+        else if(sp.UserTablosundaKacVeriVar() > 0)
         {
-            imageButton.IsEnabled = true;
+            //Kullanıcının isteğine göre cümleler çekilecek anlamlarıyla birlikte.
             veri = sp.RastgeleKelimeGetirVTOrMyList(false);
             wordText.Text = veri.Item1;
             kelimeText.Text = veri.Item2;

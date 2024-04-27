@@ -5,15 +5,15 @@
              Title="Cümle Çalışması">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*" />
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <VerticalStackLayout Spacing="1" >
+        <VerticalStackLayout Spacing="5" >
         <ImageButton Source="sound.png"  WidthRequest="20" VerticalOptions="StartAndExpand"  HorizontalOptions="{OnPlatform Android='StartAndExpand', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
 
         <Editor  Placeholder="Sentence"
@@ -28,7 +28,7 @@
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <VerticalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
 
             <ImageButton Source="sound.png" WidthRequest="20"  HeightRequest="20" Clicked="WordTextSoundButton_Clicked"   HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}"/>
             <Editor Placeholder="Word"
@@ -54,7 +54,6 @@
                  />
         </VerticalStackLayout>
         <VerticalStackLayout
-            Margin="0,-25,0,0"
             Grid.Row="2"
             HorizontalOptions="CenterAndExpand">
             <Button Text="Listeme Ekle ve Geç"

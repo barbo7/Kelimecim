@@ -10,9 +10,9 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -45,27 +45,29 @@
 
                 </Entry>
             </HorizontalStackLayout>
-            <Grid x:Name="kelimeAnlamlariGrid" Grid.Row="1"  HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+            <Grid x:Name="kelimeAnlamlariGrid" Grid.Row="1"  HorizontalOptions="CenterAndExpand" VerticalOptions="Fill">
 
                 <!-- Labeller ve ImageButton buraya dinamik olarak eklenecek -->
             </Grid>
-            <VerticalStackLayout Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
-                <Label Text="Kelime Ara" FontSize="Small" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center" />
-                <Entry x:Name="kelimeAra" 
-               FontSize="Small" 
-               WidthRequest="150" 
-               HorizontalOptions="Center" 
-               VerticalOptions="Center" 
-               TextChanged="KelimeAra_TextChanged" />
-            </VerticalStackLayout>
+            <VerticalStackLayout Spacing="5" Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand">
+                <HorizontalStackLayout>
+                    <Entry x:Name="kelimeAra" 
+                     Placeholder="Kelime ara"
+                    FontSize="Small" 
+                    WidthRequest="150"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    TextChanged="KelimeAra_TextChanged" />
+                </HorizontalStackLayout>
             <!-- Labeller ve ImageButton buraya dinamik olarak eklenecek -->
-            <HorizontalStackLayout x:Name="sonrakiLayout" HorizontalOptions="CenterAndExpand" Spacing="5" Grid.Row="2" VerticalOptions="FillAndExpand">
+            <HorizontalStackLayout x:Name="sonrakiLayout"  VerticalOptions="FillAndExpand">
                 <Button x:Name="ilkSayfa" Text="«" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="ilkSayfa_Clicked" />
                 <Button x:Name="oncekiSayfa" Text="‹" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="oncekiSayfa_Clicked" />
 
                 <Button x:Name="sonrakiSayfa" Text="›" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sonrakiSayfa_Clicked" />
                 <Button x:Name="sonSayfa" Text="»" FontSize="Small" BackgroundColor="#B0BEC5" BorderColor="DarkGray" BorderWidth="1" CornerRadius="5" WidthRequest="30" HeightRequest="30" Clicked="sonSayfa_Clicked" />
             </HorizontalStackLayout>
+            </VerticalStackLayout>
 
         </StackLayout>
     </ScrollView>

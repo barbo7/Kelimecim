@@ -91,9 +91,10 @@ namespace Kelimecim
             string trKelime = kelime.ToLower();
 
             string meaningOfWord = wordMeaningDBTotal
-                .Where(vocab => string.Equals(vocab.Meaning, kelime, StringComparison.OrdinalIgnoreCase))
+                .Where(vocab => string.Equals(vocab.Meaning.Split(',')[0], kelime, StringComparison.OrdinalIgnoreCase))
                 .Select(vocab => vocab.Word)
                 .FirstOrDefault();
+           
             if (meaningOfWord != null)
             {
                 return meaningOfWord;
@@ -169,7 +170,7 @@ namespace Kelimecim
 
             string word = VeritabaniMi ? wordMeaningDBTotal[hangiSatirVT].Word : userWordsMeaning[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
 
-            return Tuple.Create(KelimeDuzelt(kelime), KelimeDuzelt(word));//verileri Tuple nesnesine çevirip gönderiyorum.
+            return Tuple.Create(KelimeDuzelt(word),KelimeDuzelt(kelime));//verileri Tuple nesnesine çevirip gönderiyorum.
         }
 
         public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime, bool tersCevir)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.
@@ -273,8 +274,8 @@ namespace Kelimecim
             bool silindiMi = false;
             if (userWordsMeaning.Select(x => word).ToList().Any(x => x.Equals(word, StringComparison.OrdinalIgnoreCase)))
             {
-                userWordsMeaning.Remove(userWordsMeaning.FirstOrDefault(x => x.Word == word));
-                vocabularyDb.UsersDictionary.Remove(vocabularyDb.UsersDictionary.FirstOrDefault(x => x.Word == word));
+                userWordsMeaning.Remove(userWordsMeaning.First(x => x.Word == word));
+                vocabularyDb.UsersDictionary.Remove(vocabularyDb.UsersDictionary.First(x => x.Word == word));
                 vocabularyDb.SaveChanges();
                 silindiMi = true;
             }
@@ -296,6 +297,8 @@ namespace Kelimecim
 
         public string Ceviri(string text, bool tr)
         {
+            //Başka bir çeviri sitesi kullanılacak ve oradaki ek seçenekler de listelenecek isteğe bağlı.
+            //picker ile seçim yapılacak ve database'e eklenecek.
             using (HttpClient client = new HttpClient())
             {
                 string ceviridil = tr ? "tr|en" : "en|tr";

@@ -49,7 +49,7 @@ public partial class KelimeCalismasi : ContentPage
     }
     private void YeniKelime()
     {
-        
+        //Kullanıcının isteğine göre cümleler çekilecek anlamlarıyla birlikte. Yeni sayfada
 
         veri = sp.RastgeleKelimeGetirVeriSeti(dataset);
 

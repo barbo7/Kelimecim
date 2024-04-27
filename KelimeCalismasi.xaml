@@ -7,9 +7,9 @@
     <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="{OnPlatform iOS='*', Android='*', WinUI='2*'}"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -17,13 +17,14 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
         </Grid>
-        <HorizontalStackLayout Grid.Row="0" Grid.Column="2">
+        <VerticalStackLayout Grid.Row="0" Grid.Column="2">
 
-            <Picker x:Name="picker" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
+            <Picker x:Name="picker" VerticalOptions="Start" HorizontalOptions="End"
+                     TitleColor="Black"
                     Title="Veri Seti Seçebilirsiniz" FontSize="Small" SelectedIndexChanged="Picker_SelectedIndexChanged"></Picker>
+            <Image Source="vocabulary.png" VerticalOptions="End" Grid.Row="0" HeightRequest="80" ></Image>
 
-        </HorizontalStackLayout>
-        <Image Source="vocabulary.png" Grid.Row="0" HeightRequest="125" ></Image>
+        </VerticalStackLayout>
 
 
         <StackLayout Grid.Row="1" Spacing="5">

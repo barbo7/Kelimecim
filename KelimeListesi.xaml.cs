@@ -127,14 +127,15 @@ namespace Kelimecim
 
         private async void silmeEmri(string word)
         {
-            var result = await DisplayAlert("Silme Ýþlemi", $"'{word}' Kelimesini silmek istediðinize emin misiniz?", "Hayýr", "Evet");
+            var result = await DisplayAlert("Silme İşlemi", $"'{word}' Kelimesini silmek istediðinize emin misiniz?", "Hayır", "Evet");
 
             if (!result)
             {
                 if (sp.VeriSil(word))
                 {
                     // Sayfayý tekrar yükle
-                    await DisplayAlert("Baþarýlý", "Kelime silme iþleminiz baþarýlý!", "Tamam");
+                    await DisplayAlert("Başarılı", "Kelime silme işleminiz başarılı!", "Tamam");
+                    LoadPage(currentPage);
                 }
                 else
                     await DisplayAlert("Zaten silindi", "Kelime çoktan silindi. Sayfayý tekrar açýnýz.", "Tamam");

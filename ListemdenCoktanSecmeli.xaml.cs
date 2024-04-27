@@ -16,8 +16,8 @@ public partial class ListemdenCoktanSecmeli : ContentPage
     int yanlis = 0;
     int dogru = 0;
 
-    string yaziyanlis = "Yanlýþ Sayýsý = ";
-    string yazidogru = "Doðru Sayýsý = ";
+    string yaziyanlis = "Yanlış Sayısı = ";
+    string yazidogru = "Doğru Sayısı = ";
     //string soru = "Soru ";
 
 
@@ -145,7 +145,7 @@ public partial class ListemdenCoktanSecmeli : ContentPage
     {
         if(sp.UserTablosundaKacVeriVar() < 5)
         {
-            DisplayAlert("Uyarı", "Listede en az 5kelime olmalıdır", "Tamam");
+            DisplayAlert("Uyarı", "Listede en az 5 kelime olmalıdır", "Tamam");
             return;
         }
 
