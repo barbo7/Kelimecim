@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <CarouselView Grid.Row="0" Grid.ColumnSpan="3" x:Name="mainCarouselView" ItemsSource="{Binding PageItems}">
+        <CarouselView  Grid.ColumnSpan="3" x:Name="mainCarouselView" ItemsSource="{Binding PageItems}">
             <CarouselView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start"/>
             </CarouselView.ItemsLayout>
@@ -29,8 +29,8 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
 
-        <VerticalStackLayout Grid.ColumnSpan="3">
-            <TableView x:Name="yanlisKelimeListesi">
+        <VerticalStackLayout Grid.ColumnSpan="3" VerticalOptions="Center">
+            <TableView x:Name="yanlisKelimeListesi" >
                 <TableRoot>
                     <TableSection Title="Yanlış Bilinen Kelimeler" TextColor="PaleVioletRed">
 

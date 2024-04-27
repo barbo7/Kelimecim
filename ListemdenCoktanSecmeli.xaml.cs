@@ -135,7 +135,14 @@ public partial class ListemdenCoktanSecmeli : ContentPage
         // Yeni bir iptal belirteci oluþtur
         cancelTokenSource = new CancellationTokenSource();
 
-        await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+        try
+        {
+            await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
     private void ImageButton_Clicked(object sender, EventArgs e)
     {

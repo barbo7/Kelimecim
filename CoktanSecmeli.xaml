@@ -5,22 +5,22 @@
              Title="Çoktan Seçmeli">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Source="hocam.png" Grid.Row="0" Grid.Column="0"  HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" />
+        <Image Source="hocam.png" Grid.Row="0" Grid.Column="0" HeightRequest="80" HorizontalOptions="Start" VerticalOptions="Start" />
 
         <TableView Intent="Settings" Grid.Row="0"
                    VerticalOptions="Center"
-                    HorizontalOptions="CenterAndExpand"
+                    HorizontalOptions="End"
                    Grid.Column="1">
                 <TableSection  >
-                <SwitchCell x:Name="switchCevirr" On="False" OnChanged="switchCevir" Text="Tr -> Eng Geç" Height="100" />
+                <SwitchCell x:Name="switchCevirr" On="False"  OnChanged="switchCevir" OnColor="Black" Text="Tr -> Eng Geç" Height="100" />
                 </TableSection>
         </TableView>
         

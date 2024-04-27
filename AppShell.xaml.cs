@@ -13,9 +13,8 @@
         }
         private async void AnaSayfayaDon_Clicked(object sender, EventArgs e)
         {
-            string targetRoute = "MainPage"; // Çeviri sayfasının Route değeri
-            
-            await Shell.Current.GoToAsync($"//{targetRoute}");
+            await Shell.Current.GoToAsync("//MainPage");
         }
+
     }
 }

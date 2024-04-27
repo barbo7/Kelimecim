@@ -43,9 +43,16 @@ namespace Kelimecim
 
             // Yeni bir iptal belirteci oluştur
             cancelTokenSource = new CancellationTokenSource();
-             // Set the locale for the text-to-speech output
+            // Set the locale for the text-to-speech output
 
-            await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+            try
+            {
+                await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void kelimeWord_Clicked(object sender, EventArgs e)

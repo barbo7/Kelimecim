@@ -41,7 +41,14 @@ namespace Kelimecim
             // Yeni bir iptal belirteci oluþtur
             cancelTokenSource = new CancellationTokenSource();
 
-            await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+            try
+            {
+                await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         void LoadPage(int page)
         {

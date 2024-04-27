@@ -18,7 +18,7 @@ namespace Kelimecim
 
             PageItems = new ObservableCollection<string>
             {
-                "Yanlýþ Bildiklerim", "Doðru Bildiklrim"
+                "Yanlış Bildiklerim", "Doğru Bildiklrim"
             };
 
             YanlisSwitchCells = new ObservableCollection<SwitchCell>();
@@ -31,7 +31,7 @@ namespace Kelimecim
             List<string> yanlisKelimeler = vy.gosterilenKelimelerYanlis;
             List<string> dogruKelimeler = vy.gosterilenKelimelerDogru;
 
-            for (int i=0;i< yanlisKelimeler.Count(); i++) 
+            for (int i = 0; i < yanlisKelimeler.Count(); i++)
             {
                 var yanlisSwitchCell = new SwitchCell { Text = yanlisKelimeler[i] };
                 YanlisSwitchCells.Add(yanlisSwitchCell);
@@ -49,6 +49,7 @@ namespace Kelimecim
 
         private async void KaydetButton_Clicked(object sender, EventArgs e)
         {
+
             List<string> eklenecekVeriler = new();
             foreach (var yanlisS in YanlisSwitchCells)
                 if (yanlisS.On)
@@ -60,13 +61,23 @@ namespace Kelimecim
 
             foreach (string i in eklenecekVeriler)
             {
-                    //gs.VeriEkle(i);// Böyle yapmak yerine database'de mevcut olan kelimenin karşılığını bulup ikisini birden eklemek daha mantıklı olur.
-                    string kelime = sp.KelimeAraENG(i);
-                sp.VeriEkle(i,kelime);
+                //gs.VeriEkle(i);// Böyle yapmak yerine database'de mevcut olan kelimenin karşılığını bulup ikisini birden eklemek daha mantıklı olur.
+                string kelime = sp.KelimeAraENG(i);
+                sp.VeriEkle(i, kelime);
+            }
+            if (eklenecekVeriler.Count < 1)
+            {
+                var result = await DisplayAlert("Uyarı", "Kaydetmeden çıkmak istiyor musunuz?", "Evet", "Hayır");
+                if (result)
+                {
+                    await Navigation.PopAsync();
+                }
+                return;
+
             }
             // Display success message after successful data save
-            await DisplayAlert("Bilgi", "Doðru veriler kaydedildi!", "Tamam");
-                await Navigation.PushAsync(new CoktanSecmeli());
+            await DisplayAlert("Bilgi", "İstediğiniz bilgiler kelime defterinize eklendi.", "Tamam");
+            await Navigation.PopAsync();
 
 
         }

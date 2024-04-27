@@ -25,7 +25,14 @@ public partial class CumleCalismasi : ContentPage
         // Yeni bir iptal belirteci oluþtur
         cancelTokenSource = new CancellationTokenSource();
 
-        await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+        try
+        {
+            await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
     private async void SolButton_Clicked(object sender, EventArgs e)
     {

@@ -36,6 +36,8 @@ public partial class CoktanSecmeli : ContentPage
         radioButton4.CheckedChanged += RadioButton_CheckedChanged;
         radioButton5.CheckedChanged += RadioButton_CheckedChanged;
 
+        switchCevirr.IsEnabled = false;
+
         radioButtons = new RadioButton[] { radioButton1, radioButton2, radioButton3, radioButton4, radioButton5 };
         foreach (var i in radioButtons)
             i.IsEnabled = false;
@@ -104,7 +106,7 @@ public partial class CoktanSecmeli : ContentPage
                 radioButtons[i].IsEnabled = true;
             }
             tersCevirildiktenSonraTiklandiMi = true;
-
+            switchCevirr.IsEnabled = true;
         }
     }
 
@@ -114,15 +116,15 @@ public partial class CoktanSecmeli : ContentPage
         //string[] yanlisKelimeler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
         //string[] yanlisWordler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true);
 
-        string[] yanlislar = tersCevirildiMi ? sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true) : sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
+        string[] yanlislar = tersCevirildiMi ? sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, true) : sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, false);
         //Eðer tersCevirildiMi switch'ine dokunulmadýysa ingilizce kelimeyi tahmin ediyoruz iþaretlendiðinde türkçe kelimeyi tahmin ediyoruz.
 
         int indexx = 0;
         soruS++;
-        word.Text = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2; // ing mi tr mi
+        word.Text = tersCevirildiMi ? dogruCevap.Item2 : dogruCevap.Item1; // ing mi tr mi
         //label5.Text = soru + soruS;
 
-        vy.gosterilenKelimelerDogru.Add(dogruCevap.Item2);
+        vy.gosterilenKelimelerDogru.Add(dogruCevap.Item1);
 
         // Rastgele bir RadioButton seçin
         randomIndex = random.Next(0, radioButtons.Length); // 0 ile (RadioButton dizisinin uzunluðu - 1) arasýnda rastgele bir indeks seçin
@@ -135,7 +137,7 @@ public partial class CoktanSecmeli : ContentPage
                 indexx++;
             }
             else
-                radioButtons[i].Content = tersCevirildiMi ? dogruCevap.Item2 : dogruCevap.Item1;//belirlediðim cevabý atýyorum.
+                radioButtons[i].Content = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2;//belirlediðim cevabý atýyorum.
         }
         MetindenSese(word.Text);
     }
@@ -152,14 +154,21 @@ public partial class CoktanSecmeli : ContentPage
         // Yeni bir iptal belirteci oluþtur
         cancelTokenSource = new CancellationTokenSource();
 
-        await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+        try
+        {
+            await TextToSpeech.SpeakAsync(textBoxText, cancelTokenSource.Token);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
     private void ImageButton_Clicked(object sender, EventArgs e)
     {
         MetindenSese(word.Text);
     }
 
-    private void switchCevir(object sender, ToggledEventArgs e)
+    private  void switchCevir(object sender, ToggledEventArgs e)
     {
         tersCevirildiMi = switchCevirr.On;
         switchCevirr.Text = tersCevirildiMi ? "Tr->Eng Geç" : "Eng->Tr Back";
@@ -167,9 +176,9 @@ public partial class CoktanSecmeli : ContentPage
         if(tersCevirildiktenSonraTiklandiMi)
         {
             sirala();
+            switchCevirr.IsEnabled = false;
             tersCevirildiktenSonraTiklandiMi = false;
         }
-            
 
         // Ýþaretlenip iþaretlenmediði ile ilgili iþlemleri burada yapabilirsiniz
     }
@@ -200,6 +209,7 @@ public partial class CoktanSecmeli : ContentPage
                 vy.trMii = tersCevirildiMi;//false ise ing true ise tr
 
                 await Navigation.PushAsync(new SorguSayfasi());
+
                 // Kullanýcý "Evet" butonuna týkladý
             }
             else
