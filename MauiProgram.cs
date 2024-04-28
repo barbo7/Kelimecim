@@ -1,6 +1,7 @@
 ﻿using Kelimecim.DataAccess;
 using Kelimecim.Utilities;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 /* Unmerged change from project 'Kelimecim (net7.0-maccatalyst)'
 Before:
 using Kelimecim.Utilities;
