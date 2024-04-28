@@ -7,51 +7,10 @@
         CancellationTokenSource cancelTokenSource;
 
         public MainPage()
-
-        /* Unmerged change from project 'Kelimecim (net7.0-maccatalyst)'
-        Before:
-                {
-
-
-                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
-        After:
-                {
-
-
-                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
-        */
-
-        /* Unmerged change from project 'Kelimecim (net7.0-android33.0)'
-        Before:
-                {
-
-
-                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
-        After:
-                {
-
-
-                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
-        */
-
-        /* Unmerged change from project 'Kelimecim (net7.0-windows10.0.19041.0)'
-        Before:
-                {
-
-
-                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
-        After:
-                {
-
-
-                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
-        */
         {
-
-
             //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
             InitializeComponent();
-            dbCagir();//
+            dbCagir();
             TrEng.CheckedChanged += RadioButton_CheckedChanged;
             EngTr.CheckedChanged += RadioButton_CheckedChanged;
         }
@@ -157,10 +116,11 @@
 
             string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;
             await TextToSpeech.SpeakAsync(okunacakKelime);
-            if (kelimeWordEntry.Text.Trim() == kelimeWordShowPlace.Text)
+            if (kelimeWordEntry.Text.Trim().ToLower() == kelimeWordShowPlace.Text.Trim().ToLower())
             {
                 kelimeWordShowPlace.Text += "(!!!)";
                 await DisplayAlert("Uyarı", "Aradığınız kelime/cümle hatalı olabilir!", "Tamam");
+                return;
             }
             else
             {

@@ -158,10 +158,6 @@ namespace Kelimecim
         /// <returns></returns>
         public Tuple<string, string> RastgeleKelimeGetirVTOrMyList(bool VeritabaniMi)
         {
-            //if (!VeritabaniMi)
-            //    Sayfa1VeriGuncelle();
-
-            //kaç satırlık veri var bunların değerini çekiyorum.
             int sonsatirMyList = userWordsMeaning.Count();
             int sonsatirVT = wordMeaningDBTotal.Count();// şimdilik hepsi
 
@@ -172,7 +168,7 @@ namespace Kelimecim
 
             string word = VeritabaniMi ? wordMeaningDBTotal[hangiSatirVT].Word : userWordsMeaning[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
 
-            return Tuple.Create(KelimeDuzelt(word), KelimeDuzelt(kelime));//verileri Tuple nesnesine çevirip gönderiyorum.
+            return Tuple.Create(KelimeDuzelt(word),KelimeDuzelt(kelime));//verileri Tuple nesnesine çevirip gönderiyorum.
         }
 
         public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime, bool tersCevir)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.

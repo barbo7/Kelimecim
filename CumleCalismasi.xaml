@@ -22,7 +22,9 @@
              HorizontalOptions="{OnPlatform iOS='Start' ,Android='Start', WinUI='Center'}"
                      HorizontalTextAlignment="Center"
                      VerticalTextAlignment="Center"
-                     FontSize="Medium"
+                     FontSize="Small"
+                    MinimumHeightRequest="100"
+                    MaximumHeightRequest="200"
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
 
 
@@ -35,7 +37,8 @@
                  FontSize="Medium"
                  IsEnabled="false"
                  VerticalTextAlignment="Center"
-                 HeightRequest="100"
+                 MinimumHeightRequest="50"
+                MaximumHeightRequest="150"
                  />
 
             <Editor Placeholder="Kelime"
@@ -44,8 +47,9 @@
                  TextColor="#ED5AB3"
                  HorizontalOptions="CenterAndExpand"
                  HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                 HeightRequest="100"
+                VerticalTextAlignment="Center"
+                 MinimumHeightRequest="50"
+                MaximumHeightRequest="150"
                 FontSize="Medium"
                  />
         </VerticalStackLayout>

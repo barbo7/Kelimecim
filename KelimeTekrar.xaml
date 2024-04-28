@@ -26,6 +26,8 @@
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
             TextColor="#1640D6"
+            MinimumHeightRequest="100"
+            MaximumHeightRequest="200"
             FontSize="Large"
             IsEnabled="false"
            />
@@ -33,6 +35,8 @@
             x:Name="kelimeText"
             IsEnabled="false"
             TextColor="#ED5AB3"
+            MinimumHeightRequest="100"
+            MaximumHeightRequest="200"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
             FontSize="Medium"

@@ -9,7 +9,6 @@ public partial class KelimeTekrar : ContentPage
     public KelimeTekrar()
     {
         InitializeComponent();
-        YeniKelime();
     }
     private void SagButton_Clicked(object sender, EventArgs e)
     {
@@ -21,9 +20,12 @@ public partial class KelimeTekrar : ContentPage
 
         YeniKelime();
     }
+
+    int clickAgain = 0;
+
     private void YeniKelime()
     {
-        if (sp.UserTablosundaKacVeriVar() < 1)
+        if (sp.UserTablosundaKacVeriVar() <= 0)
         {
             DisplayAlert("Uyarı", "Lütfen çalışmak için kelime tablonuza kelime ekleyiniz", "Tamam");
             MainThread.BeginInvokeOnMainThread(() =>
@@ -44,15 +46,21 @@ public partial class KelimeTekrar : ContentPage
                 // Timer'ın tekrar çalışmaması için false döndür
                 return false;
             });
-
         }
         else if (sp.UserTablosundaKacVeriVar() > 0)
         {
+            if (sp.UserTablosundaKacVeriVar() == 1 && clickAgain > 1)
+            {
+                DisplayAlert("Uyarı", "Lütfen çalışmak için kelime tablonuza en az 2 kelime ekleyiniz", "Tamam");
+                clickAgain++;
+                return;
+            }
             //Kullanıcının isteğine göre cümleler çekilecek anlamlarıyla birlikte.
             veri = sp.RastgeleKelimeGetirVTOrMyList(false);
             wordText.Text = veri.Item1;
             kelimeText.Text = veri.Item2;
             MetindenSese(wordText.Text);
+            clickAgain++;
         }
     }
 

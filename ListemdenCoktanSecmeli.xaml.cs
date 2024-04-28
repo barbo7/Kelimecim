@@ -65,6 +65,13 @@ public partial class ListemdenCoktanSecmeli : ContentPage
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
                 yanlisSayisi.Text = yaziyanlis + yanlis;
+                //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
+                for (int i = 0; i < radioButtons.Length; i++)
+                    radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
+
+                await Task.Delay(2000); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
+
+                                     // Bekleme süresi sonrasýnda yapýlacak iþ
             }
             else
             {
@@ -72,17 +79,11 @@ public partial class ListemdenCoktanSecmeli : ContentPage
                 dogruSayisi.Text = yazidogru + dogru;
             }
 
-
-            //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
-            MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
-            for (int i = 0; i < radioButtons.Length; i++)
-                radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
-
-            await Task.Delay(2000); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
-
             rb.IsChecked = false;//seçili olan radiobutton kaldýrýyorum.
-                                 // Bekleme süresi sonrasýnda yapýlacak iþ
+            MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
             sirala();//yeni þýklarý getiriyorum.
+
+
 
             for (int i = 0; i < radioButtons.Length; i++)
             {

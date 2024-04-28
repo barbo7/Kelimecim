@@ -80,6 +80,11 @@ public partial class CoktanSecmeli : ContentPage
                 yanlisSayisi.Text = yaziyanlis + yanlis;
                 string veri = tersCevirildiMi ? rb.Content.ToString() : sp.KelimeAraTR(rb.Content.ToString());
                 vy.gosterilenKelimelerYanlis.Add(veri);
+
+                for (int i = 0; i < radioButtons.Length; i++)
+                    radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
+
+                await Task.Delay(2000); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
             }
             else
             {
@@ -90,11 +95,7 @@ public partial class CoktanSecmeli : ContentPage
 
             //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
             MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
-            for (int i = 0; i < radioButtons.Length; i++)
-                radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
-
-            await Task.Delay(2000); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
-
+           
             rb.IsChecked = false;//seçili olan radiobutton kaldýrýyorum.
                                  // Bekleme süresi sonrasýnda yapýlacak iþ
             sirala();//yeni þýklarý getiriyorum.

@@ -1,4 +1,4 @@
-namespace Kelimecim;
+ï»¿namespace Kelimecim;
 
 public partial class CumleCalismasi : ContentPage
 {
@@ -11,18 +11,18 @@ public partial class CumleCalismasi : ContentPage
         CumleGetir();
     }
     /// <summary>
-    /// Bu method sayesinde metin okuma fonksiyonu çalıştırıldığı zaman eğer zaten okunan bir metin var ise duraksatıp yeni metni okutabiliyorum.
+    /// Bu method sayesinde metin okuma fonksiyonu Ã§alÃ½Ã¾tÃ½rÃ½ldÃ½Ã°Ã½ zaman eÃ°er zaten okunan bir metin var ise duraksatÃ½p yeni metni okutabiliyorum.
     /// </summary>
     /// <param name="textBoxText"></param>
     private async void MetindenSese(string textBoxText)
     {
-        // İptal belirteci (CancellationToken) oluştur
+        // Ãptal belirteci (CancellationToken) oluÃ¾tur
         if (cancelTokenSource != null)
         {
-            // Önceki okuma işlemini iptal et
+            // Ã–nceki okuma iÃ¾lemini iptal et
             cancelTokenSource.Cancel();
         }
-        // Yeni bir iptal belirteci oluştur
+        // Yeni bir iptal belirteci oluÃ¾tur
         cancelTokenSource = new CancellationTokenSource();
 
         try
@@ -47,7 +47,7 @@ public partial class CumleCalismasi : ContentPage
     {
         // if(!gs.CumleSayfasiHazirMi)
         //{
-        //    DisplayAlert("Uyarı", "Sayfa henüz hazır değil tekrar deneyin", "Tamam");
+        //    DisplayAlert("UyarÃ½", "Sayfa henÃ¼z hazÃ½r deÃ°il tekrar deneyin", "Tamam");
         //    return;
         //}
 
@@ -57,11 +57,27 @@ public partial class CumleCalismasi : ContentPage
     private void CumleGetir()
     {
         Tuple<string, string, string> vericik = sp.RastgeleCumle();
-        sentences.Text = vericik.Item1;
+
+        sentences.Text = UpdateEditorText(vericik.Item1);
         wordText.Text = vericik.Item2;
         kelimeText.Text = vericik.Item3;
         MetindenSese(wordText.Text);
     }
+    private string UpdateEditorText(string input)
+    {
+        // GÃ¶rÃ¼lecek karakterleri belirle
+        char[] delimiters = { '1', '2', '3' };
+
+        // Metni belirtilen karakterlere gÃ¶re bÃ¶l ve boÅŸ string'leri dikkate alma
+        string[] parts = input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+        // Yeni satÄ±r karakterleri ekleyerek parÃ§alarÄ± birleÅŸtir
+        string newText = string.Join(Environment.NewLine, parts);
+
+        // Editor'Ã¼n Text Ã¶zelliÄŸini gÃ¼ncelle
+        return newText;
+    }
+
 
     private void SentencesSoundButton_Clicked(object sender, EventArgs e)
     {

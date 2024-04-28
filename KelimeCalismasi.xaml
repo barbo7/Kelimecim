@@ -7,9 +7,9 @@
     <VerticalStackLayout Spacing="15" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="0.75*"></RowDefinition>
+                <RowDefinition Height="1.5*"></RowDefinition>
+                <RowDefinition Height="0.75*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -37,17 +37,21 @@
             TextColor="#1640D6"
             FontSize="Large"
             IsEnabled="false"
+             MinimumHeightRequest="100"
+            MaximumHeightRequest="200"
            />
-        <Editor Placeholder="Kelime"
+            <Editor Placeholder="Kelime"
             x:Name="kelimeText"
             IsEnabled="false"
             TextColor="#ED5AB3"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
             FontSize="Medium"
+            MinimumHeightRequest="100"
+            MaximumHeightRequest="200"
               />
         </StackLayout>
-        
+
         <VerticalStackLayout  Grid.Row="2">
             <Button Text="Listeme Ekle ve Geç"
             x:Name="listeyeDeEkleButton"
