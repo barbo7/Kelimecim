@@ -5,16 +5,15 @@
              Title="Cümle Çalışması">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2.25*" />
+            <RowDefinition Height="0.75*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <VerticalStackLayout Spacing="5" >
-        <ImageButton Source="sound.png"  WidthRequest="20" VerticalOptions="StartAndExpand"  HorizontalOptions="{OnPlatform Android='StartAndExpand', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
+        <VerticalStackLayout Spacing="25" Grid.Row="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+        <ImageButton Source="sound.png"  WidthRequest="20" VerticalOptions="Start"  HorizontalOptions="{OnPlatform Android='StartAndExpand', WinUI='Center'}" HeightRequest="20" Clicked="SentencesSoundButton_Clicked" />
 
         <Editor  Placeholder="Sentence"
                      x:Name="sentences"
@@ -24,11 +23,8 @@
                      HorizontalTextAlignment="Center"
                      VerticalTextAlignment="Center"
                      FontSize="Medium"
-                     HeightRequest="180"
              WidthRequest="{OnPlatform iOS='375' ,Android='375', WinUI='900'}"></Editor>
-        </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
 
             <ImageButton Source="sound.png" WidthRequest="20"  HeightRequest="20" Clicked="WordTextSoundButton_Clicked"   HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}"/>
             <Editor Placeholder="Word"
@@ -54,7 +50,7 @@
                  />
         </VerticalStackLayout>
         <VerticalStackLayout
-            Grid.Row="2"
+            Grid.Row="1"
             HorizontalOptions="CenterAndExpand">
             <Button Text="Listeme Ekle ve Geç"
               x:Name="listeyeDeEkleButton"

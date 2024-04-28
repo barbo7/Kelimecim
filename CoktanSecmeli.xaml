@@ -6,14 +6,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2.5*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2.25*"/>
+            <RowDefinition Height="0.75*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Source="hocam.png" Grid.Row="0" Grid.Column="0" HeightRequest="80" HorizontalOptions="Start" VerticalOptions="Start" />
+        <Image Source="hocam.png" Grid.Row="0" Grid.Column="0" MaximumHeightRequest="250" MinimumHeightRequest="100"  HorizontalOptions="Center" VerticalOptions="Start" />
 
         <TableView Intent="Settings" Grid.Row="0"
                    VerticalOptions="Center"
@@ -26,14 +26,14 @@
         
         
         <VerticalStackLayout HorizontalOptions="{OnPlatform iOS='StartAndExpand', Android='StartAndExpand', WinUI='CenterAndExpand'}" 
-                             Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="StartAndExpand">
+                             Grid.Row="1" Grid.ColumnSpan="2" Spacing="15" Margin="25,0,0,0"  VerticalOptions="Start">
 
             <StackLayout Orientation="Horizontal" Spacing="10">
                 <ImageButton Source="sound.png" WidthRequest="20" HeightRequest="20"  HorizontalOptions="Start" Clicked="ImageButton_Clicked"/>
                 <Label 
               Text="Word"
               x:Name="word"
-              VerticalOptions="StartAndExpand" 
+              VerticalOptions="Start" 
               FontSize="Large"
               TextColor="DarkBlue"></Label>
             </StackLayout>
@@ -52,7 +52,7 @@
                 <RadioButton Content="Seçenek 4" GroupName="RadioButtonGroup" x:Name="radioButton4"/>
                 <RadioButton Content="Seçenek 5" GroupName="RadioButtonGroup" x:Name="radioButton5"/>
             </StackLayout>
-            <StackLayout Spacing="20" Orientation="Horizontal" HorizontalOptions="Center">
+            <StackLayout Spacing="20" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Center">
                 <Label
                  Text="Doğru Sayısı"
                  TextColor="LawnGreen"
