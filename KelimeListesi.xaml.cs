@@ -136,7 +136,7 @@ namespace Kelimecim
         {
             var result = await DisplayAlert("Silme İşlemi", $"'{word}' Kelimesini silmek istediðinize emin misiniz?", "Evet", "Hayır");
 
-            if (!result)
+            if (result)
             {
                 if (sp.VeriSil(word))
                 {

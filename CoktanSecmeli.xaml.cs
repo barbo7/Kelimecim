@@ -63,6 +63,8 @@ public partial class CoktanSecmeli : ContentPage
 
     private async void RadioButton_CheckedChanged(object sender, EventArgs e)
     {
+        try
+        {
         RadioButton rb = (RadioButton)sender;//Hangi button'a týklandýðýný anlayýp iþlem yapmak için bir deðiþkene atýyorum.
         if (rb.IsChecked)
         {
@@ -73,8 +75,6 @@ public partial class CoktanSecmeli : ContentPage
 
             if (rb != radioButtons[randomIndex])
             {
-
-
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
                 yanlisSayisi.Text = yaziyanlis + yanlis;
@@ -84,36 +84,48 @@ public partial class CoktanSecmeli : ContentPage
                 for (int i = 0; i < radioButtons.Length; i++)
                     radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
 
-                await Task.Delay(2000); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
+                await Task.Delay(2000); // 2 saniye bekleniyor kullanýcý doðru cevabý görsün diye
             }
             else
             {
                 dogru++;
                 dogruSayisi.Text = yazidogru + dogru;
+                await Task.Delay(500); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
+
             }
 
 
             //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
             MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
            
-            rb.IsChecked = false;//seçili olan radiobutton kaldýrýyorum.
-                                 // Bekleme süresi sonrasýnda yapýlacak iþ
             sirala();//yeni þýklarý getiriyorum.
 
-            for (int i = 0; i < radioButtons.Length; i++)
-            {
-                radioButtons[i].TextColor = Color.FromRgb(128, 128, 128);
-                //diðer buttonlarýn renklerini düzenliyorum ve aþaðýdaki kodda da buttonlarý aktif ediyorum.
-                radioButtons[i].IsEnabled = true;
-            }
+            MainThread.BeginInvokeOnMainThread(() => {
+                rb.IsChecked = false; //seçili olan radiobutton kaldýrýyorum.
+                foreach (var i in radioButtons)
+                {
+                    i.IsEnabled = true;
+                    i.TextColor = Color.FromRgb(128, 128, 128);
+                }
+                switchCevirr.IsEnabled = true;
+            });
             tersCevirildiktenSonraTiklandiMi = true;
-            switchCevirr.IsEnabled = true;
+        }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Hata oluştu: {ex.Message}");
         }
     }
 
     private void sirala()
     {
         Tuple<string, string> dogruCevap = sp.RastgeleKelimeGetirVTOrMyList(true);
+        if(dogruCevap.Item1.ToLower() == dogruCevap.Item2.ToLower())
+        {
+            sirala();
+            return;
+        }
         //string[] yanlisKelimeler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
         //string[] yanlisWordler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true);
 
