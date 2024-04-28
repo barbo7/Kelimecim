@@ -26,8 +26,8 @@ public partial class CoktanSecmeli : ContentPage
 
     CancellationTokenSource cancelTokenSource;
     public CoktanSecmeli()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         // RadioButton'larýn CheckedChanged olayýna olay iþleyici ekleyin
         radioButton1.CheckedChanged += RadioButton_CheckedChanged;
@@ -69,11 +69,11 @@ public partial class CoktanSecmeli : ContentPage
             radioButtons[randomIndex].TextColor = Color.FromRgb(0, 255, 0);//doðru olan cevabý yeþil iþaretliyorum.
 
             //gs.gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());
-           //Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
+            //Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
 
             if (rb != radioButtons[randomIndex])
             {
-               
+
 
                 rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                 yanlis++;
@@ -168,12 +168,12 @@ public partial class CoktanSecmeli : ContentPage
         MetindenSese(word.Text);
     }
 
-    private  void switchCevir(object sender, ToggledEventArgs e)
+    private void switchCevir(object sender, ToggledEventArgs e)
     {
         tersCevirildiMi = switchCevirr.On;
         switchCevirr.Text = tersCevirildiMi ? "Tr->Eng Geç" : "Eng->Tr Back";
 
-        if(tersCevirildiktenSonraTiklandiMi)
+        if (tersCevirildiktenSonraTiklandiMi)
         {
             sirala();
             switchCevirr.IsEnabled = false;
@@ -183,7 +183,7 @@ public partial class CoktanSecmeli : ContentPage
         // Ýþaretlenip iþaretlenmediði ile ilgili iþlemleri burada yapabilirsiniz
     }
 
-    private async void BaslatButton_Clicked(object sender,EventArgs e)
+    private async void BaslatButton_Clicked(object sender, EventArgs e)
     {
         if (!buttonStarted)
         {

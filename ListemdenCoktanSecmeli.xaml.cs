@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Controls.Compatibility;
-
-namespace Kelimecim;
+﻿namespace Kelimecim;
 
 public partial class ListemdenCoktanSecmeli : ContentPage
 {
@@ -22,8 +20,8 @@ public partial class ListemdenCoktanSecmeli : ContentPage
 
 
     public ListemdenCoktanSecmeli()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         // RadioButton'larýn CheckedChanged olayýna olay iþleyici ekleyin
         radioButton1.CheckedChanged += RadioButton_CheckedChanged;
         radioButton2.CheckedChanged += RadioButton_CheckedChanged;
@@ -92,7 +90,7 @@ public partial class ListemdenCoktanSecmeli : ContentPage
                 //diðer buttonlarýn renklerini düzenliyorum ve aþaðýdaki kodda da buttonlarý aktif ediyorum.
                 radioButtons[i].IsEnabled = true;
             }
- 
+
         }
     }
     private void sirala()
@@ -105,7 +103,7 @@ public partial class ListemdenCoktanSecmeli : ContentPage
 
         int indexx = 0;
         //soruS++;
-        word.Text =  dogruCevap.Item1;// ing mi tr mi
+        word.Text = dogruCevap.Item1;// ing mi tr mi
         //label5.Text = soru + soruS;
 
         // Rastgele bir RadioButton seçin
@@ -148,9 +146,9 @@ public partial class ListemdenCoktanSecmeli : ContentPage
     {
         MetindenSese(word.Text);
     }
-    private  void BaslatButton_Clicked(object sender, EventArgs e)
+    private void BaslatButton_Clicked(object sender, EventArgs e)
     {
-        if(sp.UserTablosundaKacVeriVar() < 5)
+        if (sp.UserTablosundaKacVeriVar() < 5)
         {
             DisplayAlert("Uyarı", "Listede en az 5 kelime olmalıdır", "Tamam");
             return;

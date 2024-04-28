@@ -1,10 +1,6 @@
-﻿using Google.Apis.Sheets.v4.Data;
-using Google.Apis.Sheets.v4;
-using Newtonsoft.Json.Linq;
-using Kelimecim.DataAccess;
+﻿using Kelimecim.DataAccess;
 using Kelimecim.Models;
-using System.Security.Cryptography.X509Certificates;
-using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Kelimecim
 {
@@ -15,6 +11,9 @@ namespace Kelimecim
         List<Vocabulary> wordMeaningDBBeginner = new List<Vocabulary>();
         List<Vocabulary> wordMeaningDBIntermediate = new List<Vocabulary>();
         List<Vocabulary> wordMeaningDBTotal = new List<Vocabulary>();
+
+        List<Vocabulary> deutch1000Word = new List<Vocabulary>();
+
         List<Sentences> sentences = new List<Sentences>();
 
         List<Vocabulary> userWordsMeaning = new List<Vocabulary>();
@@ -37,7 +36,7 @@ namespace Kelimecim
             {
                 if (ex.Message.Contains("no such table"))
                 {
-                        MauiProgram.InitializeDatabase();  // Yeniden başlat
+                    MauiProgram.InitializeDatabase();  // Yeniden başlat
                 }
             }
         }
@@ -54,6 +53,9 @@ namespace Kelimecim
 
             sentences.AddRange(from item in vocabularyDb.MixedSentencesInEnglish
                                select new Sentences { Word = item.Word, Meaning = item.Meaning, Sentence = item.Sentence });
+
+            deutch1000Word.AddRange(from item in vocabularyDb.Deutch1000Words
+                                    select new Vocabulary { Word = item.Word, Meaning = item.Meaning });
 
             wordMeaningDBTotal.AddRange(wordMeaningDBBeginner);
             wordMeaningDBTotal.AddRange(wordMeaningDBIntermediate);
@@ -94,7 +96,7 @@ namespace Kelimecim
                 .Where(vocab => string.Equals(vocab.Meaning.Split(',')[0], kelime, StringComparison.OrdinalIgnoreCase))
                 .Select(vocab => vocab.Word)
                 .FirstOrDefault();
-           
+
             if (meaningOfWord != null)
             {
                 return meaningOfWord;
@@ -102,7 +104,7 @@ namespace Kelimecim
             else
             {
                 //Web'de çeviri yapma özelliği ekleyecem.
-                return Ceviri(kelime,true);
+                return Ceviri(kelime, true);
             }
 
         }
@@ -125,7 +127,7 @@ namespace Kelimecim
             }
         }
 
-        public Tuple<string,string> RastgeleKelimeGetirVeriSeti(int dataSet)
+        public Tuple<string, string> RastgeleKelimeGetirVeriSeti(int dataSet)
         {
             List<Vocabulary> v = new List<Vocabulary>();
             if (dataSet == 1)
@@ -136,10 +138,10 @@ namespace Kelimecim
             {
                 v = wordMeaningDBIntermediate;
             }
-            //else if (dataSet == 3)
-            //{
-            //    //v =deutschVocabularies;
-            //}
+            else if (dataSet == 3)
+            {
+                v = deutch1000Word;
+            }
             else
             {//dataset=0
                 v = wordMeaningDBTotal;
@@ -170,7 +172,7 @@ namespace Kelimecim
 
             string word = VeritabaniMi ? wordMeaningDBTotal[hangiSatirVT].Word : userWordsMeaning[hangiSatirMyList].Word;//aynı mantıkla kelimenin anlamını çekiyorum.
 
-            return Tuple.Create(KelimeDuzelt(word),KelimeDuzelt(kelime));//verileri Tuple nesnesine çevirip gönderiyorum.
+            return Tuple.Create(KelimeDuzelt(word), KelimeDuzelt(kelime));//verileri Tuple nesnesine çevirip gönderiyorum.
         }
 
         public string[] Rastgele4KelimeYaDaWordGetir(string dogruKelime, bool tersCevir)//Rastgele 4 kelime getirmemi sağlıyor eğer dogru kelime aralarında yoksa.

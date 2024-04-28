@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.ApplicationModel;
-
-namespace Kelimecim
+﻿namespace Kelimecim
 {
     public partial class App : Application
     {

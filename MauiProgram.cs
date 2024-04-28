@@ -1,8 +1,27 @@
-﻿using Microsoft.Extensions.Logging;
-using Kelimecim.DataAccess;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Reflection;
+﻿using Kelimecim.DataAccess;
 using Kelimecim.Utilities;
+using Microsoft.Extensions.Logging;
+/* Unmerged change from project 'Kelimecim (net7.0-maccatalyst)'
+Before:
+using Kelimecim.Utilities;
+After:
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'Kelimecim (net7.0-android33.0)'
+Before:
+using Kelimecim.Utilities;
+After:
+using System.Reflection;
+*/
+
+/* Unmerged change from project 'Kelimecim (net7.0-windows10.0.19041.0)'
+Before:
+using Kelimecim.Utilities;
+After:
+using System.Reflection;
+*/
+
 
 namespace Kelimecim
 {

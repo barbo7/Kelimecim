@@ -206,7 +206,7 @@
 //            InitializeAsync();
 //            //VerileriCekAsync().Wait();
 //        }
-        
+
 //        //public string KelimeAraENG(string AranacakWord)
 //        //{
 //        //    string ingKelime = AranacakWord;
@@ -420,7 +420,7 @@
 //        //        return;
 //        //    string kelime = KelimeDuzelt(KelimeAraENG(word));
 //        //    word = KelimeDuzelt(word);
-              
+
 //        //    //kelime = Ceviri(word, false).ToString(); // EnglishToTurkish metodunu kullanarak arama yapıyorum.
 //        //    // Veriyi eklemek için gereken parametreleri oluştur
 //        //    body = new ValueRange
@@ -450,7 +450,7 @@
 //        //}
 //        //private async void Sayfa1VeriGuncelle()
 //        //{
-      
+
 //        //        var requests = new List<SpreadsheetsResource.ValuesResource.GetRequest>
 //        //    {
 //        //        service.Spreadsheets.Values.Get(spreadsheetId, kendiSutunum) };

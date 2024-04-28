@@ -8,15 +8,15 @@ public partial class KelimeCalismasi : ContentPage
     int dataset = 4;
     Tuple<string, string> veri;
     public KelimeCalismasi()
-	{
-		InitializeComponent();
-        List<string> veriSetleri = new List<string> { "A1-B2 Eng", "B2-C1 Eng", "Deutsch" ,"Mixed Eng"};
+    {
+        InitializeComponent();
+        List<string> veriSetleri = new List<string> { "A1-B2 Eng", "B2-C1 Eng", "Deutsch", "Mixed Eng" };
         picker.ItemsSource = veriSetleri;
         YeniKelime();
     }
     private async void SolButton_Clicked(object sender, EventArgs e)
     {
-        if(wordText.Text !="")
+        if (wordText.Text != "")
         {
             sp.VeriEkle(wordText.Text, kelimeText.Text);
             YeniKelime();

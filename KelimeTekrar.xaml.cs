@@ -7,8 +7,8 @@ public partial class KelimeTekrar : ContentPage
     CancellationTokenSource cancelTokenSource;
     Tuple<string, string> veri;
     public KelimeTekrar()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         YeniKelime();
     }
     private void SagButton_Clicked(object sender, EventArgs e)
@@ -21,19 +21,22 @@ public partial class KelimeTekrar : ContentPage
 
         YeniKelime();
     }
-    private void YeniKelime() 
+    private void YeniKelime()
     {
         if (sp.UserTablosundaKacVeriVar() < 1)
         {
             DisplayAlert("Uyarı", "Lütfen çalışmak için kelime tablonuza kelime ekleyiniz", "Tamam");
-            MainThread.BeginInvokeOnMainThread(() => {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
                 button.IsEnabled = false;
                 imageButton.IsEnabled = false;
             });
 
             // 10 saniye sonra butonları tekrar etkinleştirecek bir timer başlat
-            Device.StartTimer(TimeSpan.FromSeconds(3), () => {
-                MainThread.BeginInvokeOnMainThread(() => {
+            Device.StartTimer(TimeSpan.FromSeconds(3), () =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
                     button.IsEnabled = true;
                     imageButton.IsEnabled = true;
                 });
@@ -43,7 +46,7 @@ public partial class KelimeTekrar : ContentPage
             });
 
         }
-        else if(sp.UserTablosundaKacVeriVar() > 0)
+        else if (sp.UserTablosundaKacVeriVar() > 0)
         {
             //Kullanıcının isteğine göre cümleler çekilecek anlamlarıyla birlikte.
             veri = sp.RastgeleKelimeGetirVTOrMyList(false);

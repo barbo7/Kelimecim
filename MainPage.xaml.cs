@@ -1,8 +1,4 @@
-﻿using Microsoft.Maui.Platform;
-using System.Globalization;
-
-
-namespace Kelimecim
+﻿namespace Kelimecim
 {
     public partial class MainPage : ContentPage
     {
@@ -11,8 +7,47 @@ namespace Kelimecim
         CancellationTokenSource cancelTokenSource;
 
         public MainPage()
+
+        /* Unmerged change from project 'Kelimecim (net7.0-maccatalyst)'
+        Before:
+                {
+
+
+                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
+        After:
+                {
+
+
+                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
+        */
+
+        /* Unmerged change from project 'Kelimecim (net7.0-android33.0)'
+        Before:
+                {
+
+
+                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
+        After:
+                {
+
+
+                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
+        */
+
+        /* Unmerged change from project 'Kelimecim (net7.0-windows10.0.19041.0)'
+        Before:
+                {
+
+
+                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
+        After:
+                {
+
+
+                    //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
+        */
         {
-            
+
 
             //eksik var! tr'den eng çevirirken database sınırlı. Virgüllere göre ayırarak arama yapmam lazım.
             InitializeComponent();
@@ -94,11 +129,11 @@ namespace Kelimecim
                 await Clipboard.SetTextAsync(kelimeWordShowPlace.Text);
             }
         }
-        private  void OnCounterClicked(object sender, EventArgs e)
+        private void OnCounterClicked(object sender, EventArgs e)
         {
             Arama();
         }
-       
+
         private void OnKelimeEntryCompleted(object sender, EventArgs e)
         {
             Arama();
@@ -118,7 +153,7 @@ namespace Kelimecim
                 : sp.KelimeAraTR(query);//İngilizceye çeviri
 
 
-           
+
 
             string okunacakKelime = translateMi ? kelimeWordEntry.Text : kelimeWordShowPlace.Text;
             await TextToSpeech.SpeakAsync(okunacakKelime);

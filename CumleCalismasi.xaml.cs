@@ -36,7 +36,7 @@ public partial class CumleCalismasi : ContentPage
     }
     private async void SolButton_Clicked(object sender, EventArgs e)
     {
-        if(wordText.Text !="")
+        if (wordText.Text != "")
         {
             sp.VeriEkle(wordText.Text, kelimeText.Text);
             CumleGetir();
