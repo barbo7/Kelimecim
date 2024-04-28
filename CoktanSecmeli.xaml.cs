@@ -21,7 +21,6 @@ public partial class CoktanSecmeli : ContentPage
 
     bool buttonStarted = false;
     bool tersCevirildiMi = false;
-    bool tersCevirildiktenSonraTiklandiMi = false;
 
 
     CancellationTokenSource cancelTokenSource;
@@ -63,44 +62,54 @@ public partial class CoktanSecmeli : ContentPage
 
     private async void RadioButton_CheckedChanged(object sender, EventArgs e)
     {
+        RadioButton rb = (RadioButton)sender;//Hangi button'a týklandýðýný anlayýp iþlem yapmak için bir deðiþkene atýyorum.
+
         try
         {
-        RadioButton rb = (RadioButton)sender;//Hangi button'a týklandýðýný anlayýp iþlem yapmak için bir deðiþkene atýyorum.
-        if (rb.IsChecked)
+            if (rb.IsChecked)
+            {
+                radioButtons[randomIndex].TextColor = Color.FromRgb(0, 255, 0);//doðru olan cevabý yeþil iþaretliyorum.
+
+                //gs.gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());
+                //Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
+
+                if (rb != radioButtons[randomIndex])
+                {
+                    rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
+                    yanlis++;
+                    yanlisSayisi.Text = yaziyanlis + yanlis;
+                    string veri = tersCevirildiMi ? rb.Content.ToString() : sp.KelimeAraTR(rb.Content.ToString());
+                    vy.gosterilenKelimelerYanlis.Add(veri);
+
+                    for (int i = 0; i < radioButtons.Length; i++)
+                        radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
+
+                    await Task.Delay(2000); // 2 saniye bekleniyor kullanýcý doðru cevabý görsün diye
+                }
+                else
+                {
+                    dogru++;
+                    dogruSayisi.Text = yazidogru + dogru;
+                    await Task.Delay(500); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
+                }
+                switchCevirr.IsEnabled = true;
+
+                //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
+                MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
+
+
+            }
+        }
+        catch (Exception ex)
         {
-            radioButtons[randomIndex].TextColor = Color.FromRgb(0, 255, 0);//doðru olan cevabý yeþil iþaretliyorum.
-
-            //gs.gosterilenKelimelerDogru.Add(radioButtons[randomIndex].Content.ToString());
-            //Doðru cevabý kullanýcý listesine eklemek isterse diye sonrasýnda listelemek için ekliyorum.
-
-            if (rb != radioButtons[randomIndex])
-            {
-                rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
-                yanlis++;
-                yanlisSayisi.Text = yaziyanlis + yanlis;
-                string veri = tersCevirildiMi ? rb.Content.ToString() : sp.KelimeAraTR(rb.Content.ToString());
-                vy.gosterilenKelimelerYanlis.Add(veri);
-
-                for (int i = 0; i < radioButtons.Length; i++)
-                    radioButtons[i].IsEnabled = false;//kullanýcý baþka bir seçeneðe týklamasýn diye buttonlarýn týklanabilirlik özelliðini kapatýyorum.
-
-                await Task.Delay(2000); // 2 saniye bekleniyor kullanýcý doðru cevabý görsün diye
-            }
-            else
-            {
-                dogru++;
-                dogruSayisi.Text = yazidogru + dogru;
-                await Task.Delay(500); // 3 saniye bekleniyor kullanýcý doðru cevabý görsün diye
-
-            }
-
-
-            //label6.Text = "Doðruluk oraný = %" + (dogru * 100 / (dogru + yanlis)).ToString();
-            MetindenSese(word.Text + " " + radioButtons[randomIndex].Content);
-           
+            Console.WriteLine($"Hata oluştu: {ex.Message}");
+        }
+        finally
+        {
             sirala();//yeni þýklarý getiriyorum.
 
-            MainThread.BeginInvokeOnMainThread(() => {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
                 rb.IsChecked = false; //seçili olan radiobutton kaldýrýyorum.
                 foreach (var i in radioButtons)
                 {
@@ -109,50 +118,53 @@ public partial class CoktanSecmeli : ContentPage
                 }
                 switchCevirr.IsEnabled = true;
             });
-            tersCevirildiktenSonraTiklandiMi = true;
         }
+    }
+
+    private async void sirala()
+    {
+        try
+        {
+            Tuple<string, string> dogruCevap = sp.RastgeleKelimeGetirVTOrMyList(true);
+            if (dogruCevap.Item1.ToLower() == dogruCevap.Item2.ToLower())
+            {
+                sirala();
+                return;
+            }
+            //string[] yanlisKelimeler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
+            //string[] yanlisWordler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true);
+
+            string[] yanlislar = tersCevirildiMi ? sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, true) : sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, false);
+            //Eðer tersCevirildiMi switch'ine dokunulmadýysa ingilizce kelimeyi tahmin ediyoruz iþaretlendiðinde türkçe kelimeyi tahmin ediyoruz.
+
+            int indexx = 0;
+            soruS++;
+            word.Text = tersCevirildiMi ? dogruCevap.Item2 : dogruCevap.Item1; // ing mi tr mi
+                                                                               //label5.Text = soru + soruS;
+
+            vy.gosterilenKelimelerDogru.Add(dogruCevap.Item1);
+
+            // Rastgele bir RadioButton seçin
+            randomIndex = random.Next(0, radioButtons.Length); // 0 ile (RadioButton dizisinin uzunluðu - 1) arasýnda rastgele bir indeks seçin
+
+            for (int i = 0; i < radioButtons.Length; i++)
+            {
+                if (i != randomIndex)
+                {
+                    radioButtons[i].Content = yanlislar[indexx]; ;//eðer seçilen rastgele button deðil ise diðer buttonlara deðer giriyorum rastgele.
+                    indexx++;
+                }
+                else
+                    radioButtons[i].Content = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2;//belirlediðim cevabý atýyorum.
+            }
+            MetindenSese(word.Text);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Hata oluştu: {ex.Message}");
-        }
-    }
-
-    private void sirala()
-    {
-        Tuple<string, string> dogruCevap = sp.RastgeleKelimeGetirVTOrMyList(true);
-        if(dogruCevap.Item1.ToLower() == dogruCevap.Item2.ToLower())
-        {
+            await DisplayAlert("Hata", "Veri çekilirken bir hata oluştu. ", "Tamam");
             sirala();
-            return;
         }
-        //string[] yanlisKelimeler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, false);
-        //string[] yanlisWordler = gs.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, true);
-
-        string[] yanlislar = tersCevirildiMi ? sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item1, true) : sp.Rastgele4KelimeYaDaWordGetir(dogruCevap.Item2, false);
-        //Eðer tersCevirildiMi switch'ine dokunulmadýysa ingilizce kelimeyi tahmin ediyoruz iþaretlendiðinde türkçe kelimeyi tahmin ediyoruz.
-
-        int indexx = 0;
-        soruS++;
-        word.Text = tersCevirildiMi ? dogruCevap.Item2 : dogruCevap.Item1; // ing mi tr mi
-        //label5.Text = soru + soruS;
-
-        vy.gosterilenKelimelerDogru.Add(dogruCevap.Item1);
-
-        // Rastgele bir RadioButton seçin
-        randomIndex = random.Next(0, radioButtons.Length); // 0 ile (RadioButton dizisinin uzunluðu - 1) arasýnda rastgele bir indeks seçin
-
-        for (int i = 0; i < radioButtons.Length; i++)
-        {
-            if (i != randomIndex)
-            {
-                radioButtons[i].Content = yanlislar[indexx]; ;//eðer seçilen rastgele button deðil ise diðer buttonlara deðer giriyorum rastgele.
-                indexx++;
-            }
-            else
-                radioButtons[i].Content = tersCevirildiMi ? dogruCevap.Item1 : dogruCevap.Item2;//belirlediðim cevabý atýyorum.
-        }
-        MetindenSese(word.Text);
     }
 
     private async void MetindenSese(string textBoxText)
@@ -181,17 +193,31 @@ public partial class CoktanSecmeli : ContentPage
         MetindenSese(word.Text);
     }
 
-    private void switchCevir(object sender, ToggledEventArgs e)
+    bool cevapHayirMi = false;
+    private async void switchCevir(object sender, ToggledEventArgs e)
     {
+        if (cevapHayirMi)
+        {
+            cevapHayirMi = false;
+            return;
+        }
         tersCevirildiMi = switchCevirr.On;
         switchCevirr.Text = tersCevirildiMi ? "Tr->Eng Geç" : "Eng->Tr Back";
 
-        if (tersCevirildiktenSonraTiklandiMi)
+        var result = await DisplayAlert("Dil ayarı değişiyor", "Diğer dilde yeni sorular getirilecek. Emin misiniz?", "Evet", "Hayır");
+        if (result)
         {
             sirala();
             switchCevirr.IsEnabled = false;
-            tersCevirildiktenSonraTiklandiMi = false;
+            cevapHayirMi = false;
         }
+        else
+        {
+            cevapHayirMi = true;
+            tersCevirildiMi = !tersCevirildiMi;
+            switchCevirr.On = tersCevirildiMi;
+        }
+
 
         // Ýþaretlenip iþaretlenmediði ile ilgili iþlemleri burada yapabilirsiniz
     }

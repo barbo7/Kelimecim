@@ -13,6 +13,7 @@
         }
         private async void AnaSayfayaDon_Clicked(object sender, EventArgs e)
         {
+            Shell.Current.FlyoutIsPresented = false;
             await Shell.Current.GoToAsync("//MainPage");
         }
 

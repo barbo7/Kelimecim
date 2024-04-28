@@ -143,7 +143,7 @@ namespace Kelimecim
                     LoadPage(currentPage);
                 }
                 else
-                    await DisplayAlert("Zaten silindi", "Kelime çoktan silindi. Sayfayý tekrar açýnýz.", "Tamam");
+                    await DisplayAlert("Zaten silindi", "Kelime çoktan silindi. Sayfayı tekrar açınız", "Tamam");
             }
         }
         void CalculateTotalPage()

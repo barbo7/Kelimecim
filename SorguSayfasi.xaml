@@ -5,32 +5,31 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        
+        <VerticalStackLayout VerticalOptions="Start" >
+            <CarouselView x:Name="mainCarouselView" 
+          ItemsSource="{Binding PageItems}" 
+          HorizontalOptions="Center" 
+          VerticalOptions="Start">
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start"/>
+                </CarouselView.ItemsLayout>
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding .}" HorizontalOptions="Center" VerticalOptions="Start" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
 
-        <CarouselView  Grid.ColumnSpan="3" x:Name="mainCarouselView" ItemsSource="{Binding PageItems}">
-            <CarouselView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" SnapPointsType="MandatorySingle" SnapPointsAlignment="Start"/>
-            </CarouselView.ItemsLayout>
-            <CarouselView.ItemTemplate>
-                <DataTemplate>
-                    <VerticalStackLayout
-                        VerticalOptions="Start">
-                        <Label Text="{Binding .}" 
-                               HorizontalOptions="Center" 
-                               VerticalOptions="Center" />
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>
-
-        <VerticalStackLayout Grid.ColumnSpan="3" VerticalOptions="Center">
+            </CarouselView>
+            <ScrollView MinimumHeightRequest="100" MaximumHeightRequest="300">
             <TableView x:Name="yanlisKelimeListesi" >
                 <TableRoot>
                     <TableSection Title="Yanlış Bilinen Kelimeler" TextColor="PaleVioletRed">
@@ -38,7 +37,8 @@
                     </TableSection>
                 </TableRoot>
             </TableView>
-
+            </ScrollView>
+            <ScrollView MinimumHeightRequest="100" MaximumHeightRequest="300">
             <TableView x:Name="dogruKelimeListesi">
                 <TableRoot>
                     <TableSection Title="Doğru Bilinen Kelimeler" TextColor="DarkSeaGreen">
@@ -46,18 +46,17 @@
                     </TableSection>
                 </TableRoot>
             </TableView>
+            </ScrollView>
         </VerticalStackLayout>
 
-        <Button 
-            x:Name="KaydetButton"
+
+        <Button Grid.Row="1"  x:Name="KaydetButton"
             Text="Kelimeleri Listeme Kaydet!"
             WidthRequest="300"
             HeightRequest="60"
             FontSize="Medium"
             HorizontalOptions="Center"
-            Grid.Row="1"
-            Grid.Column="1"
-            Clicked="KaydetButton_Clicked">
-        </Button>
+            Clicked="KaydetButton_Clicked"
+            ></Button>
     </Grid>
 </ContentPage>
