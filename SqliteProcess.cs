@@ -1,6 +1,9 @@
 ﻿using Kelimecim.DataAccess;
 using Kelimecim.Models;
 using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System.Net;
+using HtmlAgilityPack;
 
 namespace Kelimecim
 {
@@ -88,7 +91,7 @@ namespace Kelimecim
 
         //private static SqliteProcess _instance;
 
-        public string KelimeAraTR(string kelime)
+        public async Task<string> KelimeAraTR(string kelime)
         {
             string trKelime = kelime.ToLower();
 
@@ -104,11 +107,11 @@ namespace Kelimecim
             else
             {
                 //Web'de çeviri yapma özelliği ekleyecem.
-                return Ceviri(kelime, true);
+                return await Ceviri(kelime, true);
             }
 
         }
-        public string KelimeAraENG(string word)
+        public async Task<string> KelimeAraENG(string word)
         {
             string enKelime = word.ToLower();
 
@@ -122,8 +125,7 @@ namespace Kelimecim
             }
             else
             {
-                return Ceviri(word, false);
-
+                return await Ceviri(word, false);
             }
         }
 
@@ -293,7 +295,37 @@ namespace Kelimecim
             return veri;
         }
 
-        public string Ceviri(string text, bool tr)
+
+        public static async Task<string> Ceviri(string word, bool tr)
+        {
+            string ceviridil = tr ? "tr-en/" : "en-tr/";
+            string arama = ceviridil + Uri.EscapeDataString(word);
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+
+                string url = $"https://translate.glosbe.com/{arama}";
+                HttpResponseMessage response = await httpClient.GetAsync(url);
+
+                var htmlContent = await response.Content.ReadAsStringAsync();
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(htmlContent);
+
+                // XPath ifadesini doğrula ve sonucu çek
+                var translationNode = doc.DocumentNode.SelectSingleNode("/html/body/app-root/app-logo-navbar-content-footer-layout/div[2]/app-page-translator/div[1]/div[2]/div[2]/app-page-translator-translation-output/div");
+                if (translationNode != null)
+                {
+                    string translation = translationNode.InnerText.Trim();
+
+                    return translation;
+                }
+                else
+                {
+                    return TranslateWord(word, tr);
+                }
+            }
+        }
+        public static string TranslateWord(string text, bool tr)
         {
             //Başka bir çeviri sitesi kullanılacak ve oradaki ek seçenekler de listelenecek isteğe bağlı.
             //picker ile seçim yapılacak ve database'e eklenecek.

@@ -78,7 +78,7 @@ public partial class CoktanSecmeli : ContentPage
                     rb.TextColor = Color.FromRgb(255, 0, 0);//eðer doðru cevap deðil ise kýrmýzý renkte olsun iþaretlediðim.
                     yanlis++;
                     yanlisSayisi.Text = yaziyanlis + yanlis;
-                    string veri = tersCevirildiMi ? rb.Content.ToString() : sp.KelimeAraTR(rb.Content.ToString());
+                    string veri = tersCevirildiMi ? rb.Content.ToString() : await sp.KelimeAraTR(rb.Content.ToString());
                     vy.gosterilenKelimelerYanlis.Add(veri);
 
                     for (int i = 0; i < radioButtons.Length; i++)

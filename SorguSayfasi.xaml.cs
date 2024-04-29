@@ -62,7 +62,7 @@ namespace Kelimecim
             foreach (string i in eklenecekVeriler)
             {
                 //gs.VeriEkle(i);// Böyle yapmak yerine database'de mevcut olan kelimenin karşılığını bulup ikisini birden eklemek daha mantıklı olur.
-                string kelime = sp.KelimeAraENG(i);
+                string kelime = await sp.KelimeAraENG(i);
                 sp.VeriEkle(i, kelime);
             }
             if (eklenecekVeriler.Count < 1)

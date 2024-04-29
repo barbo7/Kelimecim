@@ -23,7 +23,7 @@
             catch (Exception ex)
             {
                 // Hata mesajını kullanıcıya göster
-                await DisplayAlert("Hata", $"Veri tabanında bir hata oluştu. Uygulama ön belleğini temizlemenizi öneririz.", "Tamam");
+                await DisplayAlert("Hata", $"Veri tabanında bir hata oluştu. Uygulama verilerinizi temizlemenizi öneririz.", "Tamam");
             }
         }
         private async void MetindenSese(string textBoxText)
@@ -108,8 +108,8 @@
             bool translateMi = EngTr.IsChecked;
             string query = kelimeWordEntry.Text;
             kelimeWordShowPlace.Text = translateMi
-                ? sp.KelimeAraENG(query)//Türkçeye çeviri
-                : sp.KelimeAraTR(query);//İngilizceye çeviri
+                ? await sp.KelimeAraENG(query)//Türkçeye çeviri
+                : await sp.KelimeAraTR(query);//İngilizceye çeviri
 
 
 
